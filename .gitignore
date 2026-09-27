@@ -1,0 +1,5 @@
+.env
+data/
+*.duckdb
+*.parquet
+.ipynb_checkpoints/
