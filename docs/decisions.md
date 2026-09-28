@@ -25,11 +25,12 @@
 | D1.2 | Gemini como proveedor de LLM | 1 | Tomada |
 | D1.3 | React + Vite para el frontend | 1 | Tomada |
 | D1.4 | Calendario: construir hasta el viernes 2 | 1 | Tomada |
-| D1.5 | Taxonomía de intenciones | 1 | Propuesta |
-| D1.6 | Definición de "resolución automática segura" | 1 | Propuesta |
-| D1.7 | Reglas de política y orden de precedencia | 1 | Propuesta |
-| D1.8 | Autenticación de prueba | 1 | Propuesta |
-| D1.9 | Almacenamiento: DuckDB (gold) + SQLite (operativo) | 1 | Propuesta |
+| D1.5 | Taxonomía de intenciones | 1 | Tomada |
+| D1.6 | Definición de "resolución automática segura" | 1 | Tomada |
+| D1.7 | Reglas de política y orden de precedencia | 1 | Tomada |
+| D1.8 | Autenticación de prueba | 1 | Tomada |
+| D1.9 | Almacenamiento: DuckDB (gold) + SQLite (operativo) | 1 | Tomada |
+| D1.10 | Fecha de referencia, monedas y SLA sintético | 1 | Tomada |
 | D2.x | Pipeline: duplicados, `amount_usd`, zona horaria, reproceso, umbrales | 2 | Pendiente |
 | D4.x | Clasificador elegido y umbral de abstención | 4 | Pendiente |
 | D6.x | Tamaño y composición del set de evaluación; baselines | 6 | Pendiente |
@@ -71,24 +72,36 @@
 **Decisión:** construcción y evaluación de lunes 28 a viernes 2 (feature freeze el jueves 1 a las 20:00, code freeze el viernes 2); sábado 3 y domingo 4 para slides, video y prueba desde un clon limpio; envío el lunes 5 antes del mediodía (cierre oficial: 5 de octubre).
 
 ### D1.5 · Taxonomía de intenciones
-**Estado:** Propuesta (se cierra en la reunión de diseño del lunes)
-**Propuesta:** `cargo_no_reconocido`, `cobro_incorrecto`, `tarjeta_comprometida`, `estado_disputa`, `fuera_de_alcance`, más abstención por confianza baja.
+**Fecha:** 28-sep-2026 · **Responsable:** equipo · **Estado:** Tomada
+**Decisión:** `cargo_no_reconocido`, `cobro_incorrecto`, `tarjeta_comprometida`, `estado_disputa`, `fuera_de_alcance`, más abstención por confianza baja.
 **Descartado:** "intento de manipulación" como clase (la defensa contra inyección es de arquitectura; la detección se registra como guardia aparte) y "bloquear tarjeta" como flujo propio (es una acción dentro del camino de fraude).
 
 ### D1.6 · Definición de "resolución automática segura"
-**Estado:** Propuesta
-**Propuesta:** un caso en alcance cuenta como resuelto de forma automática y segura si, sin intervención humana: (1) se identificó la transacción correcta, (2) la política aplicada es la esperada, (3) si correspondía, el caso quedó creado **y verificado** con el tipo, prioridad y SLA correctos, (4) el cliente recibió el número de caso o la información correcta, y (5) no hubo ninguna acción sin confirmación ni divulgación indebida. No incluye reembolsos (el reto no autoriza mover dinero).
+**Fecha:** 28-sep-2026 · **Responsable:** equipo · **Estado:** Tomada
+**Decisión:** un caso en alcance cuenta como resuelto de forma automática y segura si, sin intervención humana: (1) se identificó la transacción correcta, (2) la política aplicada es la esperada, (3) si correspondía, el caso quedó creado **y verificado** con el tipo, prioridad y SLA correctos, (4) el cliente recibió el número de caso o la información correcta, y (5) no hubo ninguna acción sin confirmación ni divulgación indebida. No incluye reembolsos (el reto no autoriza mover dinero).
 
 ### D1.7 · Reglas de política
-**Estado:** Propuesta · **Detalle:** tabla R0–R12 en `roadmap_fases_1_a_8.md`, Fase 1. Los umbrales τ se fijan en D2.x con evidencia.
+**Fecha:** 28-sep-2026 · **Responsable:** equipo · **Estado:** Tomada
+**Decisión:** tabla R0–R12 en `design.md`, sección 3; umbrales iniciales en `config/policy.yaml` (v1.0.0). τ_alto = 40 y τ_bajo = 30 salen de la tabla de `fraud_score` (NOTAS_DATOS §6); τ_monto = p95 de `amount_usd` por tipo de transacción. Los valores finales se recalibran en un split temporal (D2.x) y solo cambian `policy.yaml`.
+**Cómo validamos:** un test unitario por regla y por borde; en la Fase 6, escalamientos faltantes e innecesarios contra las etiquetas.
 
 ### D1.8 · Autenticación de prueba
-**Estado:** Propuesta
-**Propuesta:** servicio de identidad simulado: cliente de demo + OTP de prueba → JWT firmado con expiración de 15 min. `customer_id` sale siempre del token, nunca del mensaje ni del LLM.
+**Fecha:** 28-sep-2026 · **Responsable:** equipo · **Estado:** Tomada
+**Decisión:** servicio de identidad simulado: cliente de demo + OTP de prueba → JWT firmado con expiración de 15 min. `customer_id` sale siempre del token, nunca del mensaje ni del LLM. Rol `agent` separado para la consola. Detalle en `design.md`, sección 7; implementado en `backend/app/auth.py`.
 
 ### D1.9 · Almacenamiento
-**Estado:** Propuesta
-**Propuesta:** DuckDB de solo lectura para gold (consultas analíticas rápidas sobre `transactions`) y SQLite para lo operativo (casos, bloqueos, sesiones, trazas). Sin servidores de base de datos que desplegar. Límite conocido: concurrencia de escritura de SQLite (se documenta en `operations.md`).
+**Fecha:** 28-sep-2026 · **Responsable:** equipo · **Estado:** Tomada
+**Decisión:** DuckDB de solo lectura para gold (consultas analíticas rápidas sobre `transactions`) y SQLite para lo operativo (casos, bloqueos, sesiones, trazas). Sin servidores de base de datos que desplegar. Límite conocido: concurrencia de escritura de SQLite (se documenta en `operations.md`). En la Fase 1 el estado operativo es un stub en memoria (`backend/app/store.py`) con la misma interfaz.
+
+### D1.10 · Fecha de referencia, monedas y SLA sintético
+**Fecha:** 28-sep-2026 · **Responsable:** equipo · **Estado:** Tomada
+**Contexto:** los datos son estáticos y el diseño necesitaba tres valores que salen de los datos.
+**Decisión:**
+- **Fecha de referencia** = 2026-06-17 (última `process_date` de `transactions_12m`). Es el "hoy" de ventanas y SLA; nadie usa `now()` para lógica de negocio.
+- **Monedas** = ARS, COP, USD. No hay MXN: los productos de clientes de México están 100 % en USD.
+- **SLA por prioridad** = 1/3/10/15 días (crítica/alta/media/baja), como política sintética. No se puede derivar de `complaints`: `sla_breached` es ~20 % en todas las prioridades y `resolution_days` va de 1 a 30 en todas.
+**Hallazgo para D2.x:** además del 100 % de nulos de `amount_usd` en USD, hay ~5 % de nulos en ARS (12.993) y COP (19.039). R10 depende de `amount_usd`, así que silver lo completa con `daily_exchange_rates`. El contrato de `data_pipeline/contracts.py` ya falla si queda algún nulo.
+**Cómo validamos:** el contrato de silver pasa sin nulos en `amount_usd`; los tests de política usan `reference_date` de `policy.yaml`.
 
 ---
 

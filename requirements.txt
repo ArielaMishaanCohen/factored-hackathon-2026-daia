@@ -1,4 +1,6 @@
-duckdb
+# Entorno de desarrollo completo (análisis + pipeline + ML + backend + tests).
+# La imagen de servicio solo instala backend/requirements.txt.
+-r backend/requirements.txt
 python-dotenv
 pandas
 pyarrow
@@ -6,3 +8,6 @@ matplotlib
 seaborn
 scikit-learn
 jupyter
+pandera
+pytest
+httpx

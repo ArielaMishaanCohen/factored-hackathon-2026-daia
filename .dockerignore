@@ -1,0 +1,15 @@
+.env
+.venv
+.git
+data
+analysis
+docs
+eval
+ml
+tests
+**/__pycache__
+**/node_modules
+frontend/dist
+*.duckdb
+*.parquet
+*.sqlite

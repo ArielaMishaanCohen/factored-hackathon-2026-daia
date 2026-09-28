@@ -1,0 +1,45 @@
+# Política de disputas · fuente única de umbrales (docs/design.md, sección 3)
+# Cambiar cualquier valor sube policy_version. Los valores τ son iniciales:
+# A y B los calibran en las Fases 2 y 4 y anotan la evidencia aquí.
+
+policy_version: "1.0.0"
+
+# "Hoy" para ventanas y SLA. Última process_date en transactions_12m (2026-06-17).
+reference_date: "2026-06-17"
+
+currencies: [ARS, COP, USD]   # no hay MXN: los clientes de México operan en USD
+
+intent:
+  tau_intencion: 0.60          # B calibra en val (precisión ≥ 95 %)
+  max_clarifications: 2
+
+search:
+  lookback_days: 120
+  max_results: 5
+  amount_tolerance_pct: 2.0
+
+rules:
+  claim_window_days: 60        # τ_ventana (R6)
+  fraud_score_high: 40         # τ_alto (R7) · score ≥ 40 → 100 % fraude (NOTAS_DATOS §6)
+  fraud_score_low: 30          # τ_bajo (R9) · 30–39 → 37 % fraude
+  amount_usd_max:              # τ_monto (R10) · p95 de amount_usd por tipo, transactions_12m
+    Purchase: 475
+    Withdrawal: 476
+    Payment: 1904
+    Adjustment: 954
+    Transfer: 9502
+    Deposit: 4755
+    default: 1000
+  repeat_disputes_k: 3         # τ_k (R11)
+  repeat_window_days: 90
+
+# En complaints el SLA incumplido no depende de la prioridad ni de resolution_days
+# (uniforme ~20 %), así que no se puede derivar: son valores de política sintética.
+sla_days_by_priority:
+  critical: 1
+  high: 3
+  medium: 10
+  low: 15
+
+confirmation:
+  ttl_seconds: 300
