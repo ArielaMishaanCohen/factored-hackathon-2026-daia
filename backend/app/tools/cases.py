@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, timezone
 
 from ..confirmations import consume_token
 from ..config import get_policy
+from ..faults import inject
 from ..schemas import CreateCaseResult, Decision, DisputeCase, DisputeType, Language, Session, ToolError
 from ..store import store
 from .transactions import get_transaction
@@ -19,10 +20,12 @@ _OPEN = {"Open", "In Process", "Escalated"}
 
 
 def get_open_cases(session: Session) -> list[DisputeCase]:
+    inject("get_open_cases")
     return [c for c in store.cases.values() if c.customer_id == session.customer_id and c.status in _OPEN]
 
 
 def get_case(session: Session, case_id: str) -> DisputeCase:
+    inject("get_case")
     case = store.cases.get(case_id)
     if case is None or case.customer_id != session.customer_id:
         raise ToolError("NOT_FOUND", "Caso no encontrado.")
@@ -31,6 +34,7 @@ def get_case(session: Session, case_id: str) -> DisputeCase:
 
 def create_dispute_case(session: Session, transaction_id: str, dispute_type: DisputeType, decision: Decision,
                         confirmation_token: str | None, language: Language = "es") -> CreateCaseResult:
+    inject("create_dispute_case")
     tx = get_transaction(session, transaction_id)  # NOT_FOUND si no es del cliente
     for c in store.cases.values():  # idempotente por (transaction_id, dispute_type)
         if c.transaction_id == transaction_id and c.dispute_type == dispute_type:

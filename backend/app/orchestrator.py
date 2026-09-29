@@ -13,7 +13,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime, timezone
 
-from . import confirmations
+from . import confirmations, faults
 from .config import get_policy
 from .errors import APIError
 from .nlu.stub import understand
@@ -71,7 +71,7 @@ def handle_chat(session: Session, req: ChatRequest) -> ChatResponse:
         elif a.type == "confirm" and a.pending_action_id:
             _confirm(session, turn, a.pending_action_id)
         elif a.type == "cancel" and a.pending_action_id:
-            _cancel(turn, a.pending_action_id)
+            _cancel(session, turn, a.pending_action_id)
         else:
             raise APIError("VALIDATION_ERROR", "ui_action incompleta.")
     elif req.message:
@@ -88,6 +88,12 @@ def handle_chat(session: Session, req: ChatRequest) -> ChatResponse:
     )
 
 
+def _tool(turn: Turn, name: str, fn, *args, **kwargs):
+    """Llama una herramienta dentro de su span de traza, con reintentos acotados en TIMEOUT."""
+    with turn.tracer.span(f"tool.{name}") as out:
+        return faults.with_retries(fn, *args, attempts_out=out, **kwargs)
+
+
 def _message(session: Session, turn: Turn, text: str) -> None:
     conv = turn.conv
     with turn.tracer.span("nlu.understand") as out:
@@ -96,33 +102,49 @@ def _message(session: Session, turn: Turn, text: str) -> None:
 
     pending_id = conv.data.get("pending_action_id")
     if conv.state == "CONFIRMAR_ACCION" and pending_id and nlu.confirmation:
-        return _confirm(session, turn, pending_id) if nlu.confirmation == "yes" else _cancel(turn, pending_id)
+        if nlu.confirmation == "yes":
+            return _confirm(session, turn, pending_id)
+        return _cancel(session, turn, pending_id)
 
     conv.language = nlu.language
     conv.original_request = conv.original_request or text
     turn.intent, turn.intent_confidence = nlu.intent, nlu.intent_confidence
     conv.data["intent"] = nlu.intent
+    policy = get_policy()
 
     if nlu.intent == "fuera_de_alcance" and not nlu.abstain:
         conv.state = "ABSTENERSE"
         return turn.say("abstain")
     if nlu.abstain:
+        # Máximo `max_clarifications` preguntas; a la siguiente, pasa a un humano.
+        conv.data["clarifications"] = conv.data.get("clarifications", 0) + 1
+        if conv.data["clarifications"] > policy["intent"]["max_clarifications"]:
+            return _handoff(session, turn, "CLARIFICATION_EXHAUSTED",
+                            open_questions=["¿Qué transacción quiere disputar el cliente y por qué?"])
         conv.state = "ACLARAR"
         return turn.say("clarify")
-    if nlu.intent == "estado_disputa":
-        with turn.tracer.span("tool.get_open_cases") as out:
-            open_cases = cases.get_open_cases(session)
-            out["n_results"] = len(open_cases)
-        conv.state = "INFORMAR_ESTADO"
-        if not open_cases:
-            return turn.say("status_none")
-        return turn.say("status_list", cases=", ".join(f"{c.case_id} ({c.status})" for c in open_cases))
 
-    with turn.tracer.span("tool.search_transactions") as out:
-        options = transactions.search_transactions(session, amount=nlu.amount, merchant=nlu.merchant_hint)
-        out["n_results"] = len(options)
+    try:
+        if nlu.intent == "estado_disputa":
+            open_cases = _tool(turn, "get_open_cases", cases.get_open_cases, session)
+            conv.state = "INFORMAR_ESTADO"
+            if not open_cases:
+                return turn.say("status_none")
+            return turn.say("status_list", cases=", ".join(f"{c.case_id} ({c.status})" for c in open_cases))
+
+        options = _tool(turn, "search_transactions", transactions.search_transactions,
+                        session, amount=nlu.amount, merchant=nlu.merchant_hint)
+    except ToolError as e:
+        return _tool_failure(session, turn, e, "No se pudo consultar la información del cliente.")
+
     conv.state = "IDENTIFICAR_TRANSACCION"
     if not options:
+        # Máximo 2 búsquedas vacías (misma cuota que las aclaraciones); luego, humano.
+        conv.data["empty_searches"] = conv.data.get("empty_searches", 0) + 1
+        if conv.data["empty_searches"] > policy["intent"]["max_clarifications"]:
+            return _handoff(session, turn, "NO_TRANSACTION_FOUND",
+                            open_questions=["El cliente describe un cargo que no aparece en sus "
+                                            "transacciones de los últimos días: confirmar monto, fecha y comercio."])
         return turn.say("no_candidates")
     if len(options) == 1:
         return _select_transaction(session, turn, options[0].transaction_id)
@@ -133,17 +155,20 @@ def _message(session: Session, turn: Turn, text: str) -> None:
 def _select_transaction(session: Session, turn: Turn, transaction_id: str) -> None:
     conv = turn.conv
     try:
-        with turn.tracer.span("tool.get_transaction"):
-            tx = transactions.get_transaction(session, transaction_id)
-        with turn.tracer.span("tool.get_transaction_risk"):
-            risk = transactions.get_transaction_risk(session, transaction_id)
-    except ToolError:
-        turn.rule_id = "R1"
-        return turn.say("not_found")
+        tx = _tool(turn, "get_transaction", transactions.get_transaction, session, transaction_id)
+        risk = _tool(turn, "get_transaction_risk", transactions.get_transaction_risk, session, transaction_id)
+        open_cases = _tool(turn, "get_open_cases", cases.get_open_cases, session)
+    except ToolError as e:
+        if e.code == "NOT_FOUND":            # R1: no existe o no es del cliente (mismo mensaje)
+            turn.rule_id = "R1"
+            return turn.say("not_found")
+        return _tool_failure(session, turn, e, "No se pudo leer la transacción elegida.")
 
+    customer_ctx = {**stub_data.CUSTOMER_PROFILE.get(session.customer_id, {}),
+                    "open_cases_by_tx": {c.transaction_id: {"case_id": c.case_id, "status": c.status}
+                                         for c in open_cases}}
     with turn.tracer.span("policy.evaluate") as out:
-        decision = evaluate(tx, risk, stub_data.CUSTOMER_PROFILE.get(session.customer_id, {}),
-                            conv.data.get("intent", "cargo_no_reconocido"), get_policy())
+        decision = evaluate(tx, risk, customer_ctx, conv.data.get("intent", "cargo_no_reconocido"), get_policy())
         out.update(rule_id=decision.rule_id, action=decision.action)
     turn.rule_id = decision.rule_id
     conv.state = "EVALUAR"
@@ -151,7 +176,9 @@ def _select_transaction(session: Session, turn: Turn, transaction_id: str) -> No
 
     if decision.action == "INFORM":
         conv.state = "CERRAR"
-        return turn.say(f"inform_{decision.rule_id}")
+        existing = customer_ctx["open_cases_by_tx"].get(tx.transaction_id, {})
+        return turn.say(f"inform_{decision.rule_id}", case_id=existing.get("case_id", ""),
+                        status=existing.get("status", ""))
     if decision.action == "FRAUD":
         pa = confirmations.propose(session, "block_card", tx.product_id, f"Bloquear la tarjeta {tx.card_mask}")
         turn.say("confirm_block", card=tx.card_mask)
@@ -169,11 +196,26 @@ def _show_confirmation(turn: Turn, pa) -> None:
         pending_action_id=pa.pending_action_id, action=pa.action, summary=pa.summary, expires_at=pa.expires_at))
 
 
-def _cancel(turn: Turn, pending_action_id: str) -> None:
-    if pa := store.pending_actions.get(pending_action_id):
+def _decision(conv: Conversation) -> Decision | None:
+    return Decision.model_validate(conv.data["decision"]) if conv.data.get("decision") else None
+
+
+def _cancel(session: Session, turn: Turn, pending_action_id: str) -> None:
+    conv = turn.conv
+    pa = store.pending_actions.get(pending_action_id)
+    if pa:
         pa.used = True
-    turn.conv.data.pop("pending_action_id", None)
-    turn.conv.state = "CERRAR"
+    conv.data.pop("pending_action_id", None)
+    decision = _decision(conv)
+    # Si la política ya había dicho "esto necesita un humano", que el cliente diga
+    # que no a una acción no cambia eso: se hace handoff (sin caso) y se anota qué rechazó.
+    if pa and decision and decision.action in {"FRAUD", "ESCALATE"}:
+        turn.rule_id = decision.rule_id
+        conv.data.setdefault("declined", []).append(pa.action)
+        tx = _try(lambda: transactions.get_transaction(session, conv.data["transaction_id"]))
+        return _handoff(session, turn, "POLICY_ESCALATION", tx=tx, decision=decision,
+                        case=_existing_case(session, conv), cancelled=True)
+    conv.state = "CERRAR"
     turn.say("cancelled")
 
 
@@ -185,80 +227,146 @@ def _confirm(session: Session, turn: Turn, pending_action_id: str) -> None:
         conv.state = "CERRAR"
         return turn.say("confirmation_expired")
     conv.data.pop("pending_action_id", None)
-    decision = Decision.model_validate(conv.data["decision"])
+    decision = _decision(conv)
     turn.rule_id = decision.rule_id
-    tx = transactions.get_transaction(session, conv.data["transaction_id"])
     conv.state = "EJECUTAR"
+    try:
+        tx = _tool(turn, "get_transaction", transactions.get_transaction, session, conv.data["transaction_id"])
+        if pa.action == "block_card":
+            return _execute_block(session, turn, pa, token, tx, decision)
+        return _execute_case(session, turn, token, tx, decision)
+    except ToolError as e:
+        _record(conv, pa.action, "failed")
+        return _tool_failure(session, turn, e, f"Verificar si la acción '{pa.action}' quedó aplicada "
+                                               f"y completarla manualmente si no.")
 
-    if pa.action == "block_card":
-        with turn.tracer.span("tool.block_card"):
-            cards.block_card(session, pa.target_id, token)
-        with turn.tracer.span("tool.get_card_status") as out:
-            verified = cards.get_card_status(session, pa.target_id).status == "Blocked"
-            out["verified"] = verified
-        conv.data.setdefault("actions", []).append(
-            {"action": "block_card", "status": "verified" if verified else "failed",
-             "at": datetime.now(timezone.utc).isoformat()})
-        if not verified:
-            return _handoff(session, turn, tx, decision, None, "TOOL_FAILURE")
-        next_pa = confirmations.propose(session, "create_dispute_case", tx.transaction_id,
-                                        f"Registrar disputa por {tx.amount:,.2f} {tx.currency}")
-        turn.say("blocked_then_case", card=tx.card_mask, amount=f"{tx.amount:,.2f}", currency=tx.currency)
-        return _show_confirmation(turn, next_pa)
 
+def _execute_block(session: Session, turn: Turn, pa, token: str, tx, decision: Decision) -> None:
+    conv = turn.conv
+    _tool(turn, "block_card", cards.block_card, session, pa.target_id, token)
+    with turn.tracer.span("verify.card_blocked") as out:
+        verified = cards.get_card_status(session, pa.target_id).status == "Blocked"
+        out["verified"] = verified
+    _record(conv, "block_card", "verified" if verified else "failed")
+    if not verified:
+        raise ToolError("INTERNAL", "El bloqueo no se reflejó al volver a leer la tarjeta.")
+    next_pa = confirmations.propose(session, "create_dispute_case", tx.transaction_id,
+                                    f"Registrar disputa por {tx.amount:,.2f} {tx.currency}")
+    turn.say("blocked_then_case", card=tx.card_mask, amount=f"{tx.amount:,.2f}", currency=tx.currency)
+    _show_confirmation(turn, next_pa)
+
+
+def _execute_case(session: Session, turn: Turn, token: str, tx, decision: Decision) -> None:
+    conv = turn.conv
     dispute_type = INTENT_TO_DISPUTE_TYPE.get(conv.data.get("intent"), "cargo_no_reconocido")
     if decision.action == "FRAUD":
         dispute_type = "fraude"
-    with turn.tracer.span("tool.create_dispute_case") as out:
-        result = cases.create_dispute_case(session, tx.transaction_id, dispute_type, decision, token, conv.language)
-        out.update(case_id=result.case.case_id, created=result.created)
+    # create_dispute_case es idempotente, así que reintentarlo es seguro.
+    result = _tool(turn, "create_dispute_case", cases.create_dispute_case,
+                   session, tx.transaction_id, dispute_type, decision, token, conv.language)
     conv.state = "VERIFICAR"
-    with turn.tracer.span("tool.get_case") as out:
-        verified = cases.get_case(session, result.case.case_id) == result.case
+    with turn.tracer.span("verify.case_exists") as out:
+        verified = _tool(turn, "get_case", cases.get_case, session, result.case.case_id) == result.case
         out["verified"] = verified
-    conv.data.setdefault("actions", []).append(
-        {"action": "create_dispute_case", "status": "verified" if verified else "failed",
-         "at": datetime.now(timezone.utc).isoformat()})
+    _record(conv, "create_dispute_case", "verified" if verified else "failed")
     if not verified:
-        return _handoff(session, turn, tx, decision, None, "TOOL_FAILURE")
+        raise ToolError("INTERNAL", "El caso no se encontró al volver a leerlo.")
 
     turn.case = result.case
+    conv.data["case_id"] = result.case.case_id
+    if not result.created:  # la tool devolvió un caso que ya existía: no decir "Registré"
+        conv.state = "CERRAR"
+        return turn.say("inform_R5", case_id=result.case.case_id, status=result.case.status)
     if decision.action in {"FRAUD", "ESCALATE"}:
-        return _handoff(session, turn, tx, decision, result.case, "POLICY_ESCALATION")
+        return _handoff(session, turn, "POLICY_ESCALATION", tx=tx, decision=decision, case=result.case)
     conv.state = "CERRAR"
     turn.say("case_created", case_id=result.case.case_id, sla=result.case.sla_due_at.date().isoformat())
     turn.ui = ChatUI(type="case_created", case=result.case)
 
 
-def _handoff(session: Session, turn: Turn, tx, decision: Decision, case, reason: str) -> None:
+# --- Auxiliares ------------------------------------------------------------------------
+
+def _record(conv: Conversation, action: str, status: str) -> None:
+    conv.data.setdefault("actions", []).append(
+        {"action": action, "status": status, "at": datetime.now(timezone.utc).isoformat()})
+
+
+def _try(fn):
+    """Para datos 'de adorno' del handoff: si fallan, seguimos sin ellos."""
+    try:
+        return fn()
+    except Exception:
+        return None
+
+
+def _existing_case(session: Session, conv: Conversation):
+    case_id = conv.data.get("case_id")
+    return _try(lambda: cases.get_case(session, case_id)) if case_id else None
+
+
+def _tool_failure(session: Session, turn: Turn, error: ToolError, question: str) -> None:
+    """Una herramienta falló aun con reintentos: nunca decir 'listo'; pasar a un humano."""
     conv = turn.conv
-    risk = transactions.get_transaction_risk(session, tx.transaction_id)
+    tx = _try(lambda: transactions.get_transaction(session, conv.data["transaction_id"])) \
+        if conv.data.get("transaction_id") else None
+    _handoff(session, turn, "TOOL_FAILURE", tx=tx, decision=_decision(conv),
+             case=_existing_case(session, conv), open_questions=[f"{question} (error: {error.code})"])
+
+
+def _handoff(session: Session, turn: Turn, reason: str, tx=None, decision: Decision | None = None,
+             case=None, open_questions: list[str] | None = None, cancelled: bool = False) -> None:
+    conv = turn.conv
     profile = stub_data.CUSTOMER_PROFILE.get(session.customer_id, {"segment": "?", "country": "?"})
+    facts: list[VerifiedFact] = []
+    if tx is not None:
+        risk = _try(lambda: transactions.get_transaction_risk(session, tx.transaction_id))
+        facts = [
+            VerifiedFact(fact="transaction_id", value=tx.transaction_id, source="transactions"),
+            VerifiedFact(fact="amount", value=f"{tx.amount:.2f} {tx.currency}", source="transactions"),
+            VerifiedFact(fact="business_date", value=tx.business_date.isoformat(), source="transactions"),
+        ]
+        if risk is not None:
+            facts.append(VerifiedFact(fact="fraud_score", source="transactions",
+                                      value=risk.fraud_score if risk.fraud_score is not None else "nulo"))
+        summary = f"Disputa sobre {tx.transaction_id} ({tx.amount:,.2f} {tx.currency}, {tx.business_date})."
+    else:
+        summary = "El cliente quiere disputar un cargo, pero no se identificó la transacción."
+    if case is not None:
+        facts.append(VerifiedFact(fact="case_id", value=case.case_id, source="cases"))
+
+    priority = (decision.priority if decision and decision.priority
+                else "high" if reason == "TOOL_FAILURE" else "medium")
     package = HandoffPackage(
         handoff_id=store.next_id("HO"), case_id=case.case_id if case else None,
         created_at=datetime.now(timezone.utc), handoff_reason=reason,
-        priority=decision.priority or "high", sla_due_at=case.sla_due_at if case else None,
+        priority=priority, sla_due_at=case.sla_due_at if case else None,
         language=conv.language,
         customer=HandoffCustomer(customer_id=session.customer_id, segment=profile["segment"],
                                  country=profile["country"]),
         original_request=conv.original_request or "",
-        summary=f"Disputa sobre {tx.transaction_id} ({tx.amount:,.2f} {tx.currency}, {tx.business_date}).",
-        verified_facts=[
-            VerifiedFact(fact="transaction_id", value=tx.transaction_id, source="transactions"),
-            VerifiedFact(fact="amount", value=f"{tx.amount:.2f} {tx.currency}", source="transactions"),
-            VerifiedFact(fact="business_date", value=tx.business_date.isoformat(), source="transactions"),
-            VerifiedFact(fact="fraud_score", value=risk.fraud_score if risk.fraud_score is not None else "nulo",
-                         source="transactions"),
-        ],
-        policy_decision=decision,
+        summary=summary, verified_facts=facts, policy_decision=decision,
         actions_taken=[ActionRecord.model_validate(a) for a in conv.data.get("actions", [])],
-        actions_declined=[], open_questions=[],
-        suggested_queue=decision.queue or "disputas", suggested_agent_language=conv.language,
+        actions_declined=list(conv.data.get("declined", [])),
+        open_questions=open_questions or [],
+        suggested_queue=(decision.queue if decision and decision.queue else "disputas"),
+        suggested_agent_language=conv.language,
         conversation_id=conv.conversation_id, trace_id=conv.trace_id,
     )
-    with turn.tracer.span("tool.create_handoff"):
-        ref = handoff.create_handoff(session, package)
+    try:
+        with turn.tracer.span("tool.create_handoff"):
+            ref = handoff.create_handoff(session, package)
+    except Exception:
+        # Último recurso: ni el handoff se pudo guardar. No inventar nada; pedir que reintente.
+        conv.state = "CERRAR"
+        return turn.say("tool_failure")
     conv.state = "HANDOFF"
     turn.handoff_id = ref.handoff_id
-    turn.say("handoff" if reason != "TOOL_FAILURE" else "tool_failure", case_id=case.case_id if case else "")
+    if reason == "TOOL_FAILURE":
+        turn.say("tool_failure")
+    elif cancelled:
+        turn.say("cancelled_handoff")
+    elif case is not None:
+        turn.say("handoff", case_id=case.case_id)
+    else:
+        turn.say("handoff_no_case")
     turn.ui = ChatUI(type="handoff", handoff_id=ref.handoff_id, queue=package.suggested_queue)

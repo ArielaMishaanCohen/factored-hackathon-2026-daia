@@ -1,12 +1,13 @@
 """API de LATAM Bank · intake de disputas (design.md, sección 6)."""
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, FastAPI
+from fastapi import APIRouter, Depends, FastAPI, Header
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from .auth import get_session, issue_token, require_role
 from .config import get_policy, get_settings
+from . import faults
 from .errors import APIError, register_error_handlers
 from .orchestrator import handle_chat
 from .schemas import (AgentLoginRequest, CasesResponse, ChatRequest, ChatResponse, DemoCustomer,
@@ -64,8 +65,15 @@ def expire_session(session: Session = Depends(require_role("customer"))):
 # --- Chat y consultas -----------------------------------------------------------
 
 @api.post("/chat", response_model=ChatResponse)
-def chat(req: ChatRequest, session: Session = Depends(require_role("customer"))):
-    return handle_chat(session, req)
+def chat(req: ChatRequest, session: Session = Depends(require_role("customer")),
+         x_fault_inject: str | None = Header(default=None, include_in_schema=False)):
+    # Solo en evaluación/demo: "X-Fault-Inject: create_dispute_case" hace fallar esa herramienta.
+    forced = {t.strip() for t in (x_fault_inject or "").split(",") if t.strip()}
+    token = faults.set_forced(forced if get_settings().fault_injection else set())
+    try:
+        return handle_chat(session, req)
+    finally:
+        faults.reset_forced(token)
 
 
 @api.get("/cases", response_model=CasesResponse)

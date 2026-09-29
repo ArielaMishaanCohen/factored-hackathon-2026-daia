@@ -4,12 +4,14 @@ from __future__ import annotations
 from datetime import datetime, timezone
 
 from ..confirmations import consume_token
+from ..faults import inject
 from ..schemas import BlockResult, CardStatus, Session, ToolError
 from ..store import store
 from . import stub_data
 
 
 def get_card_status(session: Session, product_id: str) -> CardStatus:
+    inject("get_card_status")
     for c in stub_data.CARDS:
         if c["product_id"] == product_id and c["customer_id"] == session.customer_id:
             # El estado efectivo es el del bloqueo operativo si existe; si no, el de gold.
@@ -19,6 +21,7 @@ def get_card_status(session: Session, product_id: str) -> CardStatus:
 
 
 def block_card(session: Session, product_id: str, confirmation_token: str | None) -> BlockResult:
+    inject("block_card")
     current = get_card_status(session, product_id)
     if current.status == "Blocked":  # idempotente
         return BlockResult(product_id=product_id, status="Blocked", blocked_at=current.blocked_at)

@@ -5,7 +5,8 @@ import uuid
 from datetime import datetime, timedelta, timezone
 
 import jwt
-from fastapi import Depends, Header
+from fastapi import Depends
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from .config import get_settings
 from .errors import APIError
@@ -13,6 +14,7 @@ from .schemas import Session
 from .store import store
 
 ALGORITHM = "HS256"
+bearer = HTTPBearer(auto_error=False)
 
 
 def issue_token(subject: str, role: str, language: str) -> tuple[str, datetime]:
@@ -37,11 +39,11 @@ def decode_token(token: str) -> Session:
                    language=claims["lang"], expires_at=datetime.fromtimestamp(claims["exp"], timezone.utc))
 
 
-def get_session(authorization: str | None = Header(default=None)) -> Session:
+def get_session(creds: HTTPAuthorizationCredentials | None = Depends(bearer)) -> Session:
     """customer_id sale SIEMPRE de aquí: nunca del cuerpo, del mensaje ni del LLM."""
-    if not authorization or not authorization.lower().startswith("bearer "):
+    if creds is None or creds.scheme.lower() != "bearer":
         raise APIError("UNAUTHENTICATED", "Falta el token.")
-    return decode_token(authorization.split(" ", 1)[1])
+    return decode_token(creds.credentials)
 
 
 def require_role(*roles: str):

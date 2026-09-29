@@ -46,6 +46,14 @@ TEMPLATES: dict[str, dict[str, str]] = {
         "es": "Tu caso {case_id} requiere revisión de un especialista. Ya le pasé toda la información.",
         "pt": "Seu caso {case_id} precisa da análise de um especialista. Já passei todas as informações.",
     },
+    "handoff_no_case": {
+        "es": "Voy a pasar tu consulta a un especialista para que te ayude. Ya le dejé todo el contexto.",
+        "pt": "Vou encaminhar sua solicitação a um especialista. Já deixei todo o contexto com ele.",
+    },
+    "cancelled_handoff": {
+        "es": "Entendido, no hice ese cambio. Como tu caso necesita revisión, se lo pasé a un especialista con toda la información.",
+        "pt": "Entendido, não fiz essa alteração. Como seu caso precisa de análise, encaminhei a um especialista com todas as informações.",
+    },
     "inform_R2": {
         "es": "Ese intento de cobro fue rechazado, así que no se te cobró nada.",
         "pt": "Essa tentativa de cobrança foi recusada, então nada foi cobrado.",
@@ -57,6 +65,10 @@ TEMPLATES: dict[str, dict[str, str]] = {
     "inform_R4": {
         "es": "Ese cargo ya fue revertido; no necesitas hacer nada.",
         "pt": "Essa cobrança já foi estornada; você não precisa fazer nada.",
+    },
+    "inform_R5": {
+        "es": "Ya tienes una disputa abierta por ese cargo ({case_id}, estado {status}). No hace falta registrarla de nuevo.",
+        "pt": "Você já tem uma contestação aberta para essa cobrança ({case_id}, status {status}). Não é preciso registrá-la novamente.",
     },
     "status_none": {
         "es": "No tienes reclamos abiertos.",
