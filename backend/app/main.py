@@ -14,7 +14,7 @@ from .schemas import (AgentLoginRequest, CasesResponse, ChatRequest, ChatRespons
                       DemoCustomersResponse, HandoffPackage, HandoffsResponse, HandoffSummary,
                       HealthResponse, LoginCustomer, LoginRequest, LoginResponse, Session, Trace)
 from .store import store
-from .tools import stub_data
+from .tools import data_source
 
 app = FastAPI(title="LATAM Bank · Disputas", version="0.1.0")
 register_error_handlers(app)
@@ -25,19 +25,19 @@ api = APIRouter(prefix="/api")
 def health():
     s = get_settings()
     return HealthResponse(status="ok", policy_version=get_policy()["policy_version"],
-                          intent_model="stub-keywords-0", llm_model=s.gemini_model, data_manifest=None)
+                          intent_model="stub-keywords-0", llm_model=s.gemini_model, data_manifest=data_source.source_name())
 
 
 # --- Auth (sección 7) -----------------------------------------------------------
 
 @api.get("/auth/demo-customers", response_model=DemoCustomersResponse)
 def demo_customers():
-    return DemoCustomersResponse(customers=[DemoCustomer(**c) for c in stub_data.DEMO_CUSTOMERS])
+    return DemoCustomersResponse(customers=[DemoCustomer(**c) for c in data_source.demo_customers()])
 
 
 @api.post("/auth/login", response_model=LoginResponse)
 def login(req: LoginRequest):
-    customer = next((c for c in stub_data.DEMO_CUSTOMERS if c["customer_id"] == req.customer_id), None)
+    customer = next((c for c in data_source.demo_customers() if c["customer_id"] == req.customer_id), None)
     if customer is None or req.otp != get_settings().demo_otp:
         raise APIError("UNAUTHENTICATED", "Cliente u OTP inválido.")
     token, exp = issue_token(customer["customer_id"], "customer", customer["suggested_language"])

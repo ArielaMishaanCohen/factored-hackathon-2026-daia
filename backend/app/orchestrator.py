@@ -23,7 +23,7 @@ from .schemas import (INTENT_TO_DISPUTE_TYPE, ActionRecord, ChatMessage, ChatReq
                       Decision, HandoffCustomer, HandoffPackage, PendingActionView, Session, ToolError,
                       TurnAudit, VerifiedFact)
 from .store import Conversation, store
-from .tools import cards, cases, handoff, stub_data, transactions
+from .tools import cards, cases, data_source, handoff, transactions
 from .tracing import TurnTracer
 
 
@@ -164,7 +164,7 @@ def _select_transaction(session: Session, turn: Turn, transaction_id: str) -> No
             return turn.say("not_found")
         return _tool_failure(session, turn, e, "No se pudo leer la transacción elegida.")
 
-    customer_ctx = {**stub_data.CUSTOMER_PROFILE.get(session.customer_id, {}),
+    customer_ctx = {**data_source.customer_profile(session.customer_id),
                     "open_cases_by_tx": {c.transaction_id: {"case_id": c.case_id, "status": c.status}
                                          for c in open_cases}}
     with turn.tracer.span("policy.evaluate") as out:
@@ -316,7 +316,7 @@ def _tool_failure(session: Session, turn: Turn, error: ToolError, question: str)
 def _handoff(session: Session, turn: Turn, reason: str, tx=None, decision: Decision | None = None,
              case=None, open_questions: list[str] | None = None, cancelled: bool = False) -> None:
     conv = turn.conv
-    profile = stub_data.CUSTOMER_PROFILE.get(session.customer_id, {"segment": "?", "country": "?"})
+    profile = data_source.customer_profile(session.customer_id)
     facts: list[VerifiedFact] = []
     if tx is not None:
         risk = _try(lambda: transactions.get_transaction_risk(session, tx.transaction_id))

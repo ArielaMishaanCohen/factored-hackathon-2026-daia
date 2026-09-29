@@ -7,16 +7,16 @@ from ..confirmations import consume_token
 from ..faults import inject
 from ..schemas import BlockResult, CardStatus, Session, ToolError
 from ..store import store
-from . import stub_data
+from . import data_source
 
 
 def get_card_status(session: Session, product_id: str) -> CardStatus:
     inject("get_card_status")
-    for c in stub_data.CARDS:
-        if c["product_id"] == product_id and c["customer_id"] == session.customer_id:
-            # El estado efectivo es el del bloqueo operativo si existe; si no, el de gold.
-            return store.card_blocks.get(product_id) or CardStatus(
-                product_id=product_id, card_mask=c["card_mask"], status=c["status"])
+    c = data_source.card(session.customer_id, product_id)  # None si no existe o no es del cliente
+    if c is not None:
+        # El estado efectivo es el del bloqueo operativo si existe; si no, el de gold.
+        return store.card_blocks.get(product_id) or CardStatus(
+            product_id=product_id, card_mask=c["card_mask"], status=c["status"])
     raise ToolError("NOT_FOUND", "Tarjeta no encontrada.")
 
 

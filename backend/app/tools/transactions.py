@@ -1,7 +1,7 @@
 """Herramientas de lectura de transacciones (design.md 4.3).
 
-STUB de Fase 1 sobre stub_data. Fase 3 (C): consultar gold.dispute_transactions
-en DuckDB con el filtro `customer_id = ?` DENTRO de la consulta.
+Los datos salen de data_source: gold.duckdb si existe, o los stubs si no.
+El filtro por cliente vive en la consulta (data_source), no aquí ni en el orquestador.
 """
 from __future__ import annotations
 
@@ -10,18 +10,11 @@ from datetime import date, timedelta
 from ..config import get_policy
 from ..faults import inject
 from ..schemas import Session, ToolError, TransactionRisk, TransactionView
-from . import stub_data
-
-_CARD_MASK = {c["product_id"]: c["card_mask"] for c in stub_data.CARDS}
-
-
-def _own_rows(session: Session) -> list[dict]:
-    return [t for t in stub_data.TRANSACTIONS if t["customer_id"] == session.customer_id]
+from . import data_source
 
 
 def _view(row: dict) -> TransactionView:
-    return TransactionView(card_mask=_CARD_MASK.get(row["product_id"]),
-                           **{k: row[k] for k in TransactionView.model_fields if k in row})
+    return TransactionView(**{k: row.get(k) for k in TransactionView.model_fields})
 
 
 def search_transactions(session: Session, amount: float | None = None, currency: str | None = None,
@@ -34,7 +27,7 @@ def search_transactions(session: Session, amount: float | None = None, currency:
     hi = min(date_to or date.max, ref)
     tol = policy["search"]["amount_tolerance_pct"] / 100
 
-    rows = [r for r in _own_rows(session) if lo <= r["business_date"] <= hi]
+    rows = data_source.transactions_between(session.customer_id, lo, hi)
     if currency:
         rows = [r for r in rows if r["currency"] == currency]
     if merchant:
@@ -48,9 +41,9 @@ def search_transactions(session: Session, amount: float | None = None, currency:
 
 
 def _get_row(session: Session, transaction_id: str) -> dict:
-    for r in _own_rows(session):
-        if r["transaction_id"] == transaction_id:
-            return r
+    row = data_source.transaction(session.customer_id, transaction_id)
+    if row is not None:
+        return row
     raise ToolError("NOT_FOUND", "Transacción no encontrada.")  # igual si existe pero es de otro cliente
 
 
