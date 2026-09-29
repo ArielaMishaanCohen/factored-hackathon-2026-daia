@@ -1,7 +1,7 @@
 # Uso: make <objetivo>. Asume .venv creado con `make setup`.
 PY := .venv/bin/python
 
-.PHONY: setup dev-backend dev-frontend test data train eval up down
+.PHONY: setup dev-backend dev-frontend test data dataset train eval up down
 
 setup:            ## Instala dependencias de Python y del frontend
 	python3 -m venv .venv
@@ -19,6 +19,9 @@ test:             ## Tests del backend y del pipeline
 
 data:             ## S3 → bronze → silver → gold (Fase 2, rol A)
 	$(PY) -m data_pipeline.run_pipeline --full
+
+dataset:          ## Set de intenciones: ruido, split y validaciones (Fase 4.1, rol B)
+	$(PY) -m ml.intent.build_dataset
 
 train:            ## Clasificador de intención (Fase 4, rol B)
 	$(PY) -m ml.intent.train

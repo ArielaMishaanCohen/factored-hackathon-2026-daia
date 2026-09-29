@@ -413,9 +413,9 @@ Tratamiento de duplicados, corrección de `amount_usd`, zona horaria, ventana de
 
 ### 4.1 Set etiquetado de intenciones (empieza el lunes)
 
-- **Origen:** generado por el equipo (se declara así). Los textos del banco no sirven (42 textos distintos, todos de saldo: `decisions_fase_0.md`, sección 5).
-- **Tamaño objetivo:** ~600–800 frases, ~50 % ES, ~40 % PT, ~10 % mezcla o "portuñol"; variantes regionales (MX, CO, AR), errores de tipeo, frases cortas y largas, y casos límite entre clases.
-- **Cómo se evita la fuga:** las frases se escriben por **familias** (una idea base con paráfrasis). El split es **por familia** (train 60 / val 20 / test 20), así ninguna paráfrasis del test tiene hermanas en train. El test lo escribe una persona distinta a la que escribió train cuando sea posible. Si se usa Gemini para generar paráfrasis, se declara, y esas frases no van al test (porque Gemini también es candidato a clasificador).
+- **Origen (D4.2, reemplaza a D4.1):** híbrido. Train/val = Banking77 (consultas reales en inglés, filtradas, traducidas a ES/PT con Claude y re-etiquetadas con `labeling_guide.md`) + suplemento generado con Claude y revisado (`estado_disputa`, `ambiguo`, portuñol, jerga regional, casos límite, inyecciones). Test = fuente aparte: 50 familias generadas con ChatGPT a partir de `plan_familias.md` y revisadas por el equipo (limitación declarada; pendiente reescribirlo a mano). Los textos del banco no sirven (42 textos distintos, todos de saldo: `decisions_fase_0.md`, sección 5). Detalle en `ml/intent/data_report.md`.
+- **Tamaño real:** 2.748 frases (train 2.041 · val 507 · test 200); 50 % ES, 42 % PT, 8 % mezcla; variantes MX, CO, AR, BR y neutro. Ruido de chat reproducible (`noise.py`) solo en train/val.
+- **Cómo se evita la fuga:** train/val y test vienen de **fuentes y autores distintos**; además, train/val se dividen 80/20 **por familia** y `make dataset` falla si una familia cae en dos splits o si alguna frase de test se parece > 0,9 (TF-IDF) a una de train/val. Ninguna traducción ni generación usa Gemini, porque es candidato a clasificador.
 - **Calidad de etiquetas:** dos personas etiquetan una muestra de ~100 frases; se reporta el kappa de Cohen y se resuelven los desacuerdos con una guía escrita.
 - **Separación del set de evaluación end-to-end (Fase 6):** las frases de los casos end-to-end no salen de este set.
 

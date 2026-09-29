@@ -32,6 +32,8 @@
 | D1.9 | Almacenamiento: DuckDB (gold) + SQLite (operativo) | 1 | Tomada |
 | D1.10 | Fecha de referencia, monedas y SLA sintético | 1 | Tomada |
 | D2.x | Pipeline: duplicados, `amount_usd`, zona horaria, reproceso, umbrales | 2 | Pendiente |
+| D4.1 | Set de intenciones generado por el equipo | 4 | Reemplazada por D4.2 |
+| D4.2 | Set de intenciones híbrido: Banking77 + suplemento + test aparte | 4 | Tomada |
 | D4.x | Clasificador elegido y umbral de abstención | 4 | Pendiente |
 | D6.x | Tamaño y composición del set de evaluación; baselines | 6 | Pendiente |
 | D7.1 | Destino del deploy | 7 | Pendiente |
@@ -115,7 +117,36 @@
 
 ## Fase 4 · Capa de IA y ML
 
-*(pendiente)*
+### D4.1 · Set de intenciones generado por el equipo
+**Fecha:** 28-sep-2026 · **Responsable:** rol B · **Estado:** Reemplazada por D4.2 (la conclusión de que los textos del banco no sirven sigue vigente; cambia de dónde salen las frases y cómo se divide el set)
+**Contexto:** el componente aprendido (clasificador de intención ES/PT) necesita frases de clientes etiquetadas con la taxonomía de D1.5. El reto exige portugués y un componente evaluado sin fuga.
+**Alternativas:**
+- A. Entrenar con `call_transcripts.customer_text` + `detected_intents`. Hay volumen, pero no hay variedad ni intenciones útiles.
+- B. Entrenar con `complaints.description` + `subcategory`. Tiene las clases de disputa, pero con fuga directa.
+- C. Escribir un set propio por familias (idea base + paráfrasis), con split por familia y kappa de Cohen sobre ~100 frases.
+**Decisión:** C. El set se declara como generado por el equipo.
+**Por qué:** verificado sobre las tablas completas de `data/` (conteos del 28-sep-2026; la primera revisión en `analysis/01_exploracion.ipynb` usó una muestra de 60 archivos diarios y dio lo mismo):
+- `call_transcripts` (171.321 filas, jun-2023 a jun-2026, la tabla entera del bucket): solo **42 `customer_text` distintos**, que se reducen a 2 frases base ("saldo de mi cuenta de ahorros" y "saldo de mi tarjeta de crédito") más muletillas pegadas, a veces repetidas. `full_text` (cliente + agente) tiene 546 valores distintos (NOTAS_DATOS §5). `detected_language` = `es` en el **100 %**. `detected_intents` tiene un solo valor, `consulta_general`, o viene vacío. No hay ningún ejemplo de disputa ni de portugués.
+- `complaints` (67.095 filas): **5 `description` distintas**, "Queja relacionada con {categoría}", en correspondencia 1 a 1 con la categoría. Un clasificador entrenado con eso leería la etiqueta del texto (fuga). `resolution` también tiene solo 5 valores. Coincide con NOTAS_DATOS §4.
+- `satisfaction_surveys.open_comments` (101.196 no nulos en 212.759 encuestas): **13 frases fijas** ("Tardaron mucho en atenderme.", "Aceptable.", …), cada una con su `comment_sentiment` fijo. Hablan del servicio, no de intenciones de disputa. Descartada.
+- `contact_reason` es idéntico a `reason_category` (NOTAS_DATOS §3). No hay otra fuente de texto libre de clientes entre las tablas descargadas. Pendiente: confirmar que `digital_events` (no descargada, eventos de navegación) no tenga columnas de texto libre.
+**Cómo se evita la fuga:** split train/val/test 60/20/20 **por familia**. Las paráfrasis que genere Gemini se declaran como tales y no van a test, porque Gemini también es candidato a clasificador (roadmap 4.1).
+**Limitación a reportar:** el set es sintético y escrito por el equipo. Las métricas miden la separación de intenciones sobre ese lenguaje y no reemplazan una validación con mensajes reales de clientes.
+**Cómo validamos:** kappa de Cohen > 0,8 sobre ~100 frases etiquetadas por dos personas; en la 4.2, que el mejor modelo supere a los baselines (mayoritaria y reglas) en macro-F1 de test, reportado por idioma.
+
+### D4.2 · Set de intenciones híbrido: Banking77 + suplemento + test aparte
+**Fecha:** 29-sep-2026 · **Responsable:** rol B · **Estado:** Tomada
+**Contexto:** D4.1 descartó los textos del banco y planteó un set escrito por el equipo (~600–800 frases). Escribir y etiquetar todo a mano no cabe en el calendario, nadie del equipo escribe portugués y un set chico de un solo autor deja que el modelo aprenda el estilo del autor en vez de la intención. Detalle completo en `ml/intent/data_report.md`.
+**Alternativas:**
+- A. Todo escrito por el equipo (D4.1). Máximo control, pero lento, chico, sin PT nativo y con un solo estilo.
+- B. Todo generado con IA. Rápido y grande, pero el modelo aprende el estilo de una sola IA y es poco creíble frente al jurado.
+- C. Solo Banking77 traducido. Frases de clientes reales, pero no tiene `estado_disputa` ni `ambiguo`, está en inglés y viene de otro dominio (neobanco británico).
+- D. Clasificador preentrenado de Banking77, sin set propio. Cero trabajo de datos, pero exige traducir al inglés en inferencia, no cubre dos de nuestras clases y no deja evaluar sin fuga en ES/PT.
+- E. Híbrido: Banking77 filtrado, traducido con Claude y re-etiquetado con nuestras reglas + suplemento generado con Claude para lo que falta; test de otra fuente y aparte.
+**Decisión:** E. 2.748 frases: train/val = Banking77 (1.749) + suplemento (799, 160 familias), divididos 80/20 por familia; test = 200 frases (50 familias) de una fuente distinta.
+**Por qué:** Banking77 aporta volumen y variedad de frases escritas por personas; el suplemento cubre `estado_disputa`, `ambiguo`, portuñol, jerga regional, casos límite e inyecciones; y como train y test vienen de fuentes y autores distintos, el modelo no puede aprenderse el estilo del test (evita la fuga por construcción, más fuerte que solo separar por familia). Además, ruido de chat reproducible (`noise.py`) solo en train/val, validaciones automáticas (familias en un solo split, similitud TF-IDF test vs. train/val ≤ 0,9; máxima 0,648) y traducción siempre con Claude, nunca con Gemini (candidato en la 4.2).
+**Limitación declarada:** por falta de tiempo, el test no se escribió a mano: lo generó ChatGPT a partir de `plan_familias.md` y lo revisó el equipo (`origin: llm_externo`; PT y mezcla traducidos con Claude). ChatGPT no se usa en ninguna otra parte del set, así que sigue siendo otro autor, pero tiene el estilo limpio de un LLM y puede sobrestimar el desempeño con clientes reales. **Pendiente:** reemplazarlo por un test escrito a mano; obligatorio si un candidato de la 4.2 es un modelo de OpenAI. Otras limitaciones (dominio británico, PT no nativo, val de la misma distribución que train) en `data_report.md`.
+**Cómo validamos:** kappa de Cohen > 0,8 entre dos personas sobre 100 frases (`ml/intent/kappa/`, muestra lista; **pendiente** la segunda persona), en total y por fuente; y en la 4.2, la ablación de fuentes (mismo modelo con solo Banking77, solo suplemento y ambos) debe mostrar que el híbrido gana en macro-F1 de test.
 
 ## Fase 5 · Frontend
 
