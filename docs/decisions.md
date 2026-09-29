@@ -31,6 +31,7 @@
 | D1.8 | Autenticación de prueba | 1 | Tomada |
 | D1.9 | Almacenamiento: DuckDB (gold) + SQLite (operativo) | 1 | Tomada |
 | D1.10 | Fecha de referencia, monedas y SLA sintético | 1 | Tomada |
+| D1.11 | Modelo de Gemini fijado: `gemini-3.5-flash` | 1 | Tomada |
 | D2.x | Pipeline: duplicados, `amount_usd`, zona horaria, reproceso, umbrales | 2 | Pendiente |
 | D4.1 | Set de intenciones generado por el equipo | 4 | Reemplazada por D4.2 |
 | D4.2 | Set de intenciones híbrido: Banking77 + suplemento + test aparte | 4 | Tomada |
@@ -57,7 +58,7 @@
 **Fecha:** 27-sep-2026 · **Responsable:** equipo · **Estado:** Tomada
 **Contexto:** necesitamos un LLM para extracción y redacción en ES/PT.
 **Alternativas:** OpenAI, Anthropic, Gemini, modelo abierto.
-**Decisión:** Gemini (modelo exacto por fijar: un modelo "Flash" o "Flash-Lite" vigente; anotar el ID y el precio al día de medir).
+**Decisión:** Gemini (modelo exacto por fijar: un modelo "Flash" o "Flash-Lite" vigente; anotar el ID y el precio al día de medir). El modelo quedó fijado en D1.11.
 **Por qué:** disponibilidad de la API para el equipo y capa gratuita.
 **Riesgos:** límites por minuto de la capa gratuita durante la evaluación; condiciones de uso de datos de esa capa (los datos son sintéticos y se minimizan antes de enviarlos, pero se documenta).
 **Cómo validamos:** latencia p95 y costo por caso dentro de lo aceptable en la Fase 6; tasa de fallback por errores de la API.
@@ -104,6 +105,17 @@
 - **SLA por prioridad** = 1/3/10/15 días (crítica/alta/media/baja), como política sintética. No se puede derivar de `complaints`: `sla_breached` es ~20 % en todas las prioridades y `resolution_days` va de 1 a 30 en todas.
 **Hallazgo para D2.x:** además del 100 % de nulos de `amount_usd` en USD, hay ~5 % de nulos en ARS (12.993) y COP (19.039). R10 depende de `amount_usd`, así que silver lo completa con `daily_exchange_rates`. El contrato de `data_pipeline/contracts.py` ya falla si queda algún nulo.
 **Cómo validamos:** el contrato de silver pasa sin nulos en `amount_usd`; los tests de política usan `reference_date` de `policy.yaml`.
+
+### D1.11 · Modelo de Gemini fijado: `gemini-3.5-flash`
+**Fecha:** 29-sep-2026 · **Responsable:** equipo · **Estado:** Tomada
+**Contexto:** D1.2 dejó el ID del modelo por fijar. Hay que fijarlo antes del Paso 7 de la Fase 4.2 (Gemini zero-shot como candidato de clasificador), porque su F1, latencia y costo dependen del modelo exacto. Es el mismo modelo que usa el bot para extraer y redactar. Se configura con `GEMINI_MODEL` en `.env` y en Render.
+**Alternativas:**
+- A. `gemini-3.8-flash`: el Flash más nuevo disponible para nuestra API key y más barato hoy (ver precios). El 29-sep dio 503 `UNAVAILABLE` ("high demand") en 3 de 4 llamadas, y la única que respondió tardó 11,3 s.
+- B. `gemini-3.5-flash`: respondió al primer intento en 1,6 s en la misma prueba.
+**Decisión:** B, `gemini-3.5-flash`.
+**Por qué:** D1.2 se valida con latencia p95 y tasa de fallback por errores de la API; un modelo saturado empeora justo esas métricas y es un riesgo para la demo del viernes 2. Las tareas del LLM (extraer en JSON y redactar en ES/PT, y el candidato de referencia en 4.2) no deberían necesitar el modelo más nuevo; el Paso 7 lo mide.
+**Precio al 29-sep-2026** (ai.google.dev/gemini-api/docs/pricing, capa pagada, por 1M de tokens): `gemini-3.5-flash` USD 1,50 entrada y USD 9,00 salida. Como referencia, `gemini-3.8-flash` cuesta USD 0,75 y USD 3,75 hasta el 31-dic-2026 (USD 1,50 y USD 7,50 desde el 1-ene-2027). Ambos tienen capa gratuita. **Costo aceptado:** el 3.5 cuesta ~2× en entrada y ~2,4× en salida; con los volúmenes del hackathon la diferencia es marginal frente a la estabilidad.
+**Cómo validamos:** en el Paso 7 de la 4.2 y en la Fase 6, latencia p95 y tasa de errores de la API con `gemini-3.5-flash`. Si el 3.8 se estabiliza, cambiarlo exige volver a correr el candidato Gemini de la 4.2 y registrarlo como decisión nueva que reemplace a esta.
 
 ---
 

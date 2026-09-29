@@ -20,15 +20,15 @@ El modelo devuelve **una de 5 intenciones** y una confianza de 0 a 1 (`docs/desi
 
 ### Los candidatos (todos se evalúan en el mismo test)
 
-| # | Modelo | Por qué está | ¿Obligatorio? |
-| :-: | :-- | :-- | :-: |
-| 0 | Clase mayoritaria | Piso | Sí |
-| 1 | Reglas por palabras clave ES/PT | Lo que haría un banco sin ML | Sí |
-| 2 | TF-IDF (palabras + n-gramas de caracteres) + regresión logística | Baseline clásico; los n-gramas de caracteres aguantan typos y PT | Sí |
-| 3 | Embeddings multilingües + regresión logística | Candidato principal | Sí |
-| 4 | Gemini zero-shot con salida JSON | Referencia de "solo LLM", con costo y latencia | Sí |
-| 5 | Clasificador de Banking77 ya entrenado (traduciendo al inglés) | "Lo que ya existe" | Si sobra tiempo |
-| 6 | Zero-shot multilingüe (NLI) | "Lo que ya existe", sin entrenar | Si sobra tiempo |
+| # | Modelo                                                             | Por qué está                                                    | ¿Obligatorio? |
+| :-: | :----------------------------------------------------------------- | :---------------------------------------------------------------- | :-------------: |
+| 0 | Clase mayoritaria                                                  | Piso                                                              |       Sí       |
+| 1 | Reglas por palabras clave ES/PT                                    | Lo que haría un banco sin ML                                     |       Sí       |
+| 2 | TF-IDF (palabras + n-gramas de caracteres) + regresión logística | Baseline clásico; los n-gramas de caracteres aguantan typos y PT |       Sí       |
+| 3 | Embeddings multilingües + regresión logística                   | Candidato principal                                               |       Sí       |
+| 4 | Gemini zero-shot con salida JSON                                   | Referencia de "solo LLM", con costo y latencia                    |       Sí       |
+| 5 | Clasificador de Banking77 ya entrenado (traduciendo al inglés)    | "Lo que ya existe"                                                | Si sobra tiempo |
+| 6 | Zero-shot multilingüe (NLI)                                       | "Lo que ya existe", sin entrenar                                  | Si sobra tiempo |
 
 ### Métricas
 
@@ -56,12 +56,12 @@ El modelo devuelve **una de 5 intenciones** y una confianza de 0 a 1 (`docs/desi
 
 ### Calendario sugerido
 
-| Cuándo | Pasos | Tu tiempo |
-| :-- | :-- | :-- |
-| Martes en la tarde | 1 a 5 (criterio, código común, baselines, TF-IDF) | ~1,5 h |
-| Martes en la noche | 6 y 7 (embeddings y Gemini) | ~1,5 h (mucho es esperar) |
-| Miércoles en la mañana | 8 a 11 (elegir, τ, test, ablaciones) | ~1,5 h |
-| Miércoles antes del checkpoint | 12 a 14 (integrar, documentar, subir) | ~1 h |
+| Cuándo                         | Pasos                                               | Tu tiempo                 |
+| :------------------------------ | :-------------------------------------------------- | :------------------------ |
+| Martes en la tarde              | 1 a 5 (criterio, código común, baselines, TF-IDF) | ~1,5 h                    |
+| Martes en la noche              | 6 y 7 (embeddings y Gemini)                         | ~1,5 h (mucho es esperar) |
+| Miércoles en la mañana        | 8 a 11 (elegir, τ, test, ablaciones)               | ~1,5 h                    |
+| Miércoles antes del checkpoint | 12 a 14 (integrar, documentar, subir)               | ~1 h                      |
 
 ---
 
@@ -82,8 +82,8 @@ o intfloat/multilingual-e5-small) con dos frases de prueba, una en ES y otra en 
 Dime cuánto pesa el modelo en disco. No instales torch.
 ```
 
-- [ ] Dependencias instaladas y `fastembed` probado
-- [ ] `GEMINI_MODEL` fijado: ______________
+- [X] Dependencias instaladas y `fastembed` probado
+- [X] `GEMINI_MODEL` fijado:`gemini-3.5-flash`
 
 ---
 
@@ -394,7 +394,7 @@ de data/. Haz commit.
 
 Luego, desde tu terminal: `git pull` y `git push`.
 
-- [ ] Subido. Avísale al equipo: "Clasificador listo: <modelo>, macro-F1 test = X (ES Y · PT Z), τ = W".
+- [ ] Subido. Avísale al equipo: "Clasificador listo: <modelo></modelo>, macro-F1 test = X (ES Y · PT Z), τ = W".
 
 ---
 
@@ -407,12 +407,12 @@ Luego, desde tu terminal: `git pull` y `git push`.
 
 ## Si te trabas
 
-| Te pasa esto | Escríbele a Claude |
-| :-- | :-- |
-| Un error en la terminal | "Me salió este error, explícamelo y arréglalo: [pega el error completo]" |
-| La cuota de Gemini se acaba | "Gemini devuelve error de cuota en el Paso 7. Baja el ritmo y sigue desde la caché" |
-| No sabes si vas bien | "Revisa en qué paso de docs/Rol B - ML/guia_fase_4_2_clasificador.md voy según los archivos que existen" |
-| Un número se ve demasiado bueno | "Este resultado se ve demasiado bueno: [pega]. Revisa si hay fuga entre train y el split evaluado" |
+| Te pasa esto                     | Escríbele a Claude                                                                                        |
+| :------------------------------- | :--------------------------------------------------------------------------------------------------------- |
+| Un error en la terminal          | "Me salió este error, explícamelo y arréglalo: [pega el error completo]"                                |
+| La cuota de Gemini se acaba      | "Gemini devuelve error de cuota en el Paso 7. Baja el ritmo y sigue desde la caché"                       |
+| No sabes si vas bien             | "Revisa en qué paso de docs/Rol B - ML/guia_fase_4_2_clasificador.md voy según los archivos que existen" |
+| Un número se ve demasiado bueno | "Este resultado se ve demasiado bueno: [pega]. Revisa si hay fuga entre train y el split evaluado"         |
 
 ---
 

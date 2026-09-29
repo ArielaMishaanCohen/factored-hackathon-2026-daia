@@ -11,3 +11,7 @@ jupyter
 pandera
 pytest
 httpx
+# Fase 4.2 · clasificador de intención (fastembed corre con ONNX, sin torch)
+fastembed
+joblib
+google-genai
