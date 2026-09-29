@@ -1,5 +1,6 @@
 # Secretos
 .env
+env/
 
 # Datos y artefactos pesados (se regeneran con make data)
 /data/
