@@ -1,0 +1,30 @@
+# Deploy en Render (roadmap Fase 7, decisión D7.1).
+# Render lee este archivo ("Blueprint") y crea el servicio solo: construye el
+# Dockerfile (React + FastAPI en una sola imagen) y lo publica con un link https.
+# Cada push a la rama main vuelve a desplegar automáticamente.
+services:
+  - type: web
+    name: latam-bank-disputas
+    runtime: docker
+    plan: free                    # gratis: se "duerme" tras 15 min sin uso (1er request tarda ~1 min)
+    region: virginia
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health  # Render revisa esto para saber si el servidor está vivo
+    autoDeploy: true
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true       # Render inventa un secreto largo y aleatorio: nadie lo tiene que escribir
+      - key: JWT_TTL_MINUTES
+        value: "15"
+      - key: DEMO_MODE
+        value: "true"
+      - key: DEMO_OTP
+        value: "123456"           # OTP de PRUEBA, documentado como tal (design.md §7)
+      - key: DEMO_AGENT_ID
+        value: AGT-DEMO
+      - key: FAULT_INJECTION
+        value: "false"            # en el link público nadie puede forzar fallas
+      - key: GEMINI_API_KEY
+        sync: false               # Render la pide al crear el servicio (se puede dejar vacía por ahora)
+      - key: GEMINI_MODEL
+        sync: false
