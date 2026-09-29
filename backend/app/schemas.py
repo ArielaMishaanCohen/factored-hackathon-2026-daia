@@ -366,6 +366,21 @@ class TraceTurn(BaseModel):
     state_from: ConversationState
     state_to: ConversationState
     spans: list[Span]
+    # Resumen del turno (Fase 7). Lo leen los graders de la evaluación: no cambiar sin avisar.
+    started_at: datetime | None = None
+    latency_ms: int | None = None
+    input_kind: Literal["message", "ui_action"] | None = None
+    language: Language | None = None
+    intent: Intent | None = None
+    intent_confidence: float | None = None
+    rule_id: RuleId | None = None
+    actions: list[ActionRecord] = []          # acciones de ESTE turno, con verified/failed
+    case_id: str | None = None
+    handoff_id: str | None = None
+    tokens_in: int = 0                         # suma de los spans de LLM
+    tokens_out: int = 0
+    cost_usd: float = 0.0
+    versions: dict[str, str] | None = None     # policy_version, intent_model, llm_model, data_source
 
 
 class Trace(BaseModel):

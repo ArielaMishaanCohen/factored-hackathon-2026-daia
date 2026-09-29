@@ -14,7 +14,7 @@ import uuid
 from datetime import datetime, timezone
 
 from . import confirmations, faults
-from .config import get_policy
+from .config import get_policy, get_settings
 from .errors import APIError
 from .nlu.stub import understand
 from .policy.engine import evaluate
@@ -39,6 +39,7 @@ class Turn:
         self.intent = None
         self.intent_confidence = None
         self.rule_id = None
+        self.model_version = "none"   # versión del NLU que atendió el turno
 
     def say(self, key: str, **facts) -> None:
         self.messages.append(ChatMessage(text=render(key, self.conv.language, **facts), source="template"))
@@ -63,6 +64,7 @@ def handle_chat(session: Session, req: ChatRequest) -> ChatResponse:
     conv.turn_id += 1
     tracer = TurnTracer(conv.trace_id, conv.conversation_id, conv.customer_id, conv.turn_id, conv.state)
     turn = Turn(conv, tracer)
+    actions_before = len(conv.data.get("actions", []))
 
     if req.ui_action:
         a = req.ui_action
@@ -79,7 +81,15 @@ def handle_chat(session: Session, req: ChatRequest) -> ChatResponse:
     else:
         raise APIError("VALIDATION_ERROR", "Envía message o ui_action.")
 
-    tracer.close(conv.state)
+    tracer.close(
+        conv.state,
+        input_kind="ui_action" if req.ui_action else "message", language=conv.language,
+        intent=turn.intent, intent_confidence=turn.intent_confidence, rule_id=turn.rule_id,
+        actions=[ActionRecord.model_validate(a) for a in conv.data.get("actions", [])[actions_before:]],
+        case_id=turn.case.case_id if turn.case else None, handoff_id=turn.handoff_id,
+        versions={"policy_version": get_policy()["policy_version"], "intent_model": turn.model_version,
+                  "llm_model": get_settings().gemini_model, "data_source": data_source.source_name()},
+    )
     return ChatResponse(
         conversation_id=conv.conversation_id, turn_id=conv.turn_id, trace_id=conv.trace_id, state=conv.state,
         language=conv.language, messages=turn.messages, ui=turn.ui, case=turn.case, handoff_id=turn.handoff_id,
@@ -98,7 +108,8 @@ def _message(session: Session, turn: Turn, text: str) -> None:
     conv = turn.conv
     with turn.tracer.span("nlu.understand") as out:
         nlu = understand(text)
-        out.update(intent=nlu.intent, confidence=nlu.intent_confidence)
+        out.update(intent=nlu.intent, confidence=nlu.intent_confidence, extractor=nlu.extractor)
+    turn.model_version = nlu.model_version
 
     pending_id = conv.data.get("pending_action_id")
     if conv.state == "CONFIRMAR_ACCION" and pending_id and nlu.confirmation:

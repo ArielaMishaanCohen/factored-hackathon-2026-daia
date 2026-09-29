@@ -1,6 +1,8 @@
 """API de LATAM Bank · intake de disputas (design.md, sección 6)."""
 from __future__ import annotations
 
+from collections import Counter
+
 from fastapi import APIRouter, Depends, FastAPI, Header
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -13,11 +15,20 @@ from .orchestrator import handle_chat
 from .schemas import (AgentLoginRequest, CasesResponse, ChatRequest, ChatResponse, DemoCustomer,
                       DemoCustomersResponse, HandoffPackage, HandoffsResponse, HandoffSummary,
                       HealthResponse, LoginCustomer, LoginRequest, LoginResponse, Session, Trace)
-from .store import store
+from .store import flush, store
 from .tools import data_source
 
 app = FastAPI(title="LATAM Bank · Disputas", version="0.1.0")
 register_error_handlers(app)
+
+
+@app.middleware("http")
+async def _persist_after_request(request, call_next):
+    """Al terminar cada petición a la API, guardar el estado en SQLite (store.flush)."""
+    response = await call_next(request)
+    if request.url.path.startswith("/api/"):
+        flush()
+    return response
 api = APIRouter(prefix="/api")
 
 
@@ -109,6 +120,44 @@ def get_trace(trace_id: str, session: Session = Depends(get_session)):
         for turn in trace.turns:
             turn.spans = [s for s in turn.spans if s.name != "tool.get_transaction_risk"]
     return trace
+
+
+# --- Operación (Fase 7) ---------------------------------------------------------------
+
+def _percentile(values: list[int], p: float) -> int | None:
+    if not values:
+        return None
+    values = sorted(values)
+    return values[min(len(values) - 1, round(p / 100 * (len(values) - 1)))]
+
+
+@api.get("/ops/metrics")
+def ops_metrics(_: Session = Depends(require_role("agent"))):
+    """Tablero de operación: lo que vigilaríamos en producción (docs/operations.md)."""
+    turns = [t for tr in store.traces.values() for t in tr.turns]
+    latencies = [t.latency_ms for t in turns if t.latency_ms is not None]
+    count = lambda items: dict(sorted(Counter(i for i in items if i).items()))  # noqa: E731
+    actions = [a for t in turns for a in t.actions]
+    handoffs = list(store.handoffs.values())
+    return {
+        "conversations": len(store.traces),
+        "turns": len(turns),
+        "latency_ms": {"p50": _percentile(latencies, 50), "p95": _percentile(latencies, 95),
+                       "max": max(latencies, default=None)},
+        # Una decisión = un turno donde la política evaluó una transacción (o R1: no encontrada).
+        "rules": count(t.rule_id for t in turns
+                       if t.rule_id == "R1" or any(sp.name == "policy.evaluate" for sp in t.spans)),
+        "intents": count(t.intent for t in turns),
+        "languages": count(t.language for t in turns),
+        "cases_created": sum(1 for a in actions if a.action == "create_dispute_case" and a.status == "verified"),
+        "actions": count(a.status for a in actions),
+        "handoffs": len(handoffs),
+        "handoff_rate": round(len(handoffs) / len(store.traces), 3) if store.traces else None,
+        "handoffs_by_reason": count(h.handoff_reason for h in handoffs),
+        "tool_errors": count(s.name.removeprefix("tool.") for t in turns for s in t.spans
+                             if s.error and s.name.startswith("tool.")),
+        "cost_usd": round(sum(t.cost_usd for t in turns), 6),
+    }
 
 
 app.include_router(api)

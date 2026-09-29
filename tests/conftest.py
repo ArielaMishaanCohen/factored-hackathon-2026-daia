@@ -1,3 +1,7 @@
+import os
+
+os.environ.setdefault("OPS_DB_PATH", ":memory:")  # los tests usan una base temporal, no data/ops.sqlite
+
 import pytest
 from fastapi.testclient import TestClient
 
