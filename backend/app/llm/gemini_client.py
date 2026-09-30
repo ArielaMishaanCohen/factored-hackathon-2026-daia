@@ -56,6 +56,10 @@ class LLMUnavailable(RuntimeError):
     reintentos agotados o respuesta que no es JSON válido."""
 
 
+class RespuestaInvalida(LLMUnavailable):
+    """La API respondió, pero el texto no es JSON. Quien llama puede reintentar una vez."""
+
+
 @dataclass
 class LLMUsage:
     model: str
@@ -125,7 +129,7 @@ class GeminiClient:
         try:
             resultado = json.loads(crudo)
         except (json.JSONDecodeError, TypeError) as e:
-            raise LLMUnavailable("respuesta que no es JSON válido") from e
+            raise RespuestaInvalida("respuesta que no es JSON válido") from e
         self._guardar(self._clave_cache(prompt_sistema, texto_usuario, esquema), resultado)
         return copy.deepcopy(resultado), uso
 

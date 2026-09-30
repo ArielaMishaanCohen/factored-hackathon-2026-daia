@@ -28,3 +28,6 @@ frontend/dist/
 
 # Caché de embeddings y modelos ONNX (Fase 4.2)
 ml/intent/.cache/
+
+# Caché de respuestas de Gemini (Fase 4.3)
+ml/llm/.cache/
