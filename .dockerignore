@@ -17,3 +17,5 @@ frontend/dist
 # Excepción: el gold de SERVICIO (chico, ~3 MB, sin datos personales) sí va en la imagen.
 # Tiene que ir al final: en .dockerignore gana la última regla que coincide.
 !data/gold/gold.duckdb
+# Excepción: el modelo de intención (Fase 4.2, ~1 MB) lo carga backend/app/nlu/classifier.py.
+!ml/intent/model/
