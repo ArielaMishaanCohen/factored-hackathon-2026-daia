@@ -129,8 +129,8 @@ def crear(**params):
 # --- Barrido (Paso 6) ----------------------------------------------------------
 
 
-def _correr(params: dict):
-    """Como evaluate.correr, pero con 6 clases deja `ambiguo` en train."""
+def _correr(params: dict, split: str = "val", permitir_test: bool = False, tau: float | None = None):
+    """Como evaluate.correr, pero con 6 clases deja `ambiguo` en train. En test, τ es el de val."""
     from ml.intent.evaluate import evaluar, guardar_run, load_split
 
     cand = crear(**params)
@@ -138,13 +138,13 @@ def _correr(params: dict):
     if params.get("clases", 5) == 5:
         train = train[train["label"] != AMBIGUO]
     cand.fit(train["text"].tolist(), train["label"].tolist())
-    res = evaluar(cand, "val")
+    res = evaluar(cand, split, permitir_test=permitir_test, tau=tau)
     mb_modelo, mb_lr = tamano_modelo_mb(cand.modelo), cand.tamano_lr_mb()
     res["tamano_mb"] = {"modelo_embeddings": round(mb_modelo, 1), "logistica": round(mb_lr, 3),
                         "total": round(mb_modelo + mb_lr, 1)}
     datos = {"train_fuentes": "todas", "train_sin_ruido": False, "train_n": int(len(train)),
              "train_incluye_ambiguo": params.get("clases", 5) == 6}
-    return res, guardar_run("embeddings_lr", "val", params, res, datos)
+    return res, guardar_run("embeddings_lr", split, params, res, datos)
 
 
 def _fila(params, res, ruta) -> str:

@@ -258,7 +258,8 @@ requirements.txt), evalúa en val:
 Guarda los runs en el mismo formato que evaluate.py.
 ```
 
-- [ ] Hecho · o [ ] Saltado (se declara en `model_card.md`)
+- [ ] Hecho · o
+- [X] [ ] Saltado (se declara en `model_card.md`)
 
 ---
 
@@ -278,8 +279,8 @@ y precisión da, y qué % de las frases ambiguo de val quedan abstenidas.
 No toques el test.
 ```
 
-- [ ] Modelo elegido: ________________
-- [ ] τ_intención = ____ (val: cobertura ____ %, precisión ____ %)
+- [X] Modelo elegido: **TF-IDF + regresión logística (C=10)**
+- [X] τ_intención = **0.81** (val: cobertura **63.3%**, precisión **95.3%**)
 
 ---
 
@@ -300,7 +301,7 @@ No cambies nada del modelo ni de τ.
 
 **Qué haces tú:** si el test sale mucho peor que val, **no lo arregles**: es justo lo que el `data_report.md` anticipa (val es de la misma distribución que train). Se explica en el model card.
 
-- [ ] Test: macro-F1 ____ (ES ____ · PT ____ · mix ____) · cobertura ____ % · precisión ____ %
+- [X] Test: macro-F1 **0.702** (ES **0.698** · PT **0.673** · mix **0.693**) · cobertura **35.5** % · precisión **84.5** %
 
 ---
 

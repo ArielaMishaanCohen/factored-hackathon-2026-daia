@@ -36,7 +36,8 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import errors, types
 
-from ml.intent.evaluate import AMBIGUO, CLASES, INTENT_DIR, elegir_tau, guardar_run, load_split, metricas
+from ml.intent.evaluate import (AMBIGUO, CLASES, INTENT_DIR, elegir_tau, guardar_run, load_split, metricas,
+                                punto_en_tau)
 
 ROOT = INTENT_DIR.parent.parent
 PROMPTS_DIR = ROOT / "prompts"
@@ -240,19 +241,15 @@ def _resumen_gemini(cand: GeminiZeroShot, df) -> dict:
     }
 
 
-def main(argv=None):
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--rpm", type=float, default=10, help="llamadas por minuto (capa gratuita)")
-    ap.add_argument("--prompt", default="intent_zeroshot_v1")
-    ap.add_argument("--muestra", type=int, help="evalúa una muestra estratificada de val (se declara en el run)")
-    a = ap.parse_args(argv)
-
-    df = load_split("val")
-    n_val = len(df)
-    if a.muestra:
-        df = muestra_estratificada(df, a.muestra)
-    cand = crear(prompt=a.prompt, rpm=a.rpm)
-    print(f"{cand.modelo} · {len(df)} frases de val · {a.rpm:g} rpm", flush=True)
+def correr(split: str = "val", prompt: str = "intent_zeroshot_v1", rpm: float = 10, muestra: int | None = None,
+           permitir_test: bool = False, tau: float | None = None):
+    """Evalúa en val (τ se elige) o en test (τ fijado en val, Paso 10) y guarda el run."""
+    df = load_split(split, permitir_test=permitir_test)
+    n_split = len(df)
+    if muestra:
+        df = muestra_estratificada(df, muestra)
+    cand = crear(prompt=prompt, rpm=rpm)
+    print(f"{cand.modelo} · {len(df)} frases de {split} · {rpm:g} rpm", flush=True)
 
     filas = []
     for i, texto in enumerate(df["text"], 1):
@@ -267,7 +264,12 @@ def main(argv=None):
     res["latencia_ms_p50"] = float(np.median(lat)) if lat else None
     res["costo_por_1000_usd"] = cand.costo_por_1000_usd
     res["gemini"] = _resumen_gemini(cand, df)
-    res["tau"] = elegir_tau(res["curva_cobertura_precision"])
+    if split == "test":
+        if tau is None:
+            raise ValueError("En test τ no se elige: pasa el τ fijado en val.")
+        res["tau"] = {**punto_en_tau(res["curva_cobertura_precision"], tau), "regla": "fijado en val"}
+    else:
+        res["tau"] = elegir_tau(res["curva_cobertura_precision"])
     preds, conf = res.pop("_preds"), res.pop("_conf")
     res["predicciones"] = [
         {"id": i, "label": l, "pred": p, "conf": round(float(c), 4),
@@ -275,11 +277,20 @@ def main(argv=None):
         for i, l, p, c, r in zip(df["id"], df["label"], preds, conf, cand.registro)
     ]
 
-    params = {"modelo": cand.modelo, "prompt": a.prompt, "temperatura": TEMPERATURA}
-    datos = {"zero_shot": True, "train_n": 0, "val_n_total": n_val,
+    params = {"modelo": cand.modelo, "prompt": prompt, "temperatura": TEMPERATURA}
+    datos = {"zero_shot": True, "train_n": 0, f"{split}_n_total": n_split,
              "muestra": {"n": len(df), "estratificada_por": ["label", "language"], "seed": SEED}
-             if a.muestra else None}
-    ruta = guardar_run("gemini_zeroshot", "val", params, res, datos)
+             if muestra else None}
+    return res, guardar_run("gemini_zeroshot", split, params, res, datos)
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--rpm", type=float, default=10, help="llamadas por minuto (capa gratuita)")
+    ap.add_argument("--prompt", default="intent_zeroshot_v1")
+    ap.add_argument("--muestra", type=int, help="evalúa una muestra estratificada de val (se declara en el run)")
+    a = ap.parse_args(argv)
+    res, ruta = correr("val", a.prompt, a.rpm, a.muestra)
 
     g, t = res["gemini"], res["tau"]
     print(f"\nmacro-F1 {res['macro_f1']:.3f} · "
