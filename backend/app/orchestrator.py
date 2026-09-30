@@ -95,6 +95,7 @@ def handle_chat(session: Session, req: ChatRequest) -> ChatResponse:
         conv.state,
         input_kind="ui_action" if req.ui_action else "message", language=conv.language,
         intent=turn.intent, intent_confidence=turn.intent_confidence, rule_id=turn.rule_id,
+        transaction_id=conv.data.get("transaction_id"),
         actions=[ActionRecord.model_validate(a) for a in conv.data.get("actions", [])[actions_before:]],
         case_id=turn.case.case_id if turn.case else None, handoff_id=turn.handoff_id,
         versions={"policy_version": get_policy()["policy_version"], "intent_model": turn.model_version,
@@ -213,7 +214,8 @@ def _select_transaction(session: Session, turn: Turn, transaction_id: str) -> No
                                          for c in open_cases}}
     with turn.tracer.span("policy.evaluate") as out:
         decision = evaluate(tx, risk, customer_ctx, conv.data.get("intent", "cargo_no_reconocido"), get_policy())
-        out.update(rule_id=decision.rule_id, action=decision.action)
+        out.update(rule_id=decision.rule_id, action=decision.action, priority=decision.priority,
+                   queue=decision.queue, transaction_id=tx.transaction_id)
     turn.rule_id = decision.rule_id
     conv.state = "EVALUAR"
     conv.data.update(transaction_id=tx.transaction_id, decision=decision.model_dump())

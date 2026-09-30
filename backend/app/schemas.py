@@ -374,6 +374,7 @@ class TraceTurn(BaseModel):
     intent: Intent | None = None
     intent_confidence: float | None = None
     rule_id: RuleId | None = None
+    transaction_id: str | None = None      # la transacción en juego en este turno (si ya se identificó)
     actions: list[ActionRecord] = []          # acciones de ESTE turno, con verified/failed
     case_id: str | None = None
     handoff_id: str | None = None

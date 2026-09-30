@@ -102,3 +102,19 @@ def test_metricas_cuentan_handoffs_y_errores_de_herramientas(client, auth, monke
 
 def test_cliente_no_puede_ver_metricas(client, auth):
     assert client.get("/api/ops/metrics", headers=auth("CUS-DEMO-01")).status_code == 403
+
+
+def test_la_traza_dice_que_transaccion_y_con_que_prioridad_y_cola(client, auth):
+    """Para los graders de la evaluación: sin leer el estado interno de la conversación."""
+    h = auth("CUS-DEMO-02")
+    r = _chat(client, h, ui_action={"type": "select_transaction", "transaction_id": "TX-DEMO-0005"})
+    turno = store.traces[r["trace_id"]].turns[-1]
+    assert turno.transaction_id == "TX-DEMO-0005" and turno.rule_id == "R8"
+    span = next(s for s in turno.spans if s.name == "policy.evaluate")
+    assert span.output == {"rule_id": "R8", "action": "ESCALATE", "priority": "high",
+                           "queue": "disputas", "transaction_id": "TX-DEMO-0005"}
+
+
+def test_sin_transaccion_todavia_el_campo_va_vacio(client, auth):
+    r = _chat(client, auth("CUS-DEMO-01"), message="hola")
+    assert store.traces[r["trace_id"]].turns[-1].transaction_id is None
