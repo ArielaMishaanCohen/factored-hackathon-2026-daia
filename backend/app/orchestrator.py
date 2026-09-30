@@ -381,11 +381,12 @@ def _handoff(session: Session, turn: Turn, reason: str, tx=None, decision: Decis
     if case is not None:
         facts.append(VerifiedFact(fact="case_id", value=case.case_id, source="cases"))
 
-    summary, _, summary_usage = _try(lambda: compose_summary(summary, conv.language, {
-        "transaction_id": tx.transaction_id, "amount": tx.amount, "currency": tx.currency,
-        "business_date": tx.business_date} if tx is not None else {})) or (summary, "template", None)
-    if summary_usage is not None:
-        with turn.tracer.span("llm.compose_summary") as out:
+    with turn.tracer.span("llm.compose_summary") as out:
+        summary, source, summary_usage = _try(lambda: compose_summary(summary, conv.language, {
+            "transaction_id": tx.transaction_id, "amount": tx.amount, "currency": tx.currency,
+            "business_date": tx.business_date} if tx is not None else {})) or (summary, "template", None)
+        out.update(source=source)
+        if summary_usage is not None:
             out["_usage"] = summary_usage
 
     priority = (decision.priority if decision and decision.priority

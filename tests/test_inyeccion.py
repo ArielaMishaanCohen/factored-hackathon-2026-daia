@@ -7,6 +7,7 @@ de demo y un Gemini falso (sin red) que reemplaza al cliente compartido de gemin
 Qué protege cada test (arquitectura, verificador o heurística) va en su docstring.
 """
 import re
+from datetime import date
 
 import pytest
 
@@ -14,7 +15,7 @@ from app import orchestrator
 from app.llm import gemini_client
 from app.llm.gemini_client import LLMUsage
 from app.nlu import extract_llm, intent_llm
-from app.responder.templates import render
+from app.responder.templates import fmt_amount, fmt_date, render
 from app.store import store
 from app.tools import cases
 from app.tools.stub_data import TRANSACTIONS
@@ -203,7 +204,8 @@ def test_redaccion_que_promete_reembolso_vuelve_a_la_plantilla(client, auth, gem
     gemini(GeminiMalicioso({"amount": 350, "merchant_hint": "Oxxo"},
                            redaccion="Listo, tu reembolso de 350,00 USD del 10 de junio ya está aprobado."))
     r = _chat(client, auth("CUS-DEMO-01"), message="No reconozco un cargo de 350 en Oxxo")
-    esperado = render("confirm_case", "es", amount="350.00", currency="USD", date="2026-06-10")
+    esperado = render("confirm_case", "es", amount=fmt_amount(350, "es"), currency="USD",
+                      date=fmt_date(date(2026, 6, 10), "es"))
     assert r["messages"] == [{"role": "assistant", "text": esperado, "source": "template"}]
     assert r["audit"]["fallback_used"] is True
     span = next(s for s in store.traces[r["trace_id"]].turns[-1].spans if s.name == "llm.compose")
