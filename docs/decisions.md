@@ -38,6 +38,7 @@
 | D4.1 | Set de intenciones generado por el equipo | 4 | Reemplazada por D4.2 |
 | D4.2 | Set de intenciones híbrido: Banking77 + suplemento + test aparte | 4 | Tomada |
 | D4.3 | Clasificador de intención: TF-IDF + regresión logística, τ = 0,81 | 4 | Tomada |
+| D4.4 | Gemini en el flujo: extracción, redacción y verificador | 4 | Propuesta (se completa en el Paso 12 de la 4.3) |
 | D6.x | Tamaño y composición del set de evaluación; baselines | 6 | Pendiente |
 | D7.1 | Destino del deploy | 7 | Pendiente |
 
@@ -271,6 +272,21 @@ Resultados del score no equivalen a evaluación end-to-end de fase 6.
 - **Resolución automática segura** (D1.6): ningún caso resuelto sin humano por una intención mal clasificada. Si el clasificador causa alguno, se revisa τ o el modelo.
 - **Tasa de aclaraciones:** qué % de turnos termina en pregunta por confianza < τ y cuántos casos llegan a `max_clarifications` (2) y pasan a humano. Si es tan alta como sugiere el test (cobertura 35,5 %), se evalúa subir la cobertura con Gemini como segunda opinión bajo τ, con una decisión nueva.
 - Se reportan también el macro-F1 del clasificador sobre las frases de esos casos, por idioma, y la comparación con el stub de reglas.
+
+### D4.4 · Gemini en el flujo: extracción, redacción y verificador
+**Fecha:** 29-sep-2026 · **Responsable:** rol B · **Estado:** Propuesta. Se completa en el Paso 12 de la guía 4.3 (`docs/Rol B - ML/guia_fase_4_3_gemini.md`) con los resultados de los Pasos 8 y 11.
+**Contexto:** Gemini extrae datos del mensaje (monto, moneda, fechas, comercio, opción, confirmación) y redacta las respuestas en ES/PT. La intención la sigue decidiendo el clasificador (D4.3). Si Gemini no está disponible, `understand` cae a reglas y `compose` a la plantilla (`integracion_backend.md` §1.1 y §1.6).
+**Alternativas:** *(pendiente, Paso 12)* solo reglas; Gemini sin fallback; Gemini con fallback y verificador; Gemini también para la intención.
+**Decisión:** *(pendiente, Paso 12)*
+**Configuración de la llamada** (`backend/app/llm/gemini_client.py`, Paso 3), probada contra la API el 29-sep-2026:
+- **Razonamiento:** `thinking_level=LOW`. Es el mínimo que acepta `gemini-3.8-flash`: `MINIMAL` da 400 ("Thinking level MINIMAL is not supported for this model"). La otra opción del SDK, `thinking_budget=0` (el parámetro de la familia 2.5), también se acepta. En una extracción de prueba, ambas dieron 0 tokens de razonamiento y 1,4 a 2,4 s por llamada. Se usa `thinking_level` porque es el parámetro propio de la familia 3. Como referencia, en la 4.2 el 3.5 sin este ajuste razonaba 150 a 300 tokens por frase (D1.12).
+- **Timeout:** el cliente corta a los 8 s. El SDK le pasa el timeout también a la API (encabezado `X-Server-Timeout`), y la API rechaza menos de 10 s con un 400 ("Minimum allowed deadline is 10s"). Por eso a la API se le dice 10 s aparte. Sin esto, todas las llamadas fallaban y el bot caía siempre a reglas sin que se notara.
+- **Reintentos:** hasta 2, con esperas de 0,5 s y 1,5 s, solo en errores transitorios: 503, 504, timeout o conexión, y 429 por minuto. El 429 por día y los demás 4xx no se reintentan. No se espera lo que pide un 429 por minuto (~60 s), porque el cliente está en el chat.
+- **Temperatura 0**, y caché LRU en memoria (512 entradas), identificada por modelo, md5 del prompt, esquema y texto. Un acierto de caché cuenta tokens y costo en 0.
+- **Costo por llamada** con los precios de D1.12 (los tokens de razonamiento se cobran como salida). Va a la traza como `LLMUsage`.
+**Por qué:** *(pendiente, Paso 12: números de los Pasos 8 y 11)*
+**Condiciones de uso de datos de la capa pagada:** *(pendiente, Paso 12, con fuente y fecha de consulta; roadmap 4.3.5)*
+**Cómo validamos:** en la Fase 6: tasa de fallback, % de redacciones rechazadas por el verificador, latencia p95 y 0 afirmaciones no verificadas. Si el p95 queda cerca de los 8 s, se revisan el timeout y el nivel de razonamiento.
 
 ## Fase 5 · Frontend
 
