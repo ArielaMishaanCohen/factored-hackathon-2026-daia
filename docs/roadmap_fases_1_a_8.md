@@ -450,9 +450,9 @@ Tratamiento de duplicados, corrección de `amount_usd`, zona horaria, ventana de
 
 ### Hecho cuando
 
-- [ ] Tabla de comparación de los 5 candidatos en test, por idioma
-- [ ] Modelo elegido integrado en el backend con τ_intención
-- [ ] `ml/intent/model_card.md` (datos, split, métricas, límites)
+- [x] Tabla de comparación de los 5 candidatos en test, por idioma (`ml/intent/resultados_test.md`; los opcionales 5 y 6 se saltaron)
+- [x] Modelo elegido integrado en el backend con τ_intención (TF-IDF + LR, τ = 0,81; D4.3)
+- [x] `ml/intent/model_card.md` (datos, split, métricas, límites)
 - [ ] Extracción y redacción con Gemini, con fallback probado
 
 ---

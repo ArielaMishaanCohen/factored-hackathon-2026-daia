@@ -37,7 +37,7 @@
 | D2.x | Pipeline: duplicados, `amount_usd`, zona horaria, reproceso, umbrales | 2 | Pendiente |
 | D4.1 | Set de intenciones generado por el equipo | 4 | Reemplazada por D4.2 |
 | D4.2 | Set de intenciones híbrido: Banking77 + suplemento + test aparte | 4 | Tomada |
-| D4.x | Clasificador elegido y umbral de abstención | 4 | Pendiente |
+| D4.3 | Clasificador de intención: TF-IDF + regresión logística, τ = 0,81 | 4 | Tomada |
 | D6.x | Tamaño y composición del set de evaluación; baselines | 6 | Pendiente |
 | D7.1 | Destino del deploy | 7 | Pendiente |
 
@@ -249,6 +249,28 @@ Resultados del score no equivalen a evaluación end-to-end de fase 6.
 **Por qué:** Banking77 aporta volumen y variedad de frases escritas por personas; el suplemento cubre `estado_disputa`, `ambiguo`, portuñol, jerga regional, casos límite e inyecciones; y como train y test vienen de fuentes y autores distintos, el modelo no puede aprenderse el estilo del test (evita la fuga por construcción, más fuerte que solo separar por familia). Además, ruido de chat reproducible (`noise.py`) solo en train/val, validaciones automáticas (familias en un solo split, similitud TF-IDF test vs. train/val ≤ 0,9; máxima 0,648) y traducción siempre con Claude, nunca con Gemini (candidato en la 4.2).
 **Limitación declarada:** por falta de tiempo, el test no se escribió a mano: lo generó ChatGPT a partir de `plan_familias.md` y lo revisó el equipo (`origin: llm_externo`; PT y mezcla traducidos con Claude). ChatGPT no se usa en ninguna otra parte del set, así que sigue siendo otro autor, pero tiene el estilo limpio de un LLM y puede sobrestimar el desempeño con clientes reales. **Pendiente:** reemplazarlo por un test escrito a mano; obligatorio si un candidato de la 4.2 es un modelo de OpenAI. Otras limitaciones (dominio británico, PT no nativo, val de la misma distribución que train) en `data_report.md`.
 **Cómo validamos:** kappa de Cohen > 0,8 entre dos personas sobre 100 frases (`ml/intent/kappa/`, muestra lista; **pendiente** la segunda persona), en total y por fuente; y en la 4.2, la ablación de fuentes (mismo modelo con solo Banking77, solo suplemento y ambos) debe mostrar que el híbrido gana en macro-F1 de test.
+
+### D4.3 · Clasificador de intención: TF-IDF + regresión logística, τ = 0,81
+**Fecha:** 29-sep-2026 · **Responsable:** rol B · **Estado:** Tomada
+**Contexto:** el componente aprendido del reto. Clasifica el mensaje del cliente (ES, PT o mezcla) en una de las 5 intenciones de D1.5 con una confianza; bajo el umbral τ_intención el bot no actúa y pide aclaración. Tiene que evaluarse contra baselines, sin fuga, con el set de D4.2, y caber en la imagen del backend sin PyTorch. Detalle en `ml/intent/model_card.md`.
+**Alternativas** (criterio escrito antes de entrenar: `ml/intent/criterio_seleccion.md`, commit `51dbbe6`):
+- 0. Clase mayoritaria. Piso.
+- 1. Reglas por palabras clave ES/PT. Lo que haría un banco sin ML; sin entrenamiento y explicable, pero frágil.
+- 2. TF-IDF (palabras + n-gramas de caracteres) + regresión logística. Liviano (1 MB), 0,6 ms por frase, sin red; aprende el vocabulario de train.
+- 3. Embeddings multilingües (`fastembed`, e5-small o MiniLM) + regresión logística, con 5 o 6 clases. Captura el significado en ES y PT, pero el modelo pesa 487 MB y tarda ~12 ms.
+- 4. Gemini zero-shot con salida JSON. Sin entrenamiento; ~2 s por frase, USD ~2 por 1.000 frases y depende de la red y la cuota.
+- 5 y 6 (clasificador de Banking77 ya entrenado; zero-shot NLI) eran opcionales y se saltaron por tiempo (necesitan PyTorch).
+**Decisión:** 2, TF-IDF + regresión logística con C = 10, servido con train+val (`make train`, `tfidf_lr-C10-20260929-17b293b7`), y `tau_intencion: 0.81` en `config/policy.yaml` (política 1.2.0).
+**Por qué:** aplicando el criterio al pie de la letra en val (507 frases):
+- macro-F1: TF-IDF **0,908** · Gemini 0,904 · embeddings 0,857 · reglas 0,646 · mayoritaria 0,099. Gemini queda a 0,4 puntos (< 2), así que el desempate da lo mismo: gana el más barato y rápido (0,6 ms y USD 0 frente a 2.036 ms y USD 2,02 por 1.000).
+- τ = 0,81 es el umbral con mayor cobertura que da precisión ≥ 95 % en val: cobertura 63,3 %, precisión 95,3 %, 80 % de las frases `ambiguo` abstenidas.
+- En test (200 frases, abierto una vez con todo fijado): macro-F1 **0,702** (es 0,698 · pt 0,673 · mix 0,693), cobertura 35,5 %, precisión 84,5 %, 79,2 % de `ambiguo` abstenidas. Supera a las reglas (0,538) y a la mayoritaria (0,055); queda empatado con embeddings (0,706). Gemini saca **1,000** con precisión de 99,2 %. La caída de val a test es el sesgo declarado: test es otra fuente, con estilo de LLM. Por el criterio, la elección no cambia después de ver el test.
+- Ablaciones (test): el set híbrido (0,702) gana a solo Banking77 (0,399) y a solo suplemento (0,557), lo que valida D4.2. El ruido de chat no ayuda en este test (sin ruido 0,712).
+**Limitaciones declaradas:** en test no se alcanza la precisión de 95 % que τ garantizaba en val; el modelo servido se reentrenó con train+val y τ viene del modelo entrenado solo con train; kappa pendiente; test generado con ChatGPT (D4.2). Todo en `model_card.md`, sección 11.
+**Cómo validamos que fue correcta:** en la Fase 6, con los casos end-to-end (que no salen del set de la 4.1):
+- **Resolución automática segura** (D1.6): ningún caso resuelto sin humano por una intención mal clasificada. Si el clasificador causa alguno, se revisa τ o el modelo.
+- **Tasa de aclaraciones:** qué % de turnos termina en pregunta por confianza < τ y cuántos casos llegan a `max_clarifications` (2) y pasan a humano. Si es tan alta como sugiere el test (cobertura 35,5 %), se evalúa subir la cobertura con Gemini como segunda opinión bajo τ, con una decisión nueva.
+- Se reportan también el macro-F1 del clasificador sobre las frases de esos casos, por idioma, y la comparación con el stub de reglas.
 
 ## Fase 5 · Frontend
 

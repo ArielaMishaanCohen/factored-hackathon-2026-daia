@@ -349,10 +349,10 @@ Paso 12 de la guía de la 4.2.
 
 **Ojo:** reentrenar con train+val cambia un poco el modelo respecto al evaluado. Es práctica normal; se declara en el model card. Si prefieres no hacerlo, dile a Claude que use el modelo entrenado solo con train.
 
-- [ ] `make train` corre y deja `ml/intent/model/`
-- [ ] `tau_intencion` en `policy.yaml`
-- [ ] `understand()` usa el clasificador; tests en verde
-- [ ] Avisarle a C (rol backend) que cambió el NLU
+- [X] `make train` corre y deja `ml/intent/model/`
+- [X] `tau_intencion` en `policy.yaml`
+- [X] `understand()` usa el clasificador; tests en verde
+- [X] Avisarle a C (rol backend) que cambió el NLU
 
 ---
 
@@ -377,9 +377,9 @@ Paso 13 de la guía de la 4.2. Con los runs, las tablas y las figuras:
    "Hecho cuando".
 ```
 
-- [ ] `model_card.md` listo
-- [ ] D4.3 en `decisions.md`
-- [ ] Roadmap actualizado
+- [X] `model_card.md` listo
+- [X] D4.3 en `decisions.md`
+- [X] Roadmap actualizado
 
 ---
 
@@ -395,7 +395,7 @@ de data/. Haz commit.
 
 Luego, desde tu terminal: `git pull` y `git push`.
 
-- [ ] Subido. Avísale al equipo: "Clasificador listo: <modelo></modelo>, macro-F1 test = X (ES Y · PT Z), τ = W".
+- [X] Subido. Avísale al equipo: "Clasificador listo: <modelo></modelo>, macro-F1 test = X (ES Y · PT Z), τ = W".
 
 ---
 
