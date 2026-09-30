@@ -25,3 +25,6 @@ frontend/dist/
 # Sistema
 .DS_Store
 .gitignore
+
+# Caché de embeddings y modelos ONNX (Fase 4.2)
+ml/intent/.cache/

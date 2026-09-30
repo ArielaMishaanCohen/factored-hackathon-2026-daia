@@ -72,6 +72,22 @@ def test_macro_f1_ignora_ambiguo():
     assert "mix" not in m["por_idioma"]  # la única frase mix es ambiguo
 
 
+def test_fila_en_cero_es_sin_respuesta():
+    # Frase 1 (cargo) sin respuesta: ya no acierta nada en cargo → F1 0; no suma FP a ninguna clase.
+    df = pd.DataFrame({"label": LABELS, "language": ["es"] * 6, "source": ["x"] * 6})
+    probs = np.zeros((6, 5))
+    for i, (p, c) in enumerate(zip(PREDS, CONF)):
+        probs[i, CLASES.index(p)] = c
+    probs[0] = 0
+    m = metricas(df, probs)
+    assert m["n_sin_respuesta"] == 1
+    assert m["f1_por_clase"]["cargo_no_reconocido"] == 0.0
+    assert m["f1_por_clase"]["cobro_incorrecto"] == pytest.approx(4 / 5)
+    c = {p["tau"]: p for p in m["curva_cobertura_precision"]}
+    assert c[0.0]["contestadas"] == 6 and c[0.0]["precision"] == pytest.approx(2 / 6)
+    assert c[0.01]["contestadas"] == 5
+
+
 def test_test_bajo_llave():
     with pytest.raises(SplitBajoLlave):
         load_split("test")
