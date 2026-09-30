@@ -1,0 +1,21 @@
+{
+  "provenance": "Generado por el equipo DAIA. No son registros de S3.",
+  "day_n": "2026-06-16",
+  "day_n_plus_1": "2026-06-17",
+  "late_partition": "2026-06-14",
+  "base_transactions": [
+    ["TX-01", "C-01", "P-01", 100, "USD", null, "Approved", 10, "Oxxo"],
+    ["TX-02", "C-02", "P-02", 200, "USD", null, "Approved", 10, "Cafe"],
+    ["TX-03", "C-02", "P-02", 200, "USD", null, "Approved", 10, "Cafe"],
+    ["TX-04", "C-03", "P-03", 150, "USD", null, "Approved", 45, "Tienda"],
+    ["TX-05", "C-04", "P-04", 150, "USD", null, "Approved", 35, "Tienda"],
+    ["TX-06", "C-05", "P-05", 150, "USD", null, "Approved", null, "Tienda"],
+    ["TX-07", "C-06", "P-06", 2000, "USD", null, "Approved", 10, "Tienda"],
+    ["TX-08", "C-07", "P-07", 150, "USD", null, "Declined", 10, "Tienda"],
+    ["TX-09", "C-08", "P-08", 110, "USD", null, "Approved", 10, "Mercado"],
+    ["TX-FX", "C-09", "P-09", 400000, "COP", null, "Approved", 10, "Mercado"]
+  ],
+  "duplicate_update": ["TX-01", "C-01", "P-01", 120, "USD", null, "Approved", 10, "Oxxo"],
+  "late_arrival": ["TX-LATE", "C-09", "P-09", 90, "USD", null, "Approved", 10, "Mercado"],
+  "new_column": "provider_revision"
+}
