@@ -1,0 +1,1581 @@
+{
+  "parte": "redaccion",
+  "fecha": "2026-09-30T10:35:53",
+  "params": {
+    "modelo": "gemini-3.8-flash",
+    "temperatura": 0.0,
+    "prompt": "redaccion_v1",
+    "prompt_md5": "ecadb2fb15c7eb86b4b17e88063dca81",
+    "compose_md5": "9cb4eba09932a56a83282ea1c566a7e6",
+    "max_frases": 2,
+    "max_chars": 280
+  },
+  "datos": {
+    "templates_md5": "ad8e1e052c9e884425ebd1cd001dc04a",
+    "n_plantillas": 21,
+    "juegos": [
+      {
+        "nombre": "demo1_usd",
+        "amount": "115.02",
+        "currency": "USD",
+        "date": "2026-06-16",
+        "card": "•••• 3723",
+        "case_id": "DSP-000001",
+        "status": "Open",
+        "sla": "2026-06-27",
+        "cases": "DSP-000001 (Open)"
+      },
+      {
+        "nombre": "demo8_usd_pt",
+        "amount": "373.14",
+        "currency": "USD",
+        "date": "2026-06-14",
+        "card": "•••• 3804",
+        "case_id": "DSP-000002",
+        "status": "Escalated",
+        "sla": "2026-06-20",
+        "cases": "DSP-000002 (Escalated), DSP-000003 (Open)"
+      },
+      {
+        "nombre": "demo6_cop_alto",
+        "amount": "1,952,832.76",
+        "currency": "COP",
+        "date": "2026-05-19",
+        "card": "•••• 8469",
+        "case_id": "DSP-000014",
+        "status": "Escalated",
+        "sla": "2026-06-18",
+        "cases": "DSP-000014 (Escalated)"
+      }
+    ]
+  },
+  "git_commit": "d3d2747faabca31ca64525bec896f4de747a91dd-dirty",
+  "metricas": {
+    "aprobadas": [
+      125,
+      126
+    ],
+    "por_idioma": {
+      "es": [
+        62,
+        63
+      ],
+      "pt": [
+        63,
+        63
+      ]
+    },
+    "por_juego": {
+      "demo1_usd": [
+        42,
+        42
+      ],
+      "demo8_usd_pt": [
+        42,
+        42
+      ],
+      "demo6_cop_alto": [
+        41,
+        42
+      ]
+    },
+    "con_datos": [
+      41,
+      42
+    ],
+    "sin_datos": [
+      84,
+      84
+    ],
+    "por_plantilla": {
+      "abstain": [
+        6,
+        6
+      ],
+      "clarify": [
+        6,
+        6
+      ],
+      "no_candidates": [
+        6,
+        6
+      ],
+      "options": [
+        6,
+        6
+      ],
+      "not_found": [
+        6,
+        6
+      ],
+      "confirm_case": [
+        6,
+        6
+      ],
+      "confirm_block": [
+        6,
+        6
+      ],
+      "blocked_then_case": [
+        6,
+        6
+      ],
+      "case_created": [
+        6,
+        6
+      ],
+      "handoff": [
+        6,
+        6
+      ],
+      "handoff_no_case": [
+        6,
+        6
+      ],
+      "cancelled_handoff": [
+        6,
+        6
+      ],
+      "inform_R2": [
+        6,
+        6
+      ],
+      "inform_R3": [
+        6,
+        6
+      ],
+      "inform_R4": [
+        6,
+        6
+      ],
+      "inform_R5": [
+        6,
+        6
+      ],
+      "status_none": [
+        6,
+        6
+      ],
+      "status_list": [
+        5,
+        6
+      ],
+      "cancelled": [
+        6,
+        6
+      ],
+      "confirmation_expired": [
+        6,
+        6
+      ],
+      "tool_failure": [
+        6,
+        6
+      ]
+    },
+    "motivos_rechazo": {
+      "dato_nuevo:nombre": 1
+    },
+    "latencia_ms": {
+      "p50": 1414.0537499915808,
+      "p95": 3576.1912090238184,
+      "max": 5841.225874959491,
+      "llamadas": 126,
+      "llamadas_api_en_esta_corrida": 126
+    },
+    "tokens": {
+      "entrada": 72208,
+      "salida": 13504
+    },
+    "costo_usd": 0.10479599999999997,
+    "costo_por_1000": 0.8317142857142854
+  },
+  "redacciones": [
+    {
+      "template": "abstain",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Por ahora solo puedo ayudarte con cargos que no reconoces, cobros incorrectos, tarjetas robadas o el estado de un reclamo.",
+      "gemini": "Por ahora solo puedo darte una mano con cargos que no reconozcas, cobros incorrectos, tarjetas robadas o para revisar el estado de un reclamo.",
+      "final": "Por ahora solo puedo darte una mano con cargos que no reconozcas, cobros incorrectos, tarjetas robadas o para revisar el estado de un reclamo.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "abstain",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Por ahora solo puedo ayudarte con cargos que no reconoces, cobros incorrectos, tarjetas robadas o el estado de un reclamo.",
+      "gemini": "Por ahora solo te puedo ayudar con cargos no reconocidos, cobros incorrectos, tarjetas robadas o para revisar el estado de tu reclamo.",
+      "final": "Por ahora solo te puedo ayudar con cargos no reconocidos, cobros incorrectos, tarjetas robadas o para revisar el estado de tu reclamo.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "abstain",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Por ahora solo puedo ayudarte con cargos que no reconoces, cobros incorrectos, tarjetas robadas o el estado de un reclamo.",
+      "gemini": "Por ahora solo puedo darte una mano con cargos que no reconozcas, cobros incorrectos, tarjetas robadas o para revisar el estado de tu reclamo.",
+      "final": "Por ahora solo puedo darte una mano con cargos que no reconozcas, cobros incorrectos, tarjetas robadas o para revisar el estado de tu reclamo.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "abstain",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "No momento só posso ajudar com cobranças que você não reconhece, cobranças incorretas, cartões roubados ou o status de uma contestação.",
+      "gemini": "No momento, consigo te ajudar apenas com compras que você não reconhece, cobranças incorretas, cartões roubados ou com o status de uma contestação.",
+      "final": "No momento, consigo te ajudar apenas com compras que você não reconhece, cobranças incorretas, cartões roubados ou com o status de uma contestação.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "abstain",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "No momento só posso ajudar com cobranças que você não reconhece, cobranças incorretas, cartões roubados ou o status de uma contestação.",
+      "gemini": "No momento, só consigo te ajudar com cobranças que você não reconhece, cobranças incorretas, cartões roubados ou com o status de uma contestação.",
+      "final": "No momento, só consigo te ajudar com cobranças que você não reconhece, cobranças incorretas, cartões roubados ou com o status de uma contestação.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "abstain",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "No momento só posso ajudar com cobranças que você não reconhece, cobranças incorretas, cartões roubados ou o status de uma contestação.",
+      "gemini": "Por enquanto, só consigo te ajudar com cobranças não reconhecidas, valores incorretos, perda ou roubo de cartão e com o status da sua contestação.",
+      "final": "Por enquanto, só consigo te ajudar com cobranças não reconhecidas, valores incorretos, perda ou roubo de cartão e com o status da sua contestação.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "clarify",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "¿Me cuentas un poco más? Por ejemplo, el monto, la fecha o el comercio del cargo.",
+      "gemini": "¿Podrías darme más detalles sobre el cargo? Por ejemplo, el monto, la fecha o el nombre del comercio.",
+      "final": "¿Podrías darme más detalles sobre el cargo? Por ejemplo, el monto, la fecha o el nombre del comercio.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "clarify",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "¿Me cuentas un poco más? Por ejemplo, el monto, la fecha o el comercio del cargo.",
+      "gemini": "¿Podrías darme un poco más de detalles? Me ayudaría mucho saber el monto, la fecha o el comercio del cargo.",
+      "final": "¿Podrías darme un poco más de detalles? Me ayudaría mucho saber el monto, la fecha o el comercio del cargo.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "clarify",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "¿Me cuentas un poco más? Por ejemplo, el monto, la fecha o el comercio del cargo.",
+      "gemini": "¿Podrías darme más detalles sobre el cargo? Por ejemplo, el monto, la fecha o el nombre del comercio.",
+      "final": "¿Podrías darme más detalles sobre el cargo? Por ejemplo, el monto, la fecha o el nombre del comercio.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "clarify",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Pode me contar um pouco mais? Por exemplo, o valor, a data ou o estabelecimento da cobrança.",
+      "gemini": "Você pode me dar mais detalhes sobre isso? Por exemplo, o valor, a data ou o nome do estabelecimento da compra.",
+      "final": "Você pode me dar mais detalhes sobre isso? Por exemplo, o valor, a data ou o nome do estabelecimento da compra.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "clarify",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Pode me contar um pouco mais? Por exemplo, o valor, a data ou o estabelecimento da cobrança.",
+      "gemini": "Você pode me dar mais detalhes sobre isso? Por exemplo, o valor, a data ou o nome do estabelecimento da compra.",
+      "final": "Você pode me dar mais detalhes sobre isso? Por exemplo, o valor, a data ou o nome do estabelecimento da compra.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "clarify",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Pode me contar um pouco mais? Por exemplo, o valor, a data ou o estabelecimento da cobrança.",
+      "gemini": "Você pode me contar um pouco mais sobre isso? Por exemplo, o valor, a data ou o nome do estabelecimento da cobrança.",
+      "final": "Você pode me contar um pouco mais sobre isso? Por exemplo, o valor, a data ou o nome do estabelecimento da cobrança.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "no_candidates",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "No encontré ese cargo. ¿Me das el monto exacto o la fecha aproximada?",
+      "gemini": "No pude encontrar ese cargo, ¿me ayudas con el monto exacto o la fecha aproximada?",
+      "final": "No pude encontrar ese cargo, ¿me ayudas con el monto exacto o la fecha aproximada?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "no_candidates",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "No encontré ese cargo. ¿Me das el monto exacto o la fecha aproximada?",
+      "gemini": "No pude encontrar ese cargo, ¿me ayudas con el monto exacto o la fecha aproximada?",
+      "final": "No pude encontrar ese cargo, ¿me ayudas con el monto exacto o la fecha aproximada?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "no_candidates",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "No encontré ese cargo. ¿Me das el monto exacto o la fecha aproximada?",
+      "gemini": "No logré encontrar ese cargo, ¿podrías darme el monto exacto o la fecha aproximada para buscarlo?",
+      "final": "No logré encontrar ese cargo, ¿podrías darme el monto exacto o la fecha aproximada para buscarlo?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "no_candidates",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Não encontrei essa cobrança. Pode informar o valor exato ou a data aproximada?",
+      "gemini": "Não consegui localizar essa cobrança. Você poderia me passar o valor exato ou a data aproximada?",
+      "final": "Não consegui localizar essa cobrança. Você poderia me passar o valor exato ou a data aproximada?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "no_candidates",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Não encontrei essa cobrança. Pode informar o valor exato ou a data aproximada?",
+      "gemini": "Não consegui localizar essa cobrança por aqui. Você pode me informar o valor exato ou a data aproximada dela?",
+      "final": "Não consegui localizar essa cobrança por aqui. Você pode me informar o valor exato ou a data aproximada dela?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "no_candidates",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Não encontrei essa cobrança. Pode informar o valor exato ou a data aproximada?",
+      "gemini": "Não consegui encontrar essa cobrança por aqui. Você poderia me passar o valor exato ou a data aproximada?",
+      "final": "Não consegui encontrar essa cobrança por aqui. Você poderia me passar o valor exato ou a data aproximada?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "options",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Encontré varios cargos posibles. ¿Cuál es?",
+      "gemini": "Veo varios cargos que podrían ser, ¿me indicas cuál es el tuyo?",
+      "final": "Veo varios cargos que podrían ser, ¿me indicas cuál es el tuyo?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "options",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Encontré varios cargos posibles. ¿Cuál es?",
+      "gemini": "Veo varios cargos que podrían ser, ¿me dices cuál es el tuyo?",
+      "final": "Veo varios cargos que podrían ser, ¿me dices cuál es el tuyo?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "options",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Encontré varios cargos posibles. ¿Cuál es?",
+      "gemini": "Encontré varios cargos que coinciden, ¿me indicas cuál de ellos es?",
+      "final": "Encontré varios cargos que coinciden, ¿me indicas cuál de ellos es?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "options",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Encontrei várias cobranças possíveis. Qual delas é?",
+      "gemini": "Encontrei algumas cobranças parecidas por aqui. Você pode me confirmar qual delas é?",
+      "final": "Encontrei algumas cobranças parecidas por aqui. Você pode me confirmar qual delas é?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "options",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Encontrei várias cobranças possíveis. Qual delas é?",
+      "gemini": "Encontrei mais de uma cobrança com essas características. Você poderia me dizer qual delas você gostaria de contestar?",
+      "final": "Encontrei mais de uma cobrança com essas características. Você poderia me dizer qual delas você gostaria de contestar?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "options",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Encontrei várias cobranças possíveis. Qual delas é?",
+      "gemini": "Achei algumas cobranças possíveis por aqui. Você pode me dizer qual delas é?",
+      "final": "Achei algumas cobranças possíveis por aqui. Você pode me dizer qual delas é?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "not_found",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "No encontré esa transacción.",
+      "gemini": "No logré encontrar esa transacción.",
+      "final": "No logré encontrar esa transacción.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "not_found",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "No encontré esa transacción.",
+      "gemini": "No pude encontrar esa transacción.",
+      "final": "No pude encontrar esa transacción.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "not_found",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "No encontré esa transacción.",
+      "gemini": "No pude encontrar esa transacción.",
+      "final": "No pude encontrar esa transacción.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "not_found",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Não encontrei essa transação.",
+      "gemini": "Não consegui encontrar essa transação por aqui.",
+      "final": "Não consegui encontrar essa transação por aqui.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "not_found",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Não encontrei essa transação.",
+      "gemini": "Não consegui encontrar essa transação por aqui.",
+      "final": "Não consegui encontrar essa transação por aqui.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "not_found",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Não encontrei essa transação.",
+      "gemini": "Não consegui encontrar essa transação por aqui.",
+      "final": "Não consegui encontrar essa transação por aqui.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirm_case",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": true,
+      "base": "Encontré el cargo de 115.02 USD del 2026-06-16. ¿Quieres que registre la disputa?",
+      "gemini": "Ya encontré el cargo por 115,02 USD del 16 de junio de 2026. ¿Te gustaría que iniciemos la disputa?",
+      "final": "Ya encontré el cargo por 115,02 USD del 16 de junio de 2026. ¿Te gustaría que iniciemos la disputa?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirm_case",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": true,
+      "base": "Encontré el cargo de 373.14 USD del 2026-06-14. ¿Quieres que registre la disputa?",
+      "gemini": "Ya encontré el cargo por 373,14 USD del 14 de junio de 2026. ¿Te gustaría que iniciemos la disputa?",
+      "final": "Ya encontré el cargo por 373,14 USD del 14 de junio de 2026. ¿Te gustaría que iniciemos la disputa?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirm_case",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": true,
+      "base": "Encontré el cargo de 1,952,832.76 COP del 2026-05-19. ¿Quieres que registre la disputa?",
+      "gemini": "Encontré el cargo por 1.952.832,76 COP del 19 de mayo de 2026. ¿Te gustaría que registre la disputa?",
+      "final": "Encontré el cargo por 1.952.832,76 COP del 19 de mayo de 2026. ¿Te gustaría que registre la disputa?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirm_case",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": true,
+      "base": "Encontrei a cobrança de 115.02 USD de 2026-06-16. Deseja que eu registre a contestação?",
+      "gemini": "Achei a cobrança de 115,02 USD do dia 16 de junho de 2026. Você quer que eu abra a contestação?",
+      "final": "Achei a cobrança de 115,02 USD do dia 16 de junho de 2026. Você quer que eu abra a contestação?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirm_case",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": true,
+      "base": "Encontrei a cobrança de 373.14 USD de 2026-06-14. Deseja que eu registre a contestação?",
+      "gemini": "Achei a cobrança de 373,14 USD do dia 14 de junho de 2026. Você quer que eu registre a contestação?",
+      "final": "Achei a cobrança de 373,14 USD do dia 14 de junho de 2026. Você quer que eu registre a contestação?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirm_case",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": true,
+      "base": "Encontrei a cobrança de 1,952,832.76 COP de 2026-05-19. Deseja que eu registre a contestação?",
+      "gemini": "Encontrei a cobrança de 1.952.832,76 COP do dia 19 de maio de 2026. Você quer que eu abra a contestação?",
+      "final": "Encontrei a cobrança de 1.952.832,76 COP do dia 19 de maio de 2026. Você quer que eu abra a contestação?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirm_block",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": true,
+      "base": "Para protegerte, te recomiendo bloquear la tarjeta •••• 3723. ¿La bloqueo?",
+      "gemini": "Por tu seguridad, te sugiero bloquear la tarjeta •••• 3723. ¿Quieres que lo haga?",
+      "final": "Por tu seguridad, te sugiero bloquear la tarjeta •••• 3723. ¿Quieres que lo haga?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirm_block",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": true,
+      "base": "Para protegerte, te recomiendo bloquear la tarjeta •••• 3804. ¿La bloqueo?",
+      "gemini": "Por seguridad te sugiero bloquear tu tarjeta •••• 3804, ¿quieres que lo haga?",
+      "final": "Por seguridad te sugiero bloquear tu tarjeta •••• 3804, ¿quieres que lo haga?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirm_block",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": true,
+      "base": "Para protegerte, te recomiendo bloquear la tarjeta •••• 8469. ¿La bloqueo?",
+      "gemini": "Por tu seguridad, te recomiendo bloquear tu tarjeta •••• 8469. ¿Quieres que lo haga?",
+      "final": "Por tu seguridad, te recomiendo bloquear tu tarjeta •••• 8469. ¿Quieres que lo haga?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirm_block",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": true,
+      "base": "Para sua proteção, recomendo bloquear o cartão •••• 3723. Posso bloquear?",
+      "gemini": "Para sua segurança, recomendo bloquear o cartão •••• 3723. Você me autoriza a fazer o bloqueio?",
+      "final": "Para sua segurança, recomendo bloquear o cartão •••• 3723. Você me autoriza a fazer o bloqueio?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirm_block",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": true,
+      "base": "Para sua proteção, recomendo bloquear o cartão •••• 3804. Posso bloquear?",
+      "gemini": "Para a sua segurança, recomendo bloquear o cartão •••• 3804. Posso fazer isso por você?",
+      "final": "Para a sua segurança, recomendo bloquear o cartão •••• 3804. Posso fazer isso por você?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirm_block",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": true,
+      "base": "Para sua proteção, recomendo bloquear o cartão •••• 8469. Posso bloquear?",
+      "gemini": "Pensando na sua segurança, sugiro bloquear o cartão •••• 8469. Posso seguir com o bloqueio?",
+      "final": "Pensando na sua segurança, sugiro bloquear o cartão •••• 8469. Posso seguir com o bloqueio?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "blocked_then_case",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": true,
+      "base": "Listo, la tarjeta •••• 3723 quedó bloqueada. ¿Registro también la disputa por el cargo de 115.02 USD?",
+      "gemini": "Ya bloqueé tu tarjeta •••• 3723. ¿Quieres que también ingrese la disputa por el cargo de 115,02 USD?",
+      "final": "Ya bloqueé tu tarjeta •••• 3723. ¿Quieres que también ingrese la disputa por el cargo de 115,02 USD?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "blocked_then_case",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": true,
+      "base": "Listo, la tarjeta •••• 3804 quedó bloqueada. ¿Registro también la disputa por el cargo de 373.14 USD?",
+      "gemini": "Ya bloqueé tu tarjeta •••• 3804. ¿Quieres que también registre la disputa por el cargo de 373.14 USD?",
+      "final": "Ya bloqueé tu tarjeta •••• 3804. ¿Quieres que también registre la disputa por el cargo de 373.14 USD?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "blocked_then_case",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": true,
+      "base": "Listo, la tarjeta •••• 8469 quedó bloqueada. ¿Registro también la disputa por el cargo de 1,952,832.76 COP?",
+      "gemini": "Ya bloqueé tu tarjeta •••• 8469. ¿Quieres que también registre la disputa por el cargo de 1,952,832.76 COP?",
+      "final": "Ya bloqueé tu tarjeta •••• 8469. ¿Quieres que también registre la disputa por el cargo de 1,952,832.76 COP?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "blocked_then_case",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": true,
+      "base": "Pronto, o cartão •••• 3723 foi bloqueado. Registro também a contestação da cobrança de 115.02 USD?",
+      "gemini": "Já bloqueei o seu cartão •••• 3723. Você também quer que eu abra a contestação da compra de 115,02 USD?",
+      "final": "Já bloqueei o seu cartão •••• 3723. Você também quer que eu abra a contestação da compra de 115,02 USD?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "blocked_then_case",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": true,
+      "base": "Pronto, o cartão •••• 3804 foi bloqueado. Registro também a contestação da cobrança de 373.14 USD?",
+      "gemini": "Seu cartão •••• 3804 já foi bloqueado. Quer que eu registre também a contestação dessa cobrança de 373,14 USD?",
+      "final": "Seu cartão •••• 3804 já foi bloqueado. Quer que eu registre também a contestação dessa cobrança de 373,14 USD?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "blocked_then_case",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": true,
+      "base": "Pronto, o cartão •••• 8469 foi bloqueado. Registro também a contestação da cobrança de 1,952,832.76 COP?",
+      "gemini": "Já bloqueei o seu cartão •••• 8469. Quer que eu também abra a contestação da compra de 1.952.832,76 COP?",
+      "final": "Já bloqueei o seu cartão •••• 8469. Quer que eu também abra a contestação da compra de 1.952.832,76 COP?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "case_created",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": true,
+      "base": "Registré tu disputa con el número DSP-000001. Te responderemos antes del 2026-06-27.",
+      "gemini": "Ya registré tu disputa con el número DSP-000001 y te daremos una respuesta antes del 27 de junio de 2026.",
+      "final": "Ya registré tu disputa con el número DSP-000001 y te daremos una respuesta antes del 27 de junio de 2026.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "case_created",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": true,
+      "base": "Registré tu disputa con el número DSP-000002. Te responderemos antes del 2026-06-20.",
+      "gemini": "Ya registré tu disputa con el número DSP-000002. Nos comunicaremos contigo antes del 20 de junio de 2026.",
+      "final": "Ya registré tu disputa con el número DSP-000002. Nos comunicaremos contigo antes del 20 de junio de 2026.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "case_created",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": true,
+      "base": "Registré tu disputa con el número DSP-000014. Te responderemos antes del 2026-06-18.",
+      "gemini": "Ya registré tu disputa con el número DSP-000014 y te daremos una respuesta antes del 18 de junio de 2026.",
+      "final": "Ya registré tu disputa con el número DSP-000014 y te daremos una respuesta antes del 18 de junio de 2026.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "case_created",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": true,
+      "base": "Registrei sua contestação com o número DSP-000001. Responderemos até 2026-06-27.",
+      "gemini": "Já registrei sua contestação com o número DSP-000001. Vamos te dar um retorno até 27 de junho de 2026.",
+      "final": "Já registrei sua contestação com o número DSP-000001. Vamos te dar um retorno até 27 de junho de 2026.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "case_created",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": true,
+      "base": "Registrei sua contestação com o número DSP-000002. Responderemos até 2026-06-20.",
+      "gemini": "Já registrei sua contestação com o número DSP-000002. Vamos te responder até 20 de junho de 2026.",
+      "final": "Já registrei sua contestação com o número DSP-000002. Vamos te responder até 20 de junho de 2026.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "case_created",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": true,
+      "base": "Registrei sua contestação com o número DSP-000014. Responderemos até 2026-06-18.",
+      "gemini": "Já registrei sua contestação com o número DSP-000014. Vamos te responder até 18 de junho de 2026.",
+      "final": "Já registrei sua contestação com o número DSP-000014. Vamos te responder até 18 de junho de 2026.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "handoff",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": true,
+      "base": "Tu caso DSP-000001 requiere revisión de un especialista. Ya le pasé toda la información.",
+      "gemini": "Tu caso DSP-000001 necesita que lo revise un especialista, así que ya le compartí todos los detalles.",
+      "final": "Tu caso DSP-000001 necesita que lo revise un especialista, así que ya le compartí todos los detalles.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "handoff",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": true,
+      "base": "Tu caso DSP-000002 requiere revisión de un especialista. Ya le pasé toda la información.",
+      "gemini": "Tu caso DSP-000002 necesita la revisión de un especialista y ya le compartí todos los datos.",
+      "final": "Tu caso DSP-000002 necesita la revisión de un especialista y ya le compartí todos los datos.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "handoff",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": true,
+      "base": "Tu caso DSP-000014 requiere revisión de un especialista. Ya le pasé toda la información.",
+      "gemini": "Tu caso DSP-000014 necesita que lo revise un especialista, así que ya le compartí todos los detalles.",
+      "final": "Tu caso DSP-000014 necesita que lo revise un especialista, así que ya le compartí todos los detalles.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "handoff",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": true,
+      "base": "Seu caso DSP-000001 precisa da análise de um especialista. Já passei todas as informações.",
+      "gemini": "O seu caso DSP-000001 precisa ser analisado por um especialista, então já encaminhei todas as informações para ele.",
+      "final": "O seu caso DSP-000001 precisa ser analisado por um especialista, então já encaminhei todas as informações para ele.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "handoff",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": true,
+      "base": "Seu caso DSP-000002 precisa da análise de um especialista. Já passei todas as informações.",
+      "gemini": "O seu caso DSP-000002 precisa ser analisado por um especialista, então já encaminhei todas as informações para ele.",
+      "final": "O seu caso DSP-000002 precisa ser analisado por um especialista, então já encaminhei todas as informações para ele.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "handoff",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": true,
+      "base": "Seu caso DSP-000014 precisa da análise de um especialista. Já passei todas as informações.",
+      "gemini": "O seu caso DSP-000014 precisa ser analisado por um especialista, então já encaminhei todas as suas informações para ele.",
+      "final": "O seu caso DSP-000014 precisa ser analisado por um especialista, então já encaminhei todas as suas informações para ele.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "handoff_no_case",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Voy a pasar tu consulta a un especialista para que te ayude. Ya le dejé todo el contexto.",
+      "gemini": "Te transfiero con un especialista para que te ayude, ya le compartí todo el contexto de tu caso.",
+      "final": "Te transfiero con un especialista para que te ayude, ya le compartí todo el contexto de tu caso.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "handoff_no_case",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Voy a pasar tu consulta a un especialista para que te ayude. Ya le dejé todo el contexto.",
+      "gemini": "Te comunico con un especialista para que te ayude y ya le compartí todo el contexto de tu caso.",
+      "final": "Te comunico con un especialista para que te ayude y ya le compartí todo el contexto de tu caso.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "handoff_no_case",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Voy a pasar tu consulta a un especialista para que te ayude. Ya le dejé todo el contexto.",
+      "gemini": "Te comunico con un especialista para que te ayude con esto. Ya le compartí todos los detalles de tu caso.",
+      "final": "Te comunico con un especialista para que te ayude con esto. Ya le compartí todos los detalles de tu caso.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "handoff_no_case",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Vou encaminhar sua solicitação a um especialista. Já deixei todo o contexto com ele.",
+      "gemini": "Vou passar seu pedido para um especialista e já compartilhei todo o contexto com ele.",
+      "final": "Vou passar seu pedido para um especialista e já compartilhei todo o contexto com ele.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "handoff_no_case",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Vou encaminhar sua solicitação a um especialista. Já deixei todo o contexto com ele.",
+      "gemini": "Vou passar o seu caso para um especialista e já deixei todo o contexto com ele.",
+      "final": "Vou passar o seu caso para um especialista e já deixei todo o contexto com ele.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "handoff_no_case",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Vou encaminhar sua solicitação a um especialista. Já deixei todo o contexto com ele.",
+      "gemini": "Vou passar o seu caso para um especialista e já compartilhei todo o contexto com ele.",
+      "final": "Vou passar o seu caso para um especialista e já compartilhei todo o contexto com ele.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "cancelled_handoff",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Entendido, no hice ese cambio. Como tu caso necesita revisión, se lo pasé a un especialista con toda la información.",
+      "gemini": "Entendido, no apliqué ese cambio. Como tu caso necesita revisión, ya le pasé toda la información a un especialista.",
+      "final": "Entendido, no apliqué ese cambio. Como tu caso necesita revisión, ya le pasé toda la información a un especialista.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "cancelled_handoff",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Entendido, no hice ese cambio. Como tu caso necesita revisión, se lo pasé a un especialista con toda la información.",
+      "gemini": "Entendido, no apliqué ese cambio. Como tu caso necesita revisión, ya le pasé toda la información a un especialista.",
+      "final": "Entendido, no apliqué ese cambio. Como tu caso necesita revisión, ya le pasé toda la información a un especialista.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "cancelled_handoff",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Entendido, no hice ese cambio. Como tu caso necesita revisión, se lo pasé a un especialista con toda la información.",
+      "gemini": "Entendido, no realicé ningún cambio. Como tu caso requiere una revisión detallada, ya se lo transferí a un especialista con toda tu información.",
+      "final": "Entendido, no realicé ningún cambio. Como tu caso requiere una revisión detallada, ya se lo transferí a un especialista con toda tu información.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "cancelled_handoff",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Entendido, não fiz essa alteração. Como seu caso precisa de análise, encaminhei a um especialista com todas as informações.",
+      "gemini": "Tudo bem, não fiz essa alteração. Como o seu caso precisa de uma análise mais detalhada, já passei todas as informações para um especialista.",
+      "final": "Tudo bem, não fiz essa alteração. Como o seu caso precisa de uma análise mais detalhada, já passei todas as informações para um especialista.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "cancelled_handoff",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Entendido, não fiz essa alteração. Como seu caso precisa de análise, encaminhei a um especialista com todas as informações.",
+      "gemini": "Tudo bem, não fiz essa alteração. Como o seu caso precisa de uma análise mais detalhada, já passei todas as informações para um especialista.",
+      "final": "Tudo bem, não fiz essa alteração. Como o seu caso precisa de uma análise mais detalhada, já passei todas as informações para um especialista.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "cancelled_handoff",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Entendido, não fiz essa alteração. Como seu caso precisa de análise, encaminhei a um especialista com todas as informações.",
+      "gemini": "Tudo bem, não fiz essa alteração. Como o seu caso precisa de uma análise mais detalhada, já passei todas as informações para um especialista.",
+      "final": "Tudo bem, não fiz essa alteração. Como o seu caso precisa de uma análise mais detalhada, já passei todas as informações para um especialista.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R2",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Ese intento de cobro fue rechazado, así que no se te cobró nada.",
+      "gemini": "Ese cobro fue rechazado, así que no te preocupes porque no te cobramos nada.",
+      "final": "Ese cobro fue rechazado, así que no te preocupes porque no te cobramos nada.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R2",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Ese intento de cobro fue rechazado, así que no se te cobró nada.",
+      "gemini": "Ese intento de cobro fue rechazado, por lo que no se te hizo ningún cargo.",
+      "final": "Ese intento de cobro fue rechazado, por lo que no se te hizo ningún cargo.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R2",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Ese intento de cobro fue rechazado, así que no se te cobró nada.",
+      "gemini": "Ese intento de cobro fue rechazado, por lo que no se te hizo ningún cargo.",
+      "final": "Ese intento de cobro fue rechazado, por lo que no se te hizo ningún cargo.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R2",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Essa tentativa de cobrança foi recusada, então nada foi cobrado.",
+      "gemini": "Essa tentativa de cobrança foi recusada, então você não teve nenhum valor cobrado.",
+      "final": "Essa tentativa de cobrança foi recusada, então você não teve nenhum valor cobrado.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R2",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Essa tentativa de cobrança foi recusada, então nada foi cobrado.",
+      "gemini": "Essa tentativa de cobrança foi recusada, então você não teve nenhum valor cobrado.",
+      "final": "Essa tentativa de cobrança foi recusada, então você não teve nenhum valor cobrado.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R2",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Essa tentativa de cobrança foi recusada, então nada foi cobrado.",
+      "gemini": "Essa tentativa de cobrança foi recusada, então você não teve nenhum valor cobrado.",
+      "final": "Essa tentativa de cobrança foi recusada, então você não teve nenhum valor cobrado.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R3",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Ese cargo todavía está pendiente y podría no asentarse. Si se confirma, puedes volver a escribirme.",
+      "gemini": "Ese cargo todavía figura como pendiente y podría no llegar a procesarse. Si ves que se confirma, escríbeme de nuevo por aquí.",
+      "final": "Ese cargo todavía figura como pendiente y podría no llegar a procesarse. Si ves que se confirma, escríbeme de nuevo por aquí.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R3",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Ese cargo todavía está pendiente y podría no asentarse. Si se confirma, puedes volver a escribirme.",
+      "gemini": "El cargo aún figura como pendiente y es posible que no se procese. Si llega a confirmarse, puedes escribirme de nuevo sin problema.",
+      "final": "El cargo aún figura como pendiente y es posible que no se procese. Si llega a confirmarse, puedes escribirme de nuevo sin problema.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R3",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Ese cargo todavía está pendiente y podría no asentarse. Si se confirma, puedes volver a escribirme.",
+      "gemini": "Ese cobro todavía figura como pendiente y es posible que no se procese. Si llega a confirmarse, puedes escribirme de nuevo sin problema.",
+      "final": "Ese cobro todavía figura como pendiente y es posible que no se procese. Si llega a confirmarse, puedes escribirme de nuevo sin problema.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R3",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Essa cobrança ainda está pendente e pode não ser efetivada. Se for confirmada, fale comigo novamente.",
+      "gemini": "Essa cobrança ainda está pendente e pode não ser lançada. Se ela for confirmada na sua fatura, é só me chamar de novo por aqui.",
+      "final": "Essa cobrança ainda está pendente e pode não ser lançada. Se ela for confirmada na sua fatura, é só me chamar de novo por aqui.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R3",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Essa cobrança ainda está pendente e pode não ser efetivada. Se for confirmada, fale comigo novamente.",
+      "gemini": "Essa cobrança ainda está pendente e pode não ser efetivada. Se ela for confirmada, é só me chamar de novo.",
+      "final": "Essa cobrança ainda está pendente e pode não ser efetivada. Se ela for confirmada, é só me chamar de novo.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R3",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Essa cobrança ainda está pendente e pode não ser efetivada. Se for confirmada, fale comigo novamente.",
+      "gemini": "Essa cobrança ainda está pendente e pode nem ser efetivada. Se ela for confirmada, é só falar comigo de novo.",
+      "final": "Essa cobrança ainda está pendente e pode nem ser efetivada. Se ela for confirmada, é só falar comigo de novo.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R4",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Ese cargo ya fue revertido; no necesitas hacer nada.",
+      "gemini": "Ese cargo ya fue revertido, así que no necesitas hacer nada.",
+      "final": "Ese cargo ya fue revertido, así que no necesitas hacer nada.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R4",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Ese cargo ya fue revertido; no necesitas hacer nada.",
+      "gemini": "Ese cargo ya se revirtió, así que no necesitas hacer nada.",
+      "final": "Ese cargo ya se revirtió, así que no necesitas hacer nada.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R4",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Ese cargo ya fue revertido; no necesitas hacer nada.",
+      "gemini": "Ese cargo ya quedó revertido, así que no te preocupes ni tienes que hacer nada más.",
+      "final": "Ese cargo ya quedó revertido, así que no te preocupes ni tienes que hacer nada más.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R4",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Essa cobrança já foi estornada; você não precisa fazer nada.",
+      "gemini": "Essa cobrança já foi estornada, então você não precisa se preocupar com nada.",
+      "final": "Essa cobrança já foi estornada, então você não precisa se preocupar com nada.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R4",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Essa cobrança já foi estornada; você não precisa fazer nada.",
+      "gemini": "Essa cobrança já foi estornada, então você não precisa se preocupar em fazer nada.",
+      "final": "Essa cobrança já foi estornada, então você não precisa se preocupar em fazer nada.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R4",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Essa cobrança já foi estornada; você não precisa fazer nada.",
+      "gemini": "Essa cobrança já foi estornada, então você não precisa fazer nada.",
+      "final": "Essa cobrança já foi estornada, então você não precisa fazer nada.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R5",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": true,
+      "base": "Ya tienes una disputa abierta por ese cargo (DSP-000001, estado Open). No hace falta registrarla de nuevo.",
+      "gemini": "Ya tienes un reclamo abierto por ese cargo con el número DSP-000001 en estado Open, así que no necesitas volver a crearlo.",
+      "final": "Ya tienes un reclamo abierto por ese cargo con el número DSP-000001 en estado Open, así que no necesitas volver a crearlo.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R5",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": true,
+      "base": "Ya tienes una disputa abierta por ese cargo (DSP-000002, estado Escalated). No hace falta registrarla de nuevo.",
+      "gemini": "Ya tienes una disputa abierta por este cargo con el número DSP-000002 y estado Escalated. No te preocupes, no es necesario que la registres otra vez.",
+      "final": "Ya tienes una disputa abierta por este cargo con el número DSP-000002 y estado Escalated. No te preocupes, no es necesario que la registres otra vez.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R5",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": true,
+      "base": "Ya tienes una disputa abierta por ese cargo (DSP-000014, estado Escalated). No hace falta registrarla de nuevo.",
+      "gemini": "Ya cuentas con una disputa abierta por ese cargo bajo el caso DSP-000014 en estado Escalated. No te preocupes, no hace falta que la registres de nuevo.",
+      "final": "Ya cuentas con una disputa abierta por ese cargo bajo el caso DSP-000014 en estado Escalated. No te preocupes, no hace falta que la registres de nuevo.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R5",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": true,
+      "base": "Você já tem uma contestação aberta para essa cobrança (DSP-000001, status Open). Não é preciso registrá-la novamente.",
+      "gemini": "Você já tem uma contestação aberta para essa cobrança com o caso DSP-000001 e status Open. Não é necessário registrá-la de novo.",
+      "final": "Você já tem uma contestação aberta para essa cobrança com o caso DSP-000001 e status Open. Não é necessário registrá-la de novo.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R5",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": true,
+      "base": "Você já tem uma contestação aberta para essa cobrança (DSP-000002, status Escalated). Não é preciso registrá-la novamente.",
+      "gemini": "Você já tem uma contestação aberta para essa cobrança (DSP-000002, status Escalated). Não se preocupe, não é preciso registrá-la de novo.",
+      "final": "Você já tem uma contestação aberta para essa cobrança (DSP-000002, status Escalated). Não se preocupe, não é preciso registrá-la de novo.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "inform_R5",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": true,
+      "base": "Você já tem uma contestação aberta para essa cobrança (DSP-000014, status Escalated). Não é preciso registrá-la novamente.",
+      "gemini": "Você já tem uma contestação aberta para essa cobrança sob o código DSP-000014 com status Escalated, então não precisa registrar um novo pedido.",
+      "final": "Você já tem uma contestação aberta para essa cobrança sob o código DSP-000014 com status Escalated, então não precisa registrar um novo pedido.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "status_none",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "No tienes reclamos abiertos.",
+      "gemini": "Por el momento no tienes ningún reclamo abierto con nosotros.",
+      "final": "Por el momento no tienes ningún reclamo abierto con nosotros.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "status_none",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "No tienes reclamos abiertos.",
+      "gemini": "Por el momento no tienes ningún reclamo abierto.",
+      "final": "Por el momento no tienes ningún reclamo abierto.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "status_none",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "No tienes reclamos abiertos.",
+      "gemini": "Por el momento no tienes ningún reclamo abierto.",
+      "final": "Por el momento no tienes ningún reclamo abierto.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "status_none",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Você não tem contestações abertas.",
+      "gemini": "Você não tem nenhuma contestação aberta no momento.",
+      "final": "Você não tem nenhuma contestação aberta no momento.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "status_none",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Você não tem contestações abertas.",
+      "gemini": "Você não tem nenhuma contestação em aberto por aqui.",
+      "final": "Você não tem nenhuma contestação em aberto por aqui.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "status_none",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Você não tem contestações abertas.",
+      "gemini": "No momento, você não tem nenhuma contestação aberta.",
+      "final": "No momento, você não tem nenhuma contestação aberta.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "status_list",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": true,
+      "base": "Tus reclamos abiertos: DSP-000001 (Open).",
+      "gemini": "Tienes abierto el reclamo DSP-000001 (Open).",
+      "final": "Tienes abierto el reclamo DSP-000001 (Open).",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "status_list",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": true,
+      "base": "Tus reclamos abiertos: DSP-000002 (Escalated), DSP-000003 (Open).",
+      "gemini": "Tienes abiertos los reclamos DSP-000002 (Escalated) y DSP-000003 (Open).",
+      "final": "Tienes abiertos los reclamos DSP-000002 (Escalated) y DSP-000003 (Open).",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "status_list",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": true,
+      "base": "Tus reclamos abiertos: DSP-000014 (Escalated).",
+      "gemini": "Tienes abierto el reclamo DSP-000014, que se encuentra en estado Escalated.",
+      "final": "Tus reclamos abiertos: DSP-000014 (Escalated).",
+      "source": "template",
+      "motivo": "dato_nuevo:nombre"
+    },
+    {
+      "template": "status_list",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": true,
+      "base": "Suas contestações abertas: DSP-000001 (Open).",
+      "gemini": "Você tem a seguinte contestação aberta: DSP-000001 (Open).",
+      "final": "Você tem a seguinte contestação aberta: DSP-000001 (Open).",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "status_list",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": true,
+      "base": "Suas contestações abertas: DSP-000002 (Escalated), DSP-000003 (Open).",
+      "gemini": "Você tem estas contestações abertas no momento: DSP-000002 (Escalated) e DSP-000003 (Open).",
+      "final": "Você tem estas contestações abertas no momento: DSP-000002 (Escalated) e DSP-000003 (Open).",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "status_list",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": true,
+      "base": "Suas contestações abertas: DSP-000014 (Escalated).",
+      "gemini": "Você tem a seguinte contestação em aberto: DSP-000014 (Escalated).",
+      "final": "Você tem a seguinte contestação em aberto: DSP-000014 (Escalated).",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "cancelled",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Entendido, no hice ningún cambio.",
+      "gemini": "Entendido, dejé todo tal como estaba sin hacer cambios.",
+      "final": "Entendido, dejé todo tal como estaba sin hacer cambios.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "cancelled",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Entendido, no hice ningún cambio.",
+      "gemini": "Entendido, dejé todo tal como estaba.",
+      "final": "Entendido, dejé todo tal como estaba.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "cancelled",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Entendido, no hice ningún cambio.",
+      "gemini": "Entendido, dejé todo como estaba y no hice ningún cambio.",
+      "final": "Entendido, dejé todo como estaba y no hice ningún cambio.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "cancelled",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Entendido, não fiz nenhuma alteração.",
+      "gemini": "Tudo bem, não fiz nenhuma alteração por aqui.",
+      "final": "Tudo bem, não fiz nenhuma alteração por aqui.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "cancelled",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Entendido, não fiz nenhuma alteração.",
+      "gemini": "Tudo bem, não fiz nenhuma alteração por aqui.",
+      "final": "Tudo bem, não fiz nenhuma alteração por aqui.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "cancelled",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Entendido, não fiz nenhuma alteração.",
+      "gemini": "Tudo bem, não fiz nenhuma alteração.",
+      "final": "Tudo bem, não fiz nenhuma alteração.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirmation_expired",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Esa confirmación ya no es válida. ¿Empezamos de nuevo?",
+      "gemini": "Esa confirmación ya venció. ¿Quieres que empecemos de nuevo?",
+      "final": "Esa confirmación ya venció. ¿Quieres que empecemos de nuevo?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirmation_expired",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Esa confirmación ya no es válida. ¿Empezamos de nuevo?",
+      "gemini": "Esa confirmación ya no es válida. ¿Te parece si empezamos de nuevo?",
+      "final": "Esa confirmación ya no es válida. ¿Te parece si empezamos de nuevo?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirmation_expired",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Esa confirmación ya no es válida. ¿Empezamos de nuevo?",
+      "gemini": "Esa confirmación ya no es válida. ¿Te parece si empezamos de nuevo?",
+      "final": "Esa confirmación ya no es válida. ¿Te parece si empezamos de nuevo?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirmation_expired",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Essa confirmação não é mais válida. Vamos começar de novo?",
+      "gemini": "Essa confirmação não vale mais, então podemos começar de novo?",
+      "final": "Essa confirmação não vale mais, então podemos começar de novo?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirmation_expired",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Essa confirmação não é mais válida. Vamos começar de novo?",
+      "gemini": "Essa confirmação já perdeu a validade, então vamos começar de novo?",
+      "final": "Essa confirmação já perdeu a validade, então vamos começar de novo?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "confirmation_expired",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Essa confirmação não é mais válida. Vamos começar de novo?",
+      "gemini": "Essa confirmação já não vale mais. Que tal a gente começar de novo?",
+      "final": "Essa confirmação já não vale mais. Que tal a gente começar de novo?",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "tool_failure",
+      "language": "es",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "No pude completar la acción. Un especialista revisará tu caso.",
+      "gemini": "No pude completar lo que me pedías, pero quédate tranquilo que un especialista va a revisar tu caso.",
+      "final": "No pude completar lo que me pedías, pero quédate tranquilo que un especialista va a revisar tu caso.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "tool_failure",
+      "language": "es",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "No pude completar la acción. Un especialista revisará tu caso.",
+      "gemini": "No pude terminar con esto, pero un especialista va a revisar tu caso.",
+      "final": "No pude terminar con esto, pero un especialista va a revisar tu caso.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "tool_failure",
+      "language": "es",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "No pude completar la acción. Un especialista revisará tu caso.",
+      "gemini": "No pude terminar el proceso por aquí, pero no te preocupes porque un especialista va a revisar tu caso.",
+      "final": "No pude terminar el proceso por aquí, pero no te preocupes porque un especialista va a revisar tu caso.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "tool_failure",
+      "language": "pt",
+      "juego": "demo1_usd",
+      "con_datos": false,
+      "base": "Não consegui concluir a ação. Um especialista analisará seu caso.",
+      "gemini": "Não consegui concluir essa ação por aqui. Um especialista vai analisar o seu caso.",
+      "final": "Não consegui concluir essa ação por aqui. Um especialista vai analisar o seu caso.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "tool_failure",
+      "language": "pt",
+      "juego": "demo8_usd_pt",
+      "con_datos": false,
+      "base": "Não consegui concluir a ação. Um especialista analisará seu caso.",
+      "gemini": "Não foi possível concluir isso agora, mas um especialista vai analisar seu caso.",
+      "final": "Não foi possível concluir isso agora, mas um especialista vai analisar seu caso.",
+      "source": "llm",
+      "motivo": null
+    },
+    {
+      "template": "tool_failure",
+      "language": "pt",
+      "juego": "demo6_cop_alto",
+      "con_datos": false,
+      "base": "Não consegui concluir a ação. Um especialista analisará seu caso.",
+      "gemini": "Não consegui concluir isso por aqui, então um especialista vai analisar o seu caso.",
+      "final": "Não consegui concluir isso por aqui, então um especialista vai analisar o seu caso.",
+      "source": "llm",
+      "motivo": null
+    }
+  ]
+}

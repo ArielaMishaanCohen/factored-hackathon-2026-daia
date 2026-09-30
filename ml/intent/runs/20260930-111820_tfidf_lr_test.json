@@ -1,0 +1,2015 @@
+{
+ "candidato": "tfidf_lr",
+ "split": "test",
+ "fecha": "2026-09-30T11:18:20",
+ "params": {
+  "C": 10
+ },
+ "datos": {
+  "frases_md5": "f29762777d3e80baa84eb04bc7792563",
+  "train_fuentes": "todas",
+  "train_sin_ruido": false,
+  "train_n": 1891
+ },
+ "git_commit": "d3d2747faabca31ca64525bec896f4de747a91dd-dirty",
+ "tau": {
+  "tau": 0.81,
+  "contestadas": 75,
+  "cobertura": 0.375,
+  "precision": 0.8533333333333334,
+  "ambiguo_abstenidas": 0.7916666666666666,
+  "regla": "fijado en val"
+ },
+ "metricas": {
+  "n": 200,
+  "n_sin_ambiguo": 176,
+  "n_sin_respuesta": 0,
+  "macro_f1": 0.7012769946103279,
+  "f1_por_clase": {
+   "cargo_no_reconocido": 0.6666666666666666,
+   "cobro_incorrecto": 0.6493506493506493,
+   "tarjeta_comprometida": 0.7301587301587301,
+   "estado_disputa": 0.8923076923076924,
+   "fuera_de_alcance": 0.5679012345679012
+  },
+  "por_idioma": {
+   "es": {
+    "n": 88,
+    "macro_f1": 0.6976832867350109
+   },
+   "mix": {
+    "n": 16,
+    "macro_f1": 0.6928571428571428
+   },
+   "pt": {
+    "n": 72,
+    "macro_f1": 0.6734459228202276
+   }
+  },
+  "por_source": {
+   "test_equipo": {
+    "n": 176,
+    "macro_f1": 0.7012769946103279
+   }
+  },
+  "matriz_confusion": {
+   "clases": [
+    "cargo_no_reconocido",
+    "cobro_incorrecto",
+    "tarjeta_comprometida",
+    "estado_disputa",
+    "fuera_de_alcance"
+   ],
+   "filas_real_columnas_pred": [
+    [
+     22,
+     8,
+     2,
+     1,
+     7
+    ],
+    [
+     3,
+     25,
+     1,
+     1,
+     10
+    ],
+    [
+     1,
+     2,
+     23,
+     0,
+     10
+    ],
+    [
+     0,
+     0,
+     0,
+     29,
+     3
+    ],
+    [
+     0,
+     2,
+     1,
+     2,
+     23
+    ]
+   ]
+  },
+  "curva_cobertura_precision": [
+   {
+    "tau": 0.0,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.01,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.02,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.03,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.04,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.05,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.06,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.07,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.08,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.09,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.1,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.11,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.12,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.13,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.14,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.15,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.16,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.17,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.18,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.19,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.2,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.21,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.22,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.23,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.24,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.25,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.26,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.27,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.28,
+    "contestadas": 200,
+    "cobertura": 1.0,
+    "precision": 0.61,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.29,
+    "contestadas": 199,
+    "cobertura": 0.995,
+    "precision": 0.6130653266331658,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.3,
+    "contestadas": 198,
+    "cobertura": 0.99,
+    "precision": 0.6161616161616161,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.31,
+    "contestadas": 198,
+    "cobertura": 0.99,
+    "precision": 0.6161616161616161,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.32,
+    "contestadas": 196,
+    "cobertura": 0.98,
+    "precision": 0.6173469387755102,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.33,
+    "contestadas": 193,
+    "cobertura": 0.965,
+    "precision": 0.6269430051813472,
+    "ambiguo_abstenidas": 0.041666666666666664
+   },
+   {
+    "tau": 0.34,
+    "contestadas": 193,
+    "cobertura": 0.965,
+    "precision": 0.6269430051813472,
+    "ambiguo_abstenidas": 0.041666666666666664
+   },
+   {
+    "tau": 0.35,
+    "contestadas": 192,
+    "cobertura": 0.96,
+    "precision": 0.6302083333333334,
+    "ambiguo_abstenidas": 0.041666666666666664
+   },
+   {
+    "tau": 0.36,
+    "contestadas": 192,
+    "cobertura": 0.96,
+    "precision": 0.6302083333333334,
+    "ambiguo_abstenidas": 0.041666666666666664
+   },
+   {
+    "tau": 0.37,
+    "contestadas": 192,
+    "cobertura": 0.96,
+    "precision": 0.6302083333333334,
+    "ambiguo_abstenidas": 0.041666666666666664
+   },
+   {
+    "tau": 0.38,
+    "contestadas": 190,
+    "cobertura": 0.95,
+    "precision": 0.6263157894736842,
+    "ambiguo_abstenidas": 0.041666666666666664
+   },
+   {
+    "tau": 0.39,
+    "contestadas": 187,
+    "cobertura": 0.935,
+    "precision": 0.6310160427807486,
+    "ambiguo_abstenidas": 0.08333333333333333
+   },
+   {
+    "tau": 0.4,
+    "contestadas": 185,
+    "cobertura": 0.925,
+    "precision": 0.6378378378378379,
+    "ambiguo_abstenidas": 0.08333333333333333
+   },
+   {
+    "tau": 0.41,
+    "contestadas": 183,
+    "cobertura": 0.915,
+    "precision": 0.644808743169399,
+    "ambiguo_abstenidas": 0.08333333333333333
+   },
+   {
+    "tau": 0.42,
+    "contestadas": 178,
+    "cobertura": 0.89,
+    "precision": 0.6573033707865169,
+    "ambiguo_abstenidas": 0.125
+   },
+   {
+    "tau": 0.43,
+    "contestadas": 178,
+    "cobertura": 0.89,
+    "precision": 0.6573033707865169,
+    "ambiguo_abstenidas": 0.125
+   },
+   {
+    "tau": 0.44,
+    "contestadas": 176,
+    "cobertura": 0.88,
+    "precision": 0.6590909090909091,
+    "ambiguo_abstenidas": 0.125
+   },
+   {
+    "tau": 0.45,
+    "contestadas": 171,
+    "cobertura": 0.855,
+    "precision": 0.6666666666666666,
+    "ambiguo_abstenidas": 0.125
+   },
+   {
+    "tau": 0.46,
+    "contestadas": 168,
+    "cobertura": 0.84,
+    "precision": 0.6785714285714286,
+    "ambiguo_abstenidas": 0.16666666666666666
+   },
+   {
+    "tau": 0.47,
+    "contestadas": 165,
+    "cobertura": 0.825,
+    "precision": 0.6787878787878788,
+    "ambiguo_abstenidas": 0.16666666666666666
+   },
+   {
+    "tau": 0.48,
+    "contestadas": 163,
+    "cobertura": 0.815,
+    "precision": 0.6748466257668712,
+    "ambiguo_abstenidas": 0.16666666666666666
+   },
+   {
+    "tau": 0.49,
+    "contestadas": 160,
+    "cobertura": 0.8,
+    "precision": 0.68125,
+    "ambiguo_abstenidas": 0.20833333333333334
+   },
+   {
+    "tau": 0.5,
+    "contestadas": 160,
+    "cobertura": 0.8,
+    "precision": 0.68125,
+    "ambiguo_abstenidas": 0.20833333333333334
+   },
+   {
+    "tau": 0.51,
+    "contestadas": 159,
+    "cobertura": 0.795,
+    "precision": 0.6855345911949685,
+    "ambiguo_abstenidas": 0.25
+   },
+   {
+    "tau": 0.52,
+    "contestadas": 156,
+    "cobertura": 0.78,
+    "precision": 0.6987179487179487,
+    "ambiguo_abstenidas": 0.25
+   },
+   {
+    "tau": 0.53,
+    "contestadas": 152,
+    "cobertura": 0.76,
+    "precision": 0.7039473684210527,
+    "ambiguo_abstenidas": 0.2916666666666667
+   },
+   {
+    "tau": 0.54,
+    "contestadas": 149,
+    "cobertura": 0.745,
+    "precision": 0.7046979865771812,
+    "ambiguo_abstenidas": 0.3333333333333333
+   },
+   {
+    "tau": 0.55,
+    "contestadas": 146,
+    "cobertura": 0.73,
+    "precision": 0.7054794520547946,
+    "ambiguo_abstenidas": 0.3333333333333333
+   },
+   {
+    "tau": 0.56,
+    "contestadas": 144,
+    "cobertura": 0.72,
+    "precision": 0.7083333333333334,
+    "ambiguo_abstenidas": 0.3333333333333333
+   },
+   {
+    "tau": 0.57,
+    "contestadas": 141,
+    "cobertura": 0.705,
+    "precision": 0.7021276595744681,
+    "ambiguo_abstenidas": 0.3333333333333333
+   },
+   {
+    "tau": 0.58,
+    "contestadas": 139,
+    "cobertura": 0.695,
+    "precision": 0.7122302158273381,
+    "ambiguo_abstenidas": 0.375
+   },
+   {
+    "tau": 0.59,
+    "contestadas": 138,
+    "cobertura": 0.69,
+    "precision": 0.7101449275362319,
+    "ambiguo_abstenidas": 0.375
+   },
+   {
+    "tau": 0.6,
+    "contestadas": 135,
+    "cobertura": 0.675,
+    "precision": 0.725925925925926,
+    "ambiguo_abstenidas": 0.4166666666666667
+   },
+   {
+    "tau": 0.61,
+    "contestadas": 132,
+    "cobertura": 0.66,
+    "precision": 0.7272727272727273,
+    "ambiguo_abstenidas": 0.4166666666666667
+   },
+   {
+    "tau": 0.62,
+    "contestadas": 131,
+    "cobertura": 0.655,
+    "precision": 0.7251908396946565,
+    "ambiguo_abstenidas": 0.4166666666666667
+   },
+   {
+    "tau": 0.63,
+    "contestadas": 127,
+    "cobertura": 0.635,
+    "precision": 0.7322834645669292,
+    "ambiguo_abstenidas": 0.4166666666666667
+   },
+   {
+    "tau": 0.64,
+    "contestadas": 123,
+    "cobertura": 0.615,
+    "precision": 0.7317073170731707,
+    "ambiguo_abstenidas": 0.4166666666666667
+   },
+   {
+    "tau": 0.65,
+    "contestadas": 121,
+    "cobertura": 0.605,
+    "precision": 0.7355371900826446,
+    "ambiguo_abstenidas": 0.4166666666666667
+   },
+   {
+    "tau": 0.66,
+    "contestadas": 118,
+    "cobertura": 0.59,
+    "precision": 0.7457627118644068,
+    "ambiguo_abstenidas": 0.4166666666666667
+   },
+   {
+    "tau": 0.67,
+    "contestadas": 114,
+    "cobertura": 0.57,
+    "precision": 0.7368421052631579,
+    "ambiguo_abstenidas": 0.4166666666666667
+   },
+   {
+    "tau": 0.68,
+    "contestadas": 111,
+    "cobertura": 0.555,
+    "precision": 0.7477477477477478,
+    "ambiguo_abstenidas": 0.4583333333333333
+   },
+   {
+    "tau": 0.69,
+    "contestadas": 107,
+    "cobertura": 0.535,
+    "precision": 0.7476635514018691,
+    "ambiguo_abstenidas": 0.5
+   },
+   {
+    "tau": 0.7,
+    "contestadas": 107,
+    "cobertura": 0.535,
+    "precision": 0.7476635514018691,
+    "ambiguo_abstenidas": 0.5
+   },
+   {
+    "tau": 0.71,
+    "contestadas": 107,
+    "cobertura": 0.535,
+    "precision": 0.7476635514018691,
+    "ambiguo_abstenidas": 0.5
+   },
+   {
+    "tau": 0.72,
+    "contestadas": 103,
+    "cobertura": 0.515,
+    "precision": 0.7475728155339806,
+    "ambiguo_abstenidas": 0.5416666666666666
+   },
+   {
+    "tau": 0.73,
+    "contestadas": 99,
+    "cobertura": 0.495,
+    "precision": 0.7474747474747475,
+    "ambiguo_abstenidas": 0.5833333333333334
+   },
+   {
+    "tau": 0.74,
+    "contestadas": 95,
+    "cobertura": 0.475,
+    "precision": 0.7578947368421053,
+    "ambiguo_abstenidas": 0.625
+   },
+   {
+    "tau": 0.75,
+    "contestadas": 90,
+    "cobertura": 0.45,
+    "precision": 0.7666666666666667,
+    "ambiguo_abstenidas": 0.625
+   },
+   {
+    "tau": 0.76,
+    "contestadas": 87,
+    "cobertura": 0.435,
+    "precision": 0.7816091954022989,
+    "ambiguo_abstenidas": 0.6666666666666666
+   },
+   {
+    "tau": 0.77,
+    "contestadas": 83,
+    "cobertura": 0.415,
+    "precision": 0.8072289156626506,
+    "ambiguo_abstenidas": 0.7083333333333334
+   },
+   {
+    "tau": 0.78,
+    "contestadas": 79,
+    "cobertura": 0.395,
+    "precision": 0.8481012658227848,
+    "ambiguo_abstenidas": 0.75
+   },
+   {
+    "tau": 0.79,
+    "contestadas": 76,
+    "cobertura": 0.38,
+    "precision": 0.8552631578947368,
+    "ambiguo_abstenidas": 0.7916666666666666
+   },
+   {
+    "tau": 0.8,
+    "contestadas": 76,
+    "cobertura": 0.38,
+    "precision": 0.8552631578947368,
+    "ambiguo_abstenidas": 0.7916666666666666
+   },
+   {
+    "tau": 0.81,
+    "contestadas": 75,
+    "cobertura": 0.375,
+    "precision": 0.8533333333333334,
+    "ambiguo_abstenidas": 0.7916666666666666
+   },
+   {
+    "tau": 0.82,
+    "contestadas": 73,
+    "cobertura": 0.365,
+    "precision": 0.8493150684931506,
+    "ambiguo_abstenidas": 0.7916666666666666
+   },
+   {
+    "tau": 0.83,
+    "contestadas": 70,
+    "cobertura": 0.35,
+    "precision": 0.8571428571428571,
+    "ambiguo_abstenidas": 0.8333333333333334
+   },
+   {
+    "tau": 0.84,
+    "contestadas": 68,
+    "cobertura": 0.34,
+    "precision": 0.8529411764705882,
+    "ambiguo_abstenidas": 0.8333333333333334
+   },
+   {
+    "tau": 0.85,
+    "contestadas": 64,
+    "cobertura": 0.32,
+    "precision": 0.84375,
+    "ambiguo_abstenidas": 0.8333333333333334
+   },
+   {
+    "tau": 0.86,
+    "contestadas": 60,
+    "cobertura": 0.3,
+    "precision": 0.8333333333333334,
+    "ambiguo_abstenidas": 0.8333333333333334
+   },
+   {
+    "tau": 0.87,
+    "contestadas": 56,
+    "cobertura": 0.28,
+    "precision": 0.8571428571428571,
+    "ambiguo_abstenidas": 0.875
+   },
+   {
+    "tau": 0.88,
+    "contestadas": 52,
+    "cobertura": 0.26,
+    "precision": 0.8653846153846154,
+    "ambiguo_abstenidas": 0.875
+   },
+   {
+    "tau": 0.89,
+    "contestadas": 52,
+    "cobertura": 0.26,
+    "precision": 0.8653846153846154,
+    "ambiguo_abstenidas": 0.875
+   },
+   {
+    "tau": 0.9,
+    "contestadas": 45,
+    "cobertura": 0.225,
+    "precision": 0.9111111111111111,
+    "ambiguo_abstenidas": 0.9166666666666666
+   },
+   {
+    "tau": 0.91,
+    "contestadas": 44,
+    "cobertura": 0.22,
+    "precision": 0.9090909090909091,
+    "ambiguo_abstenidas": 0.9166666666666666
+   },
+   {
+    "tau": 0.92,
+    "contestadas": 41,
+    "cobertura": 0.205,
+    "precision": 0.926829268292683,
+    "ambiguo_abstenidas": 0.9166666666666666
+   },
+   {
+    "tau": 0.93,
+    "contestadas": 38,
+    "cobertura": 0.19,
+    "precision": 0.9210526315789473,
+    "ambiguo_abstenidas": 0.9166666666666666
+   },
+   {
+    "tau": 0.94,
+    "contestadas": 34,
+    "cobertura": 0.17,
+    "precision": 0.9411764705882353,
+    "ambiguo_abstenidas": 0.9583333333333334
+   },
+   {
+    "tau": 0.95,
+    "contestadas": 27,
+    "cobertura": 0.135,
+    "precision": 0.9259259259259259,
+    "ambiguo_abstenidas": 0.9583333333333334
+   },
+   {
+    "tau": 0.96,
+    "contestadas": 19,
+    "cobertura": 0.095,
+    "precision": 0.9473684210526315,
+    "ambiguo_abstenidas": 1.0
+   },
+   {
+    "tau": 0.97,
+    "contestadas": 14,
+    "cobertura": 0.07,
+    "precision": 1.0,
+    "ambiguo_abstenidas": 1.0
+   },
+   {
+    "tau": 0.98,
+    "contestadas": 10,
+    "cobertura": 0.05,
+    "precision": 1.0,
+    "ambiguo_abstenidas": 1.0
+   },
+   {
+    "tau": 0.99,
+    "contestadas": 3,
+    "cobertura": 0.015,
+    "precision": 1.0,
+    "ambiguo_abstenidas": 1.0
+   },
+   {
+    "tau": 1.0,
+    "contestadas": 0,
+    "cobertura": 0.0,
+    "precision": null,
+    "ambiguo_abstenidas": 1.0
+   }
+  ],
+  "latencia_ms_p50": 0.6271040183492005,
+  "costo_por_1000_usd": 0.0
+ },
+ "predicciones": [
+  {
+   "id": "t001-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.7444
+  },
+  {
+   "id": "t001-02",
+   "label": "cargo_no_reconocido",
+   "pred": "cobro_incorrecto",
+   "conf": 0.4041
+  },
+  {
+   "id": "t001-03",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9227
+  },
+  {
+   "id": "t001-04",
+   "label": "cargo_no_reconocido",
+   "pred": "cobro_incorrecto",
+   "conf": 0.4862
+  },
+  {
+   "id": "t002-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cobro_incorrecto",
+   "conf": 0.5784
+  },
+  {
+   "id": "t002-02",
+   "label": "cargo_no_reconocido",
+   "pred": "fuera_de_alcance",
+   "conf": 0.4168
+  },
+  {
+   "id": "t002-03",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.5503
+  },
+  {
+   "id": "t002-04",
+   "label": "cargo_no_reconocido",
+   "pred": "fuera_de_alcance",
+   "conf": 0.4124
+  },
+  {
+   "id": "t003-01",
+   "label": "cargo_no_reconocido",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5186
+  },
+  {
+   "id": "t003-02",
+   "label": "cargo_no_reconocido",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.2809
+  },
+  {
+   "id": "t003-03",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.3708
+  },
+  {
+   "id": "t003-04",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.5806
+  },
+  {
+   "id": "t004-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.5675
+  },
+  {
+   "id": "t004-02",
+   "label": "cargo_no_reconocido",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.8919
+  },
+  {
+   "id": "t004-03",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.431
+  },
+  {
+   "id": "t004-04",
+   "label": "cargo_no_reconocido",
+   "pred": "fuera_de_alcance",
+   "conf": 0.3499
+  },
+  {
+   "id": "t005-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.8233
+  },
+  {
+   "id": "t005-02",
+   "label": "cargo_no_reconocido",
+   "pred": "cobro_incorrecto",
+   "conf": 0.5441
+  },
+  {
+   "id": "t005-03",
+   "label": "cargo_no_reconocido",
+   "pred": "cobro_incorrecto",
+   "conf": 0.6533
+  },
+  {
+   "id": "t005-04",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.312
+  },
+  {
+   "id": "t006-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.3711
+  },
+  {
+   "id": "t006-02",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.5621
+  },
+  {
+   "id": "t006-03",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.5477
+  },
+  {
+   "id": "t006-04",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.7649
+  },
+  {
+   "id": "t007-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cobro_incorrecto",
+   "conf": 0.6308
+  },
+  {
+   "id": "t007-02",
+   "label": "cargo_no_reconocido",
+   "pred": "estado_disputa",
+   "conf": 0.2976
+  },
+  {
+   "id": "t007-03",
+   "label": "cargo_no_reconocido",
+   "pred": "fuera_de_alcance",
+   "conf": 0.465
+  },
+  {
+   "id": "t007-04",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.6395
+  },
+  {
+   "id": "t008-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.8779
+  },
+  {
+   "id": "t008-02",
+   "label": "cargo_no_reconocido",
+   "pred": "cobro_incorrecto",
+   "conf": 0.3224
+  },
+  {
+   "id": "t008-03",
+   "label": "cargo_no_reconocido",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7619
+  },
+  {
+   "id": "t008-04",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.745
+  },
+  {
+   "id": "t009-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.4765
+  },
+  {
+   "id": "t009-02",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.7269
+  },
+  {
+   "id": "t009-03",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.6655
+  },
+  {
+   "id": "t009-04",
+   "label": "cargo_no_reconocido",
+   "pred": "fuera_de_alcance",
+   "conf": 0.3962
+  },
+  {
+   "id": "t010-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9691
+  },
+  {
+   "id": "t010-02",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.987
+  },
+  {
+   "id": "t010-03",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9423
+  },
+  {
+   "id": "t010-04",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.85
+  },
+  {
+   "id": "t011-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9825
+  },
+  {
+   "id": "t011-02",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.608
+  },
+  {
+   "id": "t011-03",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9127
+  },
+  {
+   "id": "t011-04",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8946
+  },
+  {
+   "id": "t012-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9391
+  },
+  {
+   "id": "t012-02",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.6143
+  },
+  {
+   "id": "t012-03",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.382
+  },
+  {
+   "id": "t012-04",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9246
+  },
+  {
+   "id": "t013-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.415
+  },
+  {
+   "id": "t013-02",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6506
+  },
+  {
+   "id": "t013-03",
+   "label": "cobro_incorrecto",
+   "pred": "estado_disputa",
+   "conf": 0.5225
+  },
+  {
+   "id": "t013-04",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.6747
+  },
+  {
+   "id": "t014-01",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.733
+  },
+  {
+   "id": "t014-02",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.4755
+  },
+  {
+   "id": "t014-03",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5934
+  },
+  {
+   "id": "t014-04",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.4163
+  },
+  {
+   "id": "t015-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.7126
+  },
+  {
+   "id": "t015-02",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6093
+  },
+  {
+   "id": "t015-03",
+   "label": "cobro_incorrecto",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.3131
+  },
+  {
+   "id": "t015-04",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7796
+  },
+  {
+   "id": "t016-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8486
+  },
+  {
+   "id": "t016-02",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.968
+  },
+  {
+   "id": "t016-03",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.4682
+  },
+  {
+   "id": "t016-04",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9719
+  },
+  {
+   "id": "t017-01",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.675
+  },
+  {
+   "id": "t017-02",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6211
+  },
+  {
+   "id": "t017-03",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.383
+  },
+  {
+   "id": "t017-04",
+   "label": "cobro_incorrecto",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9125
+  },
+  {
+   "id": "t018-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8295
+  },
+  {
+   "id": "t018-02",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9
+  },
+  {
+   "id": "t018-03",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.4883
+  },
+  {
+   "id": "t018-04",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.6646
+  },
+  {
+   "id": "t019-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9371
+  },
+  {
+   "id": "t019-02",
+   "label": "cobro_incorrecto",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.6279
+  },
+  {
+   "id": "t019-03",
+   "label": "cobro_incorrecto",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.7636
+  },
+  {
+   "id": "t019-04",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.5447
+  },
+  {
+   "id": "t020-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9543
+  },
+  {
+   "id": "t020-02",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.7571
+  },
+  {
+   "id": "t020-03",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7507
+  },
+  {
+   "id": "t020-04",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8548
+  },
+  {
+   "id": "t021-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9536
+  },
+  {
+   "id": "t021-02",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.8522
+  },
+  {
+   "id": "t021-03",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.6815
+  },
+  {
+   "id": "t021-04",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9971
+  },
+  {
+   "id": "t022-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.8549
+  },
+  {
+   "id": "t022-02",
+   "label": "tarjeta_comprometida",
+   "pred": "fuera_de_alcance",
+   "conf": 0.431
+  },
+  {
+   "id": "t022-03",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.6378
+  },
+  {
+   "id": "t022-04",
+   "label": "tarjeta_comprometida",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7748
+  },
+  {
+   "id": "t023-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.6612
+  },
+  {
+   "id": "t023-02",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.4427
+  },
+  {
+   "id": "t023-03",
+   "label": "tarjeta_comprometida",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5572
+  },
+  {
+   "id": "t023-04",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.4431
+  },
+  {
+   "id": "t024-01",
+   "label": "tarjeta_comprometida",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.5126
+  },
+  {
+   "id": "t024-02",
+   "label": "tarjeta_comprometida",
+   "pred": "fuera_de_alcance",
+   "conf": 0.4434
+  },
+  {
+   "id": "t024-03",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.5265
+  },
+  {
+   "id": "t024-04",
+   "label": "tarjeta_comprometida",
+   "pred": "cobro_incorrecto",
+   "conf": 0.4464
+  },
+  {
+   "id": "t025-01",
+   "label": "tarjeta_comprometida",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6462
+  },
+  {
+   "id": "t025-02",
+   "label": "tarjeta_comprometida",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8971
+  },
+  {
+   "id": "t025-03",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.6821
+  },
+  {
+   "id": "t025-04",
+   "label": "tarjeta_comprometida",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7439
+  },
+  {
+   "id": "t026-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.944
+  },
+  {
+   "id": "t026-02",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.6362
+  },
+  {
+   "id": "t026-03",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.8096
+  },
+  {
+   "id": "t026-04",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9338
+  },
+  {
+   "id": "t027-01",
+   "label": "tarjeta_comprometida",
+   "pred": "fuera_de_alcance",
+   "conf": 0.593
+  },
+  {
+   "id": "t027-02",
+   "label": "tarjeta_comprometida",
+   "pred": "cobro_incorrecto",
+   "conf": 0.3286
+  },
+  {
+   "id": "t027-03",
+   "label": "tarjeta_comprometida",
+   "pred": "fuera_de_alcance",
+   "conf": 0.4451
+  },
+  {
+   "id": "t027-04",
+   "label": "tarjeta_comprometida",
+   "pred": "fuera_de_alcance",
+   "conf": 0.879
+  },
+  {
+   "id": "t028-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.6477
+  },
+  {
+   "id": "t028-02",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.5297
+  },
+  {
+   "id": "t028-03",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.5344
+  },
+  {
+   "id": "t028-04",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.7147
+  },
+  {
+   "id": "t029-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9974
+  },
+  {
+   "id": "t029-02",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.6006
+  },
+  {
+   "id": "t029-03",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.7396
+  },
+  {
+   "id": "t029-04",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.533
+  },
+  {
+   "id": "t030-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9985
+  },
+  {
+   "id": "t030-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9656
+  },
+  {
+   "id": "t030-03",
+   "label": "estado_disputa",
+   "pred": "fuera_de_alcance",
+   "conf": 0.4545
+  },
+  {
+   "id": "t030-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.987
+  },
+  {
+   "id": "t031-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.8484
+  },
+  {
+   "id": "t031-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.785
+  },
+  {
+   "id": "t031-03",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9631
+  },
+  {
+   "id": "t031-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9454
+  },
+  {
+   "id": "t032-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9754
+  },
+  {
+   "id": "t032-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9764
+  },
+  {
+   "id": "t032-03",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.7421
+  },
+  {
+   "id": "t032-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9506
+  },
+  {
+   "id": "t033-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9801
+  },
+  {
+   "id": "t033-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.5623
+  },
+  {
+   "id": "t033-03",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.4639
+  },
+  {
+   "id": "t033-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9502
+  },
+  {
+   "id": "t034-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.954
+  },
+  {
+   "id": "t034-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.8699
+  },
+  {
+   "id": "t034-03",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9417
+  },
+  {
+   "id": "t034-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.6257
+  },
+  {
+   "id": "t035-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9896
+  },
+  {
+   "id": "t035-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9844
+  },
+  {
+   "id": "t035-03",
+   "label": "estado_disputa",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7758
+  },
+  {
+   "id": "t035-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.7334
+  },
+  {
+   "id": "t036-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9469
+  },
+  {
+   "id": "t036-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.7114
+  },
+  {
+   "id": "t036-03",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.8785
+  },
+  {
+   "id": "t036-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.8942
+  },
+  {
+   "id": "t037-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9797
+  },
+  {
+   "id": "t037-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.8198
+  },
+  {
+   "id": "t037-03",
+   "label": "estado_disputa",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7464
+  },
+  {
+   "id": "t037-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9634
+  },
+  {
+   "id": "t038-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6604
+  },
+  {
+   "id": "t038-02",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9121
+  },
+  {
+   "id": "t038-03",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9426
+  },
+  {
+   "id": "t038-04",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7224
+  },
+  {
+   "id": "t039-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8617
+  },
+  {
+   "id": "t039-02",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7819
+  },
+  {
+   "id": "t039-03",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8129
+  },
+  {
+   "id": "t039-04",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7238
+  },
+  {
+   "id": "t040-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8303
+  },
+  {
+   "id": "t040-02",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8907
+  },
+  {
+   "id": "t040-03",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8317
+  },
+  {
+   "id": "t040-04",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6576
+  },
+  {
+   "id": "t041-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9841
+  },
+  {
+   "id": "t041-02",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6846
+  },
+  {
+   "id": "t041-03",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8778
+  },
+  {
+   "id": "t041-04",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9433
+  },
+  {
+   "id": "t042-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9262
+  },
+  {
+   "id": "t042-02",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9561
+  },
+  {
+   "id": "t042-03",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6207
+  },
+  {
+   "id": "t042-04",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8596
+  },
+  {
+   "id": "t043-01",
+   "label": "fuera_de_alcance",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.5138
+  },
+  {
+   "id": "t043-02",
+   "label": "fuera_de_alcance",
+   "pred": "cobro_incorrecto",
+   "conf": 0.4516
+  },
+  {
+   "id": "t043-03",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9095
+  },
+  {
+   "id": "t043-04",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9507
+  },
+  {
+   "id": "t044-01",
+   "label": "fuera_de_alcance",
+   "pred": "cobro_incorrecto",
+   "conf": 0.3901
+  },
+  {
+   "id": "t044-02",
+   "label": "fuera_de_alcance",
+   "pred": "estado_disputa",
+   "conf": 0.4002
+  },
+  {
+   "id": "t044-03",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8487
+  },
+  {
+   "id": "t044-04",
+   "label": "fuera_de_alcance",
+   "pred": "estado_disputa",
+   "conf": 0.8653
+  },
+  {
+   "id": "t045-01",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7895
+  },
+  {
+   "id": "t045-02",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6882
+  },
+  {
+   "id": "t045-03",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.765
+  },
+  {
+   "id": "t045-04",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6782
+  },
+  {
+   "id": "t046-01",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7386
+  },
+  {
+   "id": "t046-02",
+   "label": "ambiguo",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.7572
+  },
+  {
+   "id": "t046-03",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6
+  },
+  {
+   "id": "t046-04",
+   "label": "ambiguo",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.713
+  },
+  {
+   "id": "t047-01",
+   "label": "ambiguo",
+   "pred": "estado_disputa",
+   "conf": 0.4152
+  },
+  {
+   "id": "t047-02",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8939
+  },
+  {
+   "id": "t047-03",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5274
+  },
+  {
+   "id": "t047-04",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.4573
+  },
+  {
+   "id": "t048-01",
+   "label": "ambiguo",
+   "pred": "cobro_incorrecto",
+   "conf": 0.3807
+  },
+  {
+   "id": "t048-02",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.481
+  },
+  {
+   "id": "t048-03",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.3236
+  },
+  {
+   "id": "t048-04",
+   "label": "ambiguo",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.5779
+  },
+  {
+   "id": "t049-01",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7254
+  },
+  {
+   "id": "t049-02",
+   "label": "ambiguo",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8284
+  },
+  {
+   "id": "t049-03",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5035
+  },
+  {
+   "id": "t049-04",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8635
+  },
+  {
+   "id": "t050-01",
+   "label": "ambiguo",
+   "pred": "estado_disputa",
+   "conf": 0.935
+  },
+  {
+   "id": "t050-02",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7711
+  },
+  {
+   "id": "t050-03",
+   "label": "ambiguo",
+   "pred": "estado_disputa",
+   "conf": 0.5305
+  },
+  {
+   "id": "t050-04",
+   "label": "ambiguo",
+   "pred": "estado_disputa",
+   "conf": 0.9521
+  }
+ ]
+}

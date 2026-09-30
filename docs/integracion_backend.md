@@ -86,7 +86,7 @@ El orquestador **solo** usa `confirmation` cuando la conversación está en `CON
 | `Não reconheço uma compra de 3.500` | pt, amount 3500 (con intención de disputa, no fuera de alcance) |
 | `Não reconheço uma cobrança de 350` | pt, amount 350 |
 | `Me cobraron dos veces 120000` | `cobro_incorrecto`, amount 120000 |
-| `Quiero un préstamo` | `fuera_de_alcance`, **sin** abstención |
+| `Quiero un préstamo` | `fuera_de_alcance`, **sin** abstención. Se cumple con Gemini (segunda opinión bajo τ, D4.5). Sin `GEMINI_API_KEY` el clasificador da `fuera_de_alcance` con 0,62 < τ, así que pide aclaración (D4.6) |
 | `hola`, `mmm`, `no sé` | `abstain=True` (el sistema pide aclarar) |
 | `No reconozco un cargo de 777` | disputa con amount 777 |
 

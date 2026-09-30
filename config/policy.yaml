@@ -2,7 +2,7 @@
 # Cambiar cualquier valor sube policy_version. Datos calibrados en Fase 2;
 # el umbral de intención sigue a cargo de B (Fase 4).
 
-policy_version: "1.2.0"   # 1.2.0: tau_intencion calibrado (Fase 4.2)
+policy_version: "1.3.0"   # 1.2.0: tau_intencion calibrado (Fase 4.2) · 1.3.0: tau_gemini (D4.5)
 
 # "Hoy" para ventanas y SLA. Última process_date en transactions_12m (2026-06-17).
 reference_date: "2026-06-17"
@@ -16,6 +16,11 @@ intent:
   # Test (una vez, resultados_test.md): cobertura 35,5 %, precisión 84,5 %. El modelo servido se
   # reentrena con train+val (make train), así que el τ viene de un modelo algo distinto.
   tau_intencion: 0.81
+  # Segunda opinión de Gemini (intent_zeroshot_v1) solo bajo tau_intencion (D4.5): se acepta si
+  # nombra una de las 5 clases con confianza >= tau_gemini. Mayor cobertura con precisión >= 90 % en
+  # val de la cascada; en el empate (0 a 0,80), el más alto. Val: cobertura 63,9 % → 93,9 %,
+  # precisión 95,4 % → 90,1 %. Sin la clave, no hay segunda opinión.
+  tau_gemini: 0.80
   max_clarifications: 2
 
 search:

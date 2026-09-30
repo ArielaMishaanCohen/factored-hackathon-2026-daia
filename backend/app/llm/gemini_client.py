@@ -19,6 +19,7 @@ import copy
 import hashlib
 import json
 import logging
+import threading
 import time
 from collections import OrderedDict
 from dataclasses import dataclass
@@ -103,6 +104,7 @@ class GeminiClient:
         self._client = client  # inyectable en tests; si no, se crea al primer uso
         self._sleep = sleep
         self._cache: OrderedDict[str, Any] = OrderedDict()
+        self._lock = threading.Lock()  # understand() llama en paralelo a extracción e intención
         if self.modelo not in PRECIOS:
             log.warning("gemini: sin precio para el modelo %r; cost_usd saldrá en 0", self.modelo)
 
@@ -149,19 +151,24 @@ class GeminiClient:
         return hashlib.md5(f"{self.modelo}\n{prompt_md5}\n{esq}\n{texto_usuario}".encode()).hexdigest()
 
     def _guardar(self, clave: str, valor: Any) -> None:
-        self._cache[clave] = copy.deepcopy(valor)
-        self._cache.move_to_end(clave)
-        while len(self._cache) > CACHE_MAX:
-            self._cache.popitem(last=False)
+        with self._lock:
+            self._cache[clave] = copy.deepcopy(valor)
+            self._cache.move_to_end(clave)
+            while len(self._cache) > CACHE_MAX:
+                self._cache.popitem(last=False)
 
     # --- Llamada con reintentos ---
 
     def _generar(self, prompt_sistema: str, texto_usuario: str, esquema: dict | None) -> tuple[Any, LLMUsage]:
         clave = self._clave_cache(prompt_sistema, texto_usuario, esquema)
-        if clave in self._cache:
-            self._cache.move_to_end(clave)
+        with self._lock:
+            en_cache = clave in self._cache
+            if en_cache:
+                self._cache.move_to_end(clave)
+                valor = copy.deepcopy(self._cache[clave])
+        if en_cache:
             log.info("gemini: acierto de caché (modelo=%s)", self.modelo)
-            return copy.deepcopy(self._cache[clave]), LLMUsage(self.modelo, 0, 0, 0.0, cached=True)
+            return valor, LLMUsage(self.modelo, 0, 0, 0.0, cached=True)
 
         api = self._api()
         config = types.GenerateContentConfig(

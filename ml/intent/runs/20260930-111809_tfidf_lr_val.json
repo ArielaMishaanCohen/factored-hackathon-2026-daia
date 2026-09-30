@@ -1,0 +1,3897 @@
+{
+ "candidato": "tfidf_lr",
+ "split": "val",
+ "fecha": "2026-09-30T11:18:09",
+ "params": {
+  "C": 10
+ },
+ "datos": {
+  "frases_md5": "f29762777d3e80baa84eb04bc7792563",
+  "train_fuentes": "todas",
+  "train_sin_ruido": false,
+  "train_n": 1891
+ },
+ "git_commit": "d3d2747faabca31ca64525bec896f4de747a91dd-dirty",
+ "tau": {
+  "tau": 0.81,
+  "contestadas": 328,
+  "cobertura": 0.6393762183235867,
+  "precision": 0.9542682926829268,
+  "ambiguo_abstenidas": 0.8,
+  "regla": "precision>=95%, max cobertura"
+ },
+ "metricas": {
+  "n": 513,
+  "n_sin_ambiguo": 468,
+  "n_sin_respuesta": 0,
+  "macro_f1": 0.9057848256015385,
+  "f1_por_clase": {
+   "cargo_no_reconocido": 0.907103825136612,
+   "cobro_incorrecto": 0.8191489361702128,
+   "tarjeta_comprometida": 0.9210526315789473,
+   "estado_disputa": 0.98989898989899,
+   "fuera_de_alcance": 0.89171974522293
+  },
+  "por_idioma": {
+   "es": {
+    "n": 238,
+    "macro_f1": 0.9301189165106727
+   },
+   "mix": {
+    "n": 30,
+    "macro_f1": 0.9191919191919192
+   },
+   "pt": {
+    "n": 200,
+    "macro_f1": 0.8726833450237705
+   }
+  },
+  "por_source": {
+   "banking77": {
+    "n": 347,
+    "macro_f1": 0.7261361678409181
+   },
+   "suplemento": {
+    "n": 121,
+    "macro_f1": 0.8116497193896575
+   }
+  },
+  "matriz_confusion": {
+   "clases": [
+    "cargo_no_reconocido",
+    "cobro_incorrecto",
+    "tarjeta_comprometida",
+    "estado_disputa",
+    "fuera_de_alcance"
+   ],
+   "filas_real_columnas_pred": [
+    [
+     83,
+     1,
+     3,
+     0,
+     2
+    ],
+    [
+     7,
+     77,
+     0,
+     0,
+     11
+    ],
+    [
+     2,
+     1,
+     70,
+     0,
+     4
+    ],
+    [
+     0,
+     1,
+     0,
+     49,
+     0
+    ],
+    [
+     2,
+     13,
+     2,
+     0,
+     140
+    ]
+   ]
+  },
+  "curva_cobertura_precision": [
+   {
+    "tau": 0.0,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.01,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.02,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.03,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.04,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.05,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.06,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.07,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.08,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.09,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.1,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.11,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.12,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.13,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.14,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.15,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.16,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.17,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.18,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.19,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.2,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.21,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.22,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.23,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.24,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.25,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.26,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.27,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.28,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.29,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.3,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.31,
+    "contestadas": 513,
+    "cobertura": 1.0,
+    "precision": 0.8167641325536062,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.32,
+    "contestadas": 512,
+    "cobertura": 0.9980506822612085,
+    "precision": 0.81640625,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.33,
+    "contestadas": 511,
+    "cobertura": 0.9961013645224172,
+    "precision": 0.8160469667318982,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.34,
+    "contestadas": 510,
+    "cobertura": 0.9941520467836257,
+    "precision": 0.8156862745098039,
+    "ambiguo_abstenidas": 0.0
+   },
+   {
+    "tau": 0.35,
+    "contestadas": 506,
+    "cobertura": 0.98635477582846,
+    "precision": 0.8221343873517787,
+    "ambiguo_abstenidas": 0.044444444444444446
+   },
+   {
+    "tau": 0.36,
+    "contestadas": 506,
+    "cobertura": 0.98635477582846,
+    "precision": 0.8221343873517787,
+    "ambiguo_abstenidas": 0.044444444444444446
+   },
+   {
+    "tau": 0.37,
+    "contestadas": 505,
+    "cobertura": 0.9844054580896686,
+    "precision": 0.8237623762376237,
+    "ambiguo_abstenidas": 0.06666666666666667
+   },
+   {
+    "tau": 0.38,
+    "contestadas": 504,
+    "cobertura": 0.9824561403508771,
+    "precision": 0.8234126984126984,
+    "ambiguo_abstenidas": 0.06666666666666667
+   },
+   {
+    "tau": 0.39,
+    "contestadas": 498,
+    "cobertura": 0.9707602339181286,
+    "precision": 0.8333333333333334,
+    "ambiguo_abstenidas": 0.08888888888888889
+   },
+   {
+    "tau": 0.4,
+    "contestadas": 493,
+    "cobertura": 0.9610136452241715,
+    "precision": 0.8397565922920892,
+    "ambiguo_abstenidas": 0.08888888888888889
+   },
+   {
+    "tau": 0.41,
+    "contestadas": 489,
+    "cobertura": 0.9532163742690059,
+    "precision": 0.8445807770961146,
+    "ambiguo_abstenidas": 0.1111111111111111
+   },
+   {
+    "tau": 0.42,
+    "contestadas": 488,
+    "cobertura": 0.9512670565302144,
+    "precision": 0.8442622950819673,
+    "ambiguo_abstenidas": 0.1111111111111111
+   },
+   {
+    "tau": 0.43,
+    "contestadas": 487,
+    "cobertura": 0.949317738791423,
+    "precision": 0.8459958932238193,
+    "ambiguo_abstenidas": 0.13333333333333333
+   },
+   {
+    "tau": 0.44,
+    "contestadas": 486,
+    "cobertura": 0.9473684210526315,
+    "precision": 0.8477366255144033,
+    "ambiguo_abstenidas": 0.15555555555555556
+   },
+   {
+    "tau": 0.45,
+    "contestadas": 482,
+    "cobertura": 0.9395711500974658,
+    "precision": 0.8526970954356846,
+    "ambiguo_abstenidas": 0.17777777777777778
+   },
+   {
+    "tau": 0.46,
+    "contestadas": 479,
+    "cobertura": 0.9337231968810916,
+    "precision": 0.8538622129436325,
+    "ambiguo_abstenidas": 0.17777777777777778
+   },
+   {
+    "tau": 0.47,
+    "contestadas": 476,
+    "cobertura": 0.9278752436647173,
+    "precision": 0.8550420168067226,
+    "ambiguo_abstenidas": 0.17777777777777778
+   },
+   {
+    "tau": 0.48,
+    "contestadas": 475,
+    "cobertura": 0.9259259259259259,
+    "precision": 0.8568421052631578,
+    "ambiguo_abstenidas": 0.2
+   },
+   {
+    "tau": 0.49,
+    "contestadas": 474,
+    "cobertura": 0.9239766081871345,
+    "precision": 0.8586497890295358,
+    "ambiguo_abstenidas": 0.2
+   },
+   {
+    "tau": 0.5,
+    "contestadas": 473,
+    "cobertura": 0.9220272904483431,
+    "precision": 0.8583509513742071,
+    "ambiguo_abstenidas": 0.2
+   },
+   {
+    "tau": 0.51,
+    "contestadas": 468,
+    "cobertura": 0.9122807017543859,
+    "precision": 0.8632478632478633,
+    "ambiguo_abstenidas": 0.2222222222222222
+   },
+   {
+    "tau": 0.52,
+    "contestadas": 462,
+    "cobertura": 0.9005847953216374,
+    "precision": 0.8658008658008658,
+    "ambiguo_abstenidas": 0.26666666666666666
+   },
+   {
+    "tau": 0.53,
+    "contestadas": 458,
+    "cobertura": 0.8927875243664717,
+    "precision": 0.8668122270742358,
+    "ambiguo_abstenidas": 0.26666666666666666
+   },
+   {
+    "tau": 0.54,
+    "contestadas": 457,
+    "cobertura": 0.8908382066276803,
+    "precision": 0.8665207877461707,
+    "ambiguo_abstenidas": 0.26666666666666666
+   },
+   {
+    "tau": 0.55,
+    "contestadas": 451,
+    "cobertura": 0.8791423001949318,
+    "precision": 0.8736141906873615,
+    "ambiguo_abstenidas": 0.3333333333333333
+   },
+   {
+    "tau": 0.56,
+    "contestadas": 449,
+    "cobertura": 0.8752436647173489,
+    "precision": 0.8752783964365256,
+    "ambiguo_abstenidas": 0.3333333333333333
+   },
+   {
+    "tau": 0.57,
+    "contestadas": 445,
+    "cobertura": 0.8674463937621832,
+    "precision": 0.8808988764044944,
+    "ambiguo_abstenidas": 0.37777777777777777
+   },
+   {
+    "tau": 0.58,
+    "contestadas": 441,
+    "cobertura": 0.8596491228070176,
+    "precision": 0.8820861678004536,
+    "ambiguo_abstenidas": 0.37777777777777777
+   },
+   {
+    "tau": 0.59,
+    "contestadas": 434,
+    "cobertura": 0.8460038986354775,
+    "precision": 0.8847926267281107,
+    "ambiguo_abstenidas": 0.37777777777777777
+   },
+   {
+    "tau": 0.6,
+    "contestadas": 431,
+    "cobertura": 0.8401559454191033,
+    "precision": 0.8863109048723898,
+    "ambiguo_abstenidas": 0.37777777777777777
+   },
+   {
+    "tau": 0.61,
+    "contestadas": 427,
+    "cobertura": 0.8323586744639376,
+    "precision": 0.8899297423887588,
+    "ambiguo_abstenidas": 0.37777777777777777
+   },
+   {
+    "tau": 0.62,
+    "contestadas": 423,
+    "cobertura": 0.8245614035087719,
+    "precision": 0.8959810874704491,
+    "ambiguo_abstenidas": 0.37777777777777777
+   },
+   {
+    "tau": 0.63,
+    "contestadas": 419,
+    "cobertura": 0.8167641325536062,
+    "precision": 0.8949880668257757,
+    "ambiguo_abstenidas": 0.37777777777777777
+   },
+   {
+    "tau": 0.64,
+    "contestadas": 413,
+    "cobertura": 0.8050682261208577,
+    "precision": 0.8958837772397095,
+    "ambiguo_abstenidas": 0.4
+   },
+   {
+    "tau": 0.65,
+    "contestadas": 406,
+    "cobertura": 0.7914230019493177,
+    "precision": 0.9014778325123153,
+    "ambiguo_abstenidas": 0.4222222222222222
+   },
+   {
+    "tau": 0.66,
+    "contestadas": 401,
+    "cobertura": 0.7816764132553606,
+    "precision": 0.9052369077306733,
+    "ambiguo_abstenidas": 0.4444444444444444
+   },
+   {
+    "tau": 0.67,
+    "contestadas": 397,
+    "cobertura": 0.7738791423001949,
+    "precision": 0.906801007556675,
+    "ambiguo_abstenidas": 0.4444444444444444
+   },
+   {
+    "tau": 0.68,
+    "contestadas": 389,
+    "cobertura": 0.7582846003898636,
+    "precision": 0.910025706940874,
+    "ambiguo_abstenidas": 0.4666666666666667
+   },
+   {
+    "tau": 0.69,
+    "contestadas": 387,
+    "cobertura": 0.7543859649122807,
+    "precision": 0.9121447028423773,
+    "ambiguo_abstenidas": 0.4666666666666667
+   },
+   {
+    "tau": 0.7,
+    "contestadas": 379,
+    "cobertura": 0.7387914230019493,
+    "precision": 0.9182058047493403,
+    "ambiguo_abstenidas": 0.5333333333333333
+   },
+   {
+    "tau": 0.71,
+    "contestadas": 376,
+    "cobertura": 0.732943469785575,
+    "precision": 0.9202127659574468,
+    "ambiguo_abstenidas": 0.5333333333333333
+   },
+   {
+    "tau": 0.72,
+    "contestadas": 369,
+    "cobertura": 0.7192982456140351,
+    "precision": 0.926829268292683,
+    "ambiguo_abstenidas": 0.6
+   },
+   {
+    "tau": 0.73,
+    "contestadas": 368,
+    "cobertura": 0.7173489278752436,
+    "precision": 0.9293478260869565,
+    "ambiguo_abstenidas": 0.6
+   },
+   {
+    "tau": 0.74,
+    "contestadas": 365,
+    "cobertura": 0.7115009746588694,
+    "precision": 0.9315068493150684,
+    "ambiguo_abstenidas": 0.6222222222222222
+   },
+   {
+    "tau": 0.75,
+    "contestadas": 360,
+    "cobertura": 0.7017543859649122,
+    "precision": 0.9361111111111111,
+    "ambiguo_abstenidas": 0.6666666666666666
+   },
+   {
+    "tau": 0.76,
+    "contestadas": 356,
+    "cobertura": 0.6939571150097466,
+    "precision": 0.9410112359550562,
+    "ambiguo_abstenidas": 0.7111111111111111
+   },
+   {
+    "tau": 0.77,
+    "contestadas": 354,
+    "cobertura": 0.6900584795321637,
+    "precision": 0.940677966101695,
+    "ambiguo_abstenidas": 0.7111111111111111
+   },
+   {
+    "tau": 0.78,
+    "contestadas": 347,
+    "cobertura": 0.6764132553606238,
+    "precision": 0.9423631123919308,
+    "ambiguo_abstenidas": 0.7333333333333333
+   },
+   {
+    "tau": 0.79,
+    "contestadas": 337,
+    "cobertura": 0.6569200779727096,
+    "precision": 0.9465875370919882,
+    "ambiguo_abstenidas": 0.7555555555555555
+   },
+   {
+    "tau": 0.8,
+    "contestadas": 337,
+    "cobertura": 0.6569200779727096,
+    "precision": 0.9465875370919882,
+    "ambiguo_abstenidas": 0.7555555555555555
+   },
+   {
+    "tau": 0.81,
+    "contestadas": 328,
+    "cobertura": 0.6393762183235867,
+    "precision": 0.9542682926829268,
+    "ambiguo_abstenidas": 0.8
+   },
+   {
+    "tau": 0.82,
+    "contestadas": 322,
+    "cobertura": 0.6276803118908382,
+    "precision": 0.9596273291925466,
+    "ambiguo_abstenidas": 0.8222222222222222
+   },
+   {
+    "tau": 0.83,
+    "contestadas": 316,
+    "cobertura": 0.6159844054580896,
+    "precision": 0.9620253164556962,
+    "ambiguo_abstenidas": 0.8222222222222222
+   },
+   {
+    "tau": 0.84,
+    "contestadas": 309,
+    "cobertura": 0.6023391812865497,
+    "precision": 0.9644012944983819,
+    "ambiguo_abstenidas": 0.8444444444444444
+   },
+   {
+    "tau": 0.85,
+    "contestadas": 301,
+    "cobertura": 0.5867446393762183,
+    "precision": 0.9634551495016611,
+    "ambiguo_abstenidas": 0.8444444444444444
+   },
+   {
+    "tau": 0.86,
+    "contestadas": 298,
+    "cobertura": 0.580896686159844,
+    "precision": 0.9630872483221476,
+    "ambiguo_abstenidas": 0.8444444444444444
+   },
+   {
+    "tau": 0.87,
+    "contestadas": 286,
+    "cobertura": 0.557504873294347,
+    "precision": 0.9685314685314685,
+    "ambiguo_abstenidas": 0.8888888888888888
+   },
+   {
+    "tau": 0.88,
+    "contestadas": 276,
+    "cobertura": 0.5380116959064327,
+    "precision": 0.9710144927536232,
+    "ambiguo_abstenidas": 0.8888888888888888
+   },
+   {
+    "tau": 0.89,
+    "contestadas": 263,
+    "cobertura": 0.5126705653021443,
+    "precision": 0.9771863117870723,
+    "ambiguo_abstenidas": 0.9111111111111111
+   },
+   {
+    "tau": 0.9,
+    "contestadas": 252,
+    "cobertura": 0.49122807017543857,
+    "precision": 0.9801587301587301,
+    "ambiguo_abstenidas": 0.9111111111111111
+   },
+   {
+    "tau": 0.91,
+    "contestadas": 243,
+    "cobertura": 0.47368421052631576,
+    "precision": 0.9794238683127572,
+    "ambiguo_abstenidas": 0.9111111111111111
+   },
+   {
+    "tau": 0.92,
+    "contestadas": 236,
+    "cobertura": 0.4600389863547758,
+    "precision": 0.9788135593220338,
+    "ambiguo_abstenidas": 0.9111111111111111
+   },
+   {
+    "tau": 0.93,
+    "contestadas": 217,
+    "cobertura": 0.42300194931773877,
+    "precision": 0.9861751152073732,
+    "ambiguo_abstenidas": 0.9555555555555556
+   },
+   {
+    "tau": 0.94,
+    "contestadas": 201,
+    "cobertura": 0.391812865497076,
+    "precision": 0.9850746268656716,
+    "ambiguo_abstenidas": 0.9555555555555556
+   },
+   {
+    "tau": 0.95,
+    "contestadas": 180,
+    "cobertura": 0.3508771929824561,
+    "precision": 0.9888888888888889,
+    "ambiguo_abstenidas": 0.9777777777777777
+   },
+   {
+    "tau": 0.96,
+    "contestadas": 166,
+    "cobertura": 0.3235867446393762,
+    "precision": 0.9939759036144579,
+    "ambiguo_abstenidas": 1.0
+   },
+   {
+    "tau": 0.97,
+    "contestadas": 149,
+    "cobertura": 0.290448343079922,
+    "precision": 1.0,
+    "ambiguo_abstenidas": 1.0
+   },
+   {
+    "tau": 0.98,
+    "contestadas": 113,
+    "cobertura": 0.2202729044834308,
+    "precision": 1.0,
+    "ambiguo_abstenidas": 1.0
+   },
+   {
+    "tau": 0.99,
+    "contestadas": 73,
+    "cobertura": 0.14230019493177387,
+    "precision": 1.0,
+    "ambiguo_abstenidas": 1.0
+   },
+   {
+    "tau": 1.0,
+    "contestadas": 0,
+    "cobertura": 0.0,
+    "precision": null,
+    "ambiguo_abstenidas": 1.0
+   }
+  ],
+  "latencia_ms_p50": 0.5832919850945473,
+  "costo_por_1000_usd": 0.0
+ },
+ "predicciones": [
+  {
+   "id": "b00113-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8956
+  },
+  {
+   "id": "b00169-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7856
+  },
+  {
+   "id": "b00267-01",
+   "label": "fuera_de_alcance",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.5026
+  },
+  {
+   "id": "b00413-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9548
+  },
+  {
+   "id": "b00419-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9593
+  },
+  {
+   "id": "b00420-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9817
+  },
+  {
+   "id": "b00422-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.933
+  },
+  {
+   "id": "b00460-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9853
+  },
+  {
+   "id": "b00482-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8024
+  },
+  {
+   "id": "b00486-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9888
+  },
+  {
+   "id": "b00500-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8935
+  },
+  {
+   "id": "b00528-01",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5535
+  },
+  {
+   "id": "b00529-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9476
+  },
+  {
+   "id": "b00531-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8737
+  },
+  {
+   "id": "b00545-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.7169
+  },
+  {
+   "id": "b00552-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8852
+  },
+  {
+   "id": "b00562-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9976
+  },
+  {
+   "id": "b00573-01",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.3915
+  },
+  {
+   "id": "b00609-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.5324
+  },
+  {
+   "id": "b00632-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9837
+  },
+  {
+   "id": "b00649-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8284
+  },
+  {
+   "id": "b00662-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9785
+  },
+  {
+   "id": "b00665-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.8785
+  },
+  {
+   "id": "b00670-01",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7061
+  },
+  {
+   "id": "b00694-01",
+   "label": "tarjeta_comprometida",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.6108
+  },
+  {
+   "id": "b00707-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9541
+  },
+  {
+   "id": "b01074-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7082
+  },
+  {
+   "id": "b01088-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9311
+  },
+  {
+   "id": "b01263-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9498
+  },
+  {
+   "id": "b01477-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.6452
+  },
+  {
+   "id": "b01478-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9797
+  },
+  {
+   "id": "b01487-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9998
+  },
+  {
+   "id": "b01493-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9864
+  },
+  {
+   "id": "b01497-01",
+   "label": "tarjeta_comprometida",
+   "pred": "fuera_de_alcance",
+   "conf": 0.4678
+  },
+  {
+   "id": "b01500-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9754
+  },
+  {
+   "id": "b01504-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9599
+  },
+  {
+   "id": "b01508-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9769
+  },
+  {
+   "id": "b01513-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9866
+  },
+  {
+   "id": "b01528-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9809
+  },
+  {
+   "id": "b01529-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9015
+  },
+  {
+   "id": "b01537-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9655
+  },
+  {
+   "id": "b01546-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.8624
+  },
+  {
+   "id": "b01547-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9587
+  },
+  {
+   "id": "b01549-01",
+   "label": "tarjeta_comprometida",
+   "pred": "fuera_de_alcance",
+   "conf": 0.726
+  },
+  {
+   "id": "b01552-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.5013
+  },
+  {
+   "id": "b01575-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6723
+  },
+  {
+   "id": "b01630-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8716
+  },
+  {
+   "id": "b01752-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8466
+  },
+  {
+   "id": "b01786-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7791
+  },
+  {
+   "id": "b01835-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8234
+  },
+  {
+   "id": "b02232-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.963
+  },
+  {
+   "id": "b02290-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8271
+  },
+  {
+   "id": "b02340-01",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6194
+  },
+  {
+   "id": "b02346-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8736
+  },
+  {
+   "id": "b02357-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8872
+  },
+  {
+   "id": "b02360-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9911
+  },
+  {
+   "id": "b02376-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9885
+  },
+  {
+   "id": "b02396-01",
+   "label": "cobro_incorrecto",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.8892
+  },
+  {
+   "id": "b02399-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8898
+  },
+  {
+   "id": "b02409-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.5809
+  },
+  {
+   "id": "b02427-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.5862
+  },
+  {
+   "id": "b02428-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9176
+  },
+  {
+   "id": "b02435-01",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7483
+  },
+  {
+   "id": "b02440-01",
+   "label": "cobro_incorrecto",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.4459
+  },
+  {
+   "id": "b02471-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9701
+  },
+  {
+   "id": "b02493-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8868
+  },
+  {
+   "id": "b02504-01",
+   "label": "cobro_incorrecto",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.3852
+  },
+  {
+   "id": "b02509-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9448
+  },
+  {
+   "id": "b02526-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.6709
+  },
+  {
+   "id": "b02535-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9176
+  },
+  {
+   "id": "b02584-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8757
+  },
+  {
+   "id": "b02590-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9259
+  },
+  {
+   "id": "b02615-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7004
+  },
+  {
+   "id": "b02619-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8495
+  },
+  {
+   "id": "b02623-01",
+   "label": "fuera_de_alcance",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8767
+  },
+  {
+   "id": "b02629-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5804
+  },
+  {
+   "id": "b02630-01",
+   "label": "fuera_de_alcance",
+   "pred": "cobro_incorrecto",
+   "conf": 0.579
+  },
+  {
+   "id": "b02635-01",
+   "label": "fuera_de_alcance",
+   "pred": "cobro_incorrecto",
+   "conf": 0.6637
+  },
+  {
+   "id": "b02664-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6415
+  },
+  {
+   "id": "b02672-01",
+   "label": "fuera_de_alcance",
+   "pred": "cobro_incorrecto",
+   "conf": 0.6599
+  },
+  {
+   "id": "b02838-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5886
+  },
+  {
+   "id": "b03316-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8469
+  },
+  {
+   "id": "b03491-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9892
+  },
+  {
+   "id": "b03493-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.999
+  },
+  {
+   "id": "b03494-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9205
+  },
+  {
+   "id": "b03505-01",
+   "label": "cargo_no_reconocido",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.6753
+  },
+  {
+   "id": "b03506-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9909
+  },
+  {
+   "id": "b03508-01",
+   "label": "ambiguo",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.7541
+  },
+  {
+   "id": "b03509-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9774
+  },
+  {
+   "id": "b03517-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9791
+  },
+  {
+   "id": "b03527-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9728
+  },
+  {
+   "id": "b03529-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.7712
+  },
+  {
+   "id": "b03551-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.8958
+  },
+  {
+   "id": "b03559-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9897
+  },
+  {
+   "id": "b03560-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9971
+  },
+  {
+   "id": "b03567-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9568
+  },
+  {
+   "id": "b03577-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9959
+  },
+  {
+   "id": "b03578-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.6497
+  },
+  {
+   "id": "b03583-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9869
+  },
+  {
+   "id": "b03607-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.8681
+  },
+  {
+   "id": "b03608-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.5475
+  },
+  {
+   "id": "b03614-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9309
+  },
+  {
+   "id": "b03619-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9832
+  },
+  {
+   "id": "b03620-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9613
+  },
+  {
+   "id": "b03621-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.8817
+  },
+  {
+   "id": "b03622-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9971
+  },
+  {
+   "id": "b03634-01",
+   "label": "cargo_no_reconocido",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.7841
+  },
+  {
+   "id": "b03637-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9159
+  },
+  {
+   "id": "b03641-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9991
+  },
+  {
+   "id": "b03644-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.716
+  },
+  {
+   "id": "b03647-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.7771
+  },
+  {
+   "id": "b03988-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9262
+  },
+  {
+   "id": "b04013-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6755
+  },
+  {
+   "id": "b04393-01",
+   "label": "fuera_de_alcance",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.6402
+  },
+  {
+   "id": "b04446-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9086
+  },
+  {
+   "id": "b04459-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9983
+  },
+  {
+   "id": "b04466-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9712
+  },
+  {
+   "id": "b04471-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.7853
+  },
+  {
+   "id": "b04476-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9818
+  },
+  {
+   "id": "b04477-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9975
+  },
+  {
+   "id": "b04481-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9978
+  },
+  {
+   "id": "b04487-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9991
+  },
+  {
+   "id": "b04501-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9924
+  },
+  {
+   "id": "b04505-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9984
+  },
+  {
+   "id": "b04509-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9956
+  },
+  {
+   "id": "b04512-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9963
+  },
+  {
+   "id": "b04514-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9954
+  },
+  {
+   "id": "b04518-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9775
+  },
+  {
+   "id": "b04526-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9506
+  },
+  {
+   "id": "b04538-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.996
+  },
+  {
+   "id": "b04541-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9776
+  },
+  {
+   "id": "b04543-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9963
+  },
+  {
+   "id": "b04544-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.997
+  },
+  {
+   "id": "b04581-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9438
+  },
+  {
+   "id": "b04638-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9736
+  },
+  {
+   "id": "b04644-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.8454
+  },
+  {
+   "id": "b04672-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9696
+  },
+  {
+   "id": "b04674-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9028
+  },
+  {
+   "id": "b04688-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9963
+  },
+  {
+   "id": "b04692-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9863
+  },
+  {
+   "id": "b04694-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9992
+  },
+  {
+   "id": "b04697-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9289
+  },
+  {
+   "id": "b04699-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9976
+  },
+  {
+   "id": "b04701-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.991
+  },
+  {
+   "id": "b04702-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9212
+  },
+  {
+   "id": "b04710-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9976
+  },
+  {
+   "id": "b04717-01",
+   "label": "ambiguo",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.8031
+  },
+  {
+   "id": "b04725-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9709
+  },
+  {
+   "id": "b04754-01",
+   "label": "ambiguo",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8355
+  },
+  {
+   "id": "b04764-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9938
+  },
+  {
+   "id": "b04770-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9354
+  },
+  {
+   "id": "b04772-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9422
+  },
+  {
+   "id": "b04773-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.4096
+  },
+  {
+   "id": "b04774-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9192
+  },
+  {
+   "id": "b04775-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9972
+  },
+  {
+   "id": "b04782-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9822
+  },
+  {
+   "id": "b04800-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.8607
+  },
+  {
+   "id": "b04803-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9006
+  },
+  {
+   "id": "b04807-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9247
+  },
+  {
+   "id": "b04812-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.8049
+  },
+  {
+   "id": "b04949-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5762
+  },
+  {
+   "id": "b04994-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7413
+  },
+  {
+   "id": "b05130-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9797
+  },
+  {
+   "id": "b05152-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8876
+  },
+  {
+   "id": "b05161-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9874
+  },
+  {
+   "id": "b05174-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9696
+  },
+  {
+   "id": "b05177-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5156
+  },
+  {
+   "id": "b05212-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.4689
+  },
+  {
+   "id": "b05240-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9802
+  },
+  {
+   "id": "b05317-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9566
+  },
+  {
+   "id": "b05381-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8797
+  },
+  {
+   "id": "b05387-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9701
+  },
+  {
+   "id": "b05390-01",
+   "label": "ambiguo",
+   "pred": "cobro_incorrecto",
+   "conf": 0.658
+  },
+  {
+   "id": "b05441-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8486
+  },
+  {
+   "id": "b05454-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.629
+  },
+  {
+   "id": "b05465-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.868
+  },
+  {
+   "id": "b05467-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9973
+  },
+  {
+   "id": "b05468-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7899
+  },
+  {
+   "id": "b05473-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9411
+  },
+  {
+   "id": "b05497-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7766
+  },
+  {
+   "id": "b05534-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9958
+  },
+  {
+   "id": "b05539-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9845
+  },
+  {
+   "id": "b05692-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.944
+  },
+  {
+   "id": "b05729-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9396
+  },
+  {
+   "id": "b05734-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6002
+  },
+  {
+   "id": "b05767-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9618
+  },
+  {
+   "id": "b05799-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9913
+  },
+  {
+   "id": "b05812-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9888
+  },
+  {
+   "id": "b05827-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7821
+  },
+  {
+   "id": "b05855-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8803
+  },
+  {
+   "id": "b05903-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9759
+  },
+  {
+   "id": "b05948-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9827
+  },
+  {
+   "id": "b05978-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8631
+  },
+  {
+   "id": "b06188-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6584
+  },
+  {
+   "id": "b06249-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8361
+  },
+  {
+   "id": "b06255-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8397
+  },
+  {
+   "id": "b06289-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7573
+  },
+  {
+   "id": "b06300-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.922
+  },
+  {
+   "id": "b06321-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9798
+  },
+  {
+   "id": "b06325-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9375
+  },
+  {
+   "id": "b06334-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8945
+  },
+  {
+   "id": "b06336-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9228
+  },
+  {
+   "id": "b06337-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8627
+  },
+  {
+   "id": "b06362-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9906
+  },
+  {
+   "id": "b06384-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9274
+  },
+  {
+   "id": "b06401-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.6354
+  },
+  {
+   "id": "b06407-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9902
+  },
+  {
+   "id": "b06441-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8155
+  },
+  {
+   "id": "b06442-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9984
+  },
+  {
+   "id": "b06445-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.819
+  },
+  {
+   "id": "b06451-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9892
+  },
+  {
+   "id": "b06452-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.6294
+  },
+  {
+   "id": "b06471-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9943
+  },
+  {
+   "id": "b06624-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9899
+  },
+  {
+   "id": "b06713-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9943
+  },
+  {
+   "id": "b06731-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9274
+  },
+  {
+   "id": "b06737-01",
+   "label": "fuera_de_alcance",
+   "pred": "cobro_incorrecto",
+   "conf": 0.5056
+  },
+  {
+   "id": "b06738-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9008
+  },
+  {
+   "id": "b06752-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6155
+  },
+  {
+   "id": "b06767-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9494
+  },
+  {
+   "id": "b06782-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9592
+  },
+  {
+   "id": "b06791-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5528
+  },
+  {
+   "id": "b06804-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5611
+  },
+  {
+   "id": "b06850-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8624
+  },
+  {
+   "id": "b06857-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8957
+  },
+  {
+   "id": "b06859-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9085
+  },
+  {
+   "id": "b06880-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5967
+  },
+  {
+   "id": "b07080-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8051
+  },
+  {
+   "id": "b07245-01",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.3822
+  },
+  {
+   "id": "b07352-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9713
+  },
+  {
+   "id": "b08210-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.5934
+  },
+  {
+   "id": "b08232-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9652
+  },
+  {
+   "id": "b08237-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9753
+  },
+  {
+   "id": "b08250-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9976
+  },
+  {
+   "id": "b08254-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.6609
+  },
+  {
+   "id": "b08273-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9815
+  },
+  {
+   "id": "b08285-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9148
+  },
+  {
+   "id": "b08290-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9822
+  },
+  {
+   "id": "b08319-01",
+   "label": "fuera_de_alcance",
+   "pred": "cobro_incorrecto",
+   "conf": 0.6088
+  },
+  {
+   "id": "b08335-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.971
+  },
+  {
+   "id": "b08343-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9797
+  },
+  {
+   "id": "b08444-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9351
+  },
+  {
+   "id": "b08643-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8312
+  },
+  {
+   "id": "b08753-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9383
+  },
+  {
+   "id": "b08794-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9671
+  },
+  {
+   "id": "b08807-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.4548
+  },
+  {
+   "id": "b08816-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5462
+  },
+  {
+   "id": "b08817-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9987
+  },
+  {
+   "id": "b08820-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9465
+  },
+  {
+   "id": "b08837-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9906
+  },
+  {
+   "id": "b08849-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.5039
+  },
+  {
+   "id": "b08857-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.996
+  },
+  {
+   "id": "b08861-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.6903
+  },
+  {
+   "id": "b08866-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9944
+  },
+  {
+   "id": "b08869-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9964
+  },
+  {
+   "id": "b08877-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9025
+  },
+  {
+   "id": "b08878-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9468
+  },
+  {
+   "id": "b08885-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6732
+  },
+  {
+   "id": "b08888-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9491
+  },
+  {
+   "id": "b08889-01",
+   "label": "cargo_no_reconocido",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9648
+  },
+  {
+   "id": "b08920-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.8508
+  },
+  {
+   "id": "b08927-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9905
+  },
+  {
+   "id": "b08942-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.6336
+  },
+  {
+   "id": "b09151-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9863
+  },
+  {
+   "id": "b09290-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8938
+  },
+  {
+   "id": "b09417-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8871
+  },
+  {
+   "id": "b09434-01",
+   "label": "fuera_de_alcance",
+   "pred": "cobro_incorrecto",
+   "conf": 0.584
+  },
+  {
+   "id": "b09435-01",
+   "label": "fuera_de_alcance",
+   "pred": "cobro_incorrecto",
+   "conf": 0.3814
+  },
+  {
+   "id": "b09456-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5143
+  },
+  {
+   "id": "b09480-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8322
+  },
+  {
+   "id": "b09484-01",
+   "label": "fuera_de_alcance",
+   "pred": "cobro_incorrecto",
+   "conf": 0.5435
+  },
+  {
+   "id": "b09492-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9388
+  },
+  {
+   "id": "b09508-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9893
+  },
+  {
+   "id": "b09514-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9222
+  },
+  {
+   "id": "b09634-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6745
+  },
+  {
+   "id": "b09700-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9359
+  },
+  {
+   "id": "b09789-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9462
+  },
+  {
+   "id": "b09852-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8616
+  },
+  {
+   "id": "b10126-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9793
+  },
+  {
+   "id": "b10132-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9891
+  },
+  {
+   "id": "b10145-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9935
+  },
+  {
+   "id": "b10150-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9709
+  },
+  {
+   "id": "b10166-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.929
+  },
+  {
+   "id": "b10253-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.884
+  },
+  {
+   "id": "b10413-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9436
+  },
+  {
+   "id": "b10443-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9892
+  },
+  {
+   "id": "b10451-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9884
+  },
+  {
+   "id": "b10459-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9957
+  },
+  {
+   "id": "b10460-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9629
+  },
+  {
+   "id": "b10461-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9756
+  },
+  {
+   "id": "b10467-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.8988
+  },
+  {
+   "id": "b10469-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.7866
+  },
+  {
+   "id": "b10476-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9973
+  },
+  {
+   "id": "b10481-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9988
+  },
+  {
+   "id": "b10653-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.4567
+  },
+  {
+   "id": "b10776-01",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.3996
+  },
+  {
+   "id": "b10779-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9414
+  },
+  {
+   "id": "b10800-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9516
+  },
+  {
+   "id": "b10801-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9215
+  },
+  {
+   "id": "b10822-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9891
+  },
+  {
+   "id": "b10832-01",
+   "label": "fuera_de_alcance",
+   "pred": "cobro_incorrecto",
+   "conf": 0.3453
+  },
+  {
+   "id": "b10880-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7308
+  },
+  {
+   "id": "b11015-01",
+   "label": "fuera_de_alcance",
+   "pred": "cobro_incorrecto",
+   "conf": 0.3982
+  },
+  {
+   "id": "b11117-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.4172
+  },
+  {
+   "id": "b11403-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9323
+  },
+  {
+   "id": "b11408-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.5748
+  },
+  {
+   "id": "b11410-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.995
+  },
+  {
+   "id": "b11411-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.8582
+  },
+  {
+   "id": "b11412-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9846
+  },
+  {
+   "id": "b11429-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9868
+  },
+  {
+   "id": "b11430-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9886
+  },
+  {
+   "id": "b11432-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9993
+  },
+  {
+   "id": "b11485-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9893
+  },
+  {
+   "id": "b11487-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9777
+  },
+  {
+   "id": "b11491-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9927
+  },
+  {
+   "id": "b11493-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9991
+  },
+  {
+   "id": "b11508-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9967
+  },
+  {
+   "id": "b11510-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9995
+  },
+  {
+   "id": "b11516-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9994
+  },
+  {
+   "id": "b11517-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9991
+  },
+  {
+   "id": "b11620-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8794
+  },
+  {
+   "id": "b11709-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9481
+  },
+  {
+   "id": "b11729-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5293
+  },
+  {
+   "id": "b11766-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6298
+  },
+  {
+   "id": "b11785-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8928
+  },
+  {
+   "id": "b11787-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9327
+  },
+  {
+   "id": "b11800-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.775
+  },
+  {
+   "id": "b11828-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8312
+  },
+  {
+   "id": "b11900-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.4673
+  },
+  {
+   "id": "b11940-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8933
+  },
+  {
+   "id": "b11959-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7615
+  },
+  {
+   "id": "b11974-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9964
+  },
+  {
+   "id": "b11993-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.991
+  },
+  {
+   "id": "b12087-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9868
+  },
+  {
+   "id": "b12088-01",
+   "label": "fuera_de_alcance",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.81
+  },
+  {
+   "id": "b12253-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.3919
+  },
+  {
+   "id": "b12445-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9462
+  },
+  {
+   "id": "b12563-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9409
+  },
+  {
+   "id": "b12573-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9536
+  },
+  {
+   "id": "b12576-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.854
+  },
+  {
+   "id": "b12589-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9933
+  },
+  {
+   "id": "b12592-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9702
+  },
+  {
+   "id": "b12598-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9949
+  },
+  {
+   "id": "b12600-01",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8999
+  },
+  {
+   "id": "b12727-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9774
+  },
+  {
+   "id": "b12732-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9669
+  },
+  {
+   "id": "b12747-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9506
+  },
+  {
+   "id": "b12758-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9398
+  },
+  {
+   "id": "b12883-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8623
+  },
+  {
+   "id": "b12896-01",
+   "label": "fuera_de_alcance",
+   "pred": "cobro_incorrecto",
+   "conf": 0.398
+  },
+  {
+   "id": "b12912-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8827
+  },
+  {
+   "id": "b12918-01",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.4043
+  },
+  {
+   "id": "s003-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9753
+  },
+  {
+   "id": "s003-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9667
+  },
+  {
+   "id": "s003-03",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.994
+  },
+  {
+   "id": "s003-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.935
+  },
+  {
+   "id": "s003-05",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9973
+  },
+  {
+   "id": "s004-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9734
+  },
+  {
+   "id": "s004-02",
+   "label": "estado_disputa",
+   "pred": "cobro_incorrecto",
+   "conf": 0.5249
+  },
+  {
+   "id": "s004-03",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9933
+  },
+  {
+   "id": "s004-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.7301
+  },
+  {
+   "id": "s004-05",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9739
+  },
+  {
+   "id": "s012-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9924
+  },
+  {
+   "id": "s012-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.891
+  },
+  {
+   "id": "s012-03",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9934
+  },
+  {
+   "id": "s012-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9485
+  },
+  {
+   "id": "s012-05",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9983
+  },
+  {
+   "id": "s013-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9967
+  },
+  {
+   "id": "s013-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.7874
+  },
+  {
+   "id": "s013-03",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9969
+  },
+  {
+   "id": "s013-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.6456
+  },
+  {
+   "id": "s013-05",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9944
+  },
+  {
+   "id": "s014-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9965
+  },
+  {
+   "id": "s014-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9633
+  },
+  {
+   "id": "s014-03",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.962
+  },
+  {
+   "id": "s014-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.3233
+  },
+  {
+   "id": "s014-05",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9886
+  },
+  {
+   "id": "s027-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9889
+  },
+  {
+   "id": "s027-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9598
+  },
+  {
+   "id": "s027-03",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9956
+  },
+  {
+   "id": "s027-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.7878
+  },
+  {
+   "id": "s027-05",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9769
+  },
+  {
+   "id": "s028-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9754
+  },
+  {
+   "id": "s028-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9837
+  },
+  {
+   "id": "s028-03",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9817
+  },
+  {
+   "id": "s028-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9249
+  },
+  {
+   "id": "s028-05",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9978
+  },
+  {
+   "id": "s041-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9968
+  },
+  {
+   "id": "s041-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9769
+  },
+  {
+   "id": "s041-03",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9875
+  },
+  {
+   "id": "s041-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.8042
+  },
+  {
+   "id": "s041-05",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9976
+  },
+  {
+   "id": "s047-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.6326
+  },
+  {
+   "id": "s047-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.6571
+  },
+  {
+   "id": "s047-03",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.6902
+  },
+  {
+   "id": "s047-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.8351
+  },
+  {
+   "id": "s047-05",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.946
+  },
+  {
+   "id": "s049-01",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.4965
+  },
+  {
+   "id": "s049-02",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9299
+  },
+  {
+   "id": "s049-03",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9601
+  },
+  {
+   "id": "s049-04",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.9306
+  },
+  {
+   "id": "s049-05",
+   "label": "estado_disputa",
+   "pred": "estado_disputa",
+   "conf": 0.7173
+  },
+  {
+   "id": "s051-01",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7706
+  },
+  {
+   "id": "s051-02",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7495
+  },
+  {
+   "id": "s051-03",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6714
+  },
+  {
+   "id": "s051-04",
+   "label": "ambiguo",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.437
+  },
+  {
+   "id": "s051-05",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.643
+  },
+  {
+   "id": "s062-01",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.565
+  },
+  {
+   "id": "s062-02",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.4494
+  },
+  {
+   "id": "s062-03",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.4747
+  },
+  {
+   "id": "s062-04",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.3438
+  },
+  {
+   "id": "s062-05",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.3835
+  },
+  {
+   "id": "s066-01",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8181
+  },
+  {
+   "id": "s066-02",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7302
+  },
+  {
+   "id": "s066-03",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7167
+  },
+  {
+   "id": "s066-04",
+   "label": "ambiguo",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.3647
+  },
+  {
+   "id": "s066-05",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7142
+  },
+  {
+   "id": "s069-01",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6317
+  },
+  {
+   "id": "s069-02",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7592
+  },
+  {
+   "id": "s069-03",
+   "label": "ambiguo",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.4058
+  },
+  {
+   "id": "s069-04",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5075
+  },
+  {
+   "id": "s069-05",
+   "label": "ambiguo",
+   "pred": "estado_disputa",
+   "conf": 0.5101
+  },
+  {
+   "id": "s077-01",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.929
+  },
+  {
+   "id": "s077-02",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8685
+  },
+  {
+   "id": "s077-03",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6974
+  },
+  {
+   "id": "s077-04",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9522
+  },
+  {
+   "id": "s077-05",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6967
+  },
+  {
+   "id": "s078-01",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9241
+  },
+  {
+   "id": "s078-02",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.696
+  },
+  {
+   "id": "s078-03",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8878
+  },
+  {
+   "id": "s078-04",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5603
+  },
+  {
+   "id": "s078-05",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8035
+  },
+  {
+   "id": "s083-01",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5429
+  },
+  {
+   "id": "s083-02",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5117
+  },
+  {
+   "id": "s083-03",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5441
+  },
+  {
+   "id": "s083-04",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7815
+  },
+  {
+   "id": "s083-05",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7118
+  },
+  {
+   "id": "s088-01",
+   "label": "ambiguo",
+   "pred": "cobro_incorrecto",
+   "conf": 0.4291
+  },
+  {
+   "id": "s088-02",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9463
+  },
+  {
+   "id": "s088-03",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.3403
+  },
+  {
+   "id": "s088-04",
+   "label": "ambiguo",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.5432
+  },
+  {
+   "id": "s088-05",
+   "label": "ambiguo",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8662
+  },
+  {
+   "id": "s094-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9639
+  },
+  {
+   "id": "s094-02",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.5253
+  },
+  {
+   "id": "s094-03",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.3751
+  },
+  {
+   "id": "s094-04",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9686
+  },
+  {
+   "id": "s094-05",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9079
+  },
+  {
+   "id": "s097-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.6075
+  },
+  {
+   "id": "s097-02",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.693
+  },
+  {
+   "id": "s097-03",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9147
+  },
+  {
+   "id": "s097-04",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.674
+  },
+  {
+   "id": "s097-05",
+   "label": "cargo_no_reconocido",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5837
+  },
+  {
+   "id": "s104-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.9721
+  },
+  {
+   "id": "s104-02",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.6662
+  },
+  {
+   "id": "s104-03",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.3816
+  },
+  {
+   "id": "s104-04",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8894
+  },
+  {
+   "id": "s104-05",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.829
+  },
+  {
+   "id": "s112-01",
+   "label": "tarjeta_comprometida",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5652
+  },
+  {
+   "id": "s112-02",
+   "label": "tarjeta_comprometida",
+   "pred": "cobro_incorrecto",
+   "conf": 0.4484
+  },
+  {
+   "id": "s112-03",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.8278
+  },
+  {
+   "id": "s112-04",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.6962
+  },
+  {
+   "id": "s112-05",
+   "label": "tarjeta_comprometida",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6471
+  },
+  {
+   "id": "s120-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.7465
+  },
+  {
+   "id": "s120-02",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.5709
+  },
+  {
+   "id": "s120-03",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9216
+  },
+  {
+   "id": "s120-04",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.4438
+  },
+  {
+   "id": "s120-05",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9796
+  },
+  {
+   "id": "s124-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8458
+  },
+  {
+   "id": "s124-02",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7677
+  },
+  {
+   "id": "s124-03",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8122
+  },
+  {
+   "id": "s124-04",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8207
+  },
+  {
+   "id": "s124-05",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6246
+  },
+  {
+   "id": "s125-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9709
+  },
+  {
+   "id": "s125-02",
+   "label": "fuera_de_alcance",
+   "pred": "cobro_incorrecto",
+   "conf": 0.6881
+  },
+  {
+   "id": "s125-03",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8139
+  },
+  {
+   "id": "s125-04",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7898
+  },
+  {
+   "id": "s125-05",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7429
+  },
+  {
+   "id": "s127-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8053
+  },
+  {
+   "id": "s127-02",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9183
+  },
+  {
+   "id": "s127-03",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8779
+  },
+  {
+   "id": "s127-04",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8757
+  },
+  {
+   "id": "s127-05",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.7514
+  },
+  {
+   "id": "s130-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.5896
+  },
+  {
+   "id": "s130-02",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6395
+  },
+  {
+   "id": "s130-03",
+   "label": "fuera_de_alcance",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.4034
+  },
+  {
+   "id": "s130-04",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.779
+  },
+  {
+   "id": "s130-05",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6525
+  },
+  {
+   "id": "s133-01",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9362
+  },
+  {
+   "id": "s133-02",
+   "label": "tarjeta_comprometida",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.6052
+  },
+  {
+   "id": "s133-03",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.9428
+  },
+  {
+   "id": "s133-04",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.7165
+  },
+  {
+   "id": "s133-05",
+   "label": "tarjeta_comprometida",
+   "pred": "tarjeta_comprometida",
+   "conf": 0.5292
+  },
+  {
+   "id": "s136-01",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.8404
+  },
+  {
+   "id": "s136-02",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.6843
+  },
+  {
+   "id": "s136-03",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.5154
+  },
+  {
+   "id": "s136-04",
+   "label": "cargo_no_reconocido",
+   "pred": "fuera_de_alcance",
+   "conf": 0.3867
+  },
+  {
+   "id": "s136-05",
+   "label": "cargo_no_reconocido",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.9092
+  },
+  {
+   "id": "s142-01",
+   "label": "cobro_incorrecto",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.5971
+  },
+  {
+   "id": "s142-02",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.4896
+  },
+  {
+   "id": "s142-03",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8686
+  },
+  {
+   "id": "s142-04",
+   "label": "cobro_incorrecto",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8192
+  },
+  {
+   "id": "s142-05",
+   "label": "cobro_incorrecto",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.3442
+  },
+  {
+   "id": "s143-01",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.8495
+  },
+  {
+   "id": "s143-02",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.5137
+  },
+  {
+   "id": "s143-03",
+   "label": "cobro_incorrecto",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.4515
+  },
+  {
+   "id": "s143-04",
+   "label": "cobro_incorrecto",
+   "pred": "cobro_incorrecto",
+   "conf": 0.6946
+  },
+  {
+   "id": "s143-05",
+   "label": "cobro_incorrecto",
+   "pred": "cargo_no_reconocido",
+   "conf": 0.6149
+  },
+  {
+   "id": "s166-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.6392
+  },
+  {
+   "id": "s166-02",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.3114
+  },
+  {
+   "id": "s166-03",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.667
+  },
+  {
+   "id": "s171-01",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.3375
+  },
+  {
+   "id": "s171-02",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.8018
+  },
+  {
+   "id": "s171-03",
+   "label": "fuera_de_alcance",
+   "pred": "fuera_de_alcance",
+   "conf": 0.9269
+  }
+ ]
+}
