@@ -4,6 +4,9 @@ os.environ.setdefault("OPS_DB_PATH", ":memory:")  # los tests usan una base temp
 # Los tests usan SIEMPRE los datos de plástico (stubs), aunque exista data/gold/gold.duckdb.
 # (tests/test_gold.py arma su propio gold de prueba y lo prueba aparte.)
 os.environ.setdefault("GOLD_DB_PATH", "__tests_sin_gold__.duckdb")
+# Sin Gemini: los tests nunca llaman a la API aunque .env traiga la llave (load_dotenv no pisa esto).
+# Los que prueban Gemini usan un cliente falso.
+os.environ["GEMINI_API_KEY"] = ""
 
 import pytest
 from fastapi.testclient import TestClient
