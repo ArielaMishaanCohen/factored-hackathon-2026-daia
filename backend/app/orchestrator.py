@@ -16,7 +16,8 @@ from datetime import datetime, timezone
 from . import confirmations, faults
 from .config import get_policy, get_settings
 from .errors import APIError
-from .nlu import understand
+from .nlu import understand_con_uso
+from .responder.compose import compose, compose_summary
 from .policy.engine import evaluate
 from .responder.templates import render
 from .schemas import (INTENT_TO_DISPUTE_TYPE, ActionRecord, ChatMessage, ChatRequest, ChatResponse, ChatUI,
@@ -42,7 +43,16 @@ class Turn:
         self.model_version = "none"   # versión del NLU que atendió el turno
 
     def say(self, key: str, **facts) -> None:
-        self.messages.append(ChatMessage(text=render(key, self.conv.language, **facts), source="template"))
+        """Mensaje al cliente: Gemini lo redacta (compose + verificador); si algo falla, la plantilla."""
+        try:
+            with self.tracer.span("llm.compose") as out:
+                text, source, usage = compose(key, self.conv.language, facts)
+                out.update(template=key, source=source)
+                if usage is not None:
+                    out["_usage"] = usage
+        except Exception:  # noqa: BLE001 - la plantilla siempre es una respuesta segura
+            text, source = render(key, self.conv.language, **facts), "template"
+        self.messages.append(ChatMessage(text=text, source=source))
 
 
 def _get_conversation(session: Session, conversation_id: str | None) -> Conversation:
@@ -94,7 +104,8 @@ def handle_chat(session: Session, req: ChatRequest) -> ChatResponse:
         conversation_id=conv.conversation_id, turn_id=conv.turn_id, trace_id=conv.trace_id, state=conv.state,
         language=conv.language, messages=turn.messages, ui=turn.ui, case=turn.case, handoff_id=turn.handoff_id,
         audit=TurnAudit(intent=turn.intent, intent_confidence=turn.intent_confidence, rule_id=turn.rule_id,
-                        tools=tracer.tools(), latency_ms=tracer.latency_ms, fallback_used=True),
+                        tools=tracer.tools(), latency_ms=tracer.latency_ms,
+                        fallback_used=any(m.source == "template" for m in turn.messages)),
     )
 
 
@@ -107,8 +118,10 @@ def _tool(turn: Turn, name: str, fn, *args, **kwargs):
 def _message(session: Session, turn: Turn, text: str) -> None:
     conv = turn.conv
     with turn.tracer.span("nlu.understand") as out:
-        nlu = understand(text)
+        nlu, usage = understand_con_uso(text, conv.state)
         out.update(intent=nlu.intent, confidence=nlu.intent_confidence, extractor=nlu.extractor)
+        if usage is not None:
+            out["_usage"] = usage
     turn.model_version = nlu.model_version
 
     pending_id = conv.data.get("pending_action_id")
@@ -116,6 +129,16 @@ def _message(session: Session, turn: Turn, text: str) -> None:
         if nlu.confirmation == "yes":
             return _confirm(session, turn, pending_id)
         return _cancel(session, turn, pending_id)
+
+    # El cliente elige escribiendo ("la segunda", "a última") entre las opciones que ya vio.
+    shown = conv.data.get("options") or []
+    if conv.state == "IDENTIFICAR_TRANSACCION" and shown and nlu.selected_option is not None:
+        conv.language = nlu.language
+        k = nlu.selected_option
+        idx = len(shown) - 1 if k == -1 else k - 1       # op-04: posiciones desde 1; -1 = la última
+        if 0 <= idx < len(shown):
+            return _select_transaction(session, turn, shown[idx])
+        return _show_options(session, turn, shown)
 
     conv.language = nlu.language
     conv.original_request = conv.original_request or text
@@ -144,7 +167,8 @@ def _message(session: Session, turn: Turn, text: str) -> None:
             return turn.say("status_list", cases=", ".join(f"{c.case_id} ({c.status})" for c in open_cases))
 
         options = _tool(turn, "search_transactions", transactions.search_transactions,
-                        session, amount=nlu.amount, merchant=nlu.merchant_hint)
+                        session, amount=nlu.amount, currency=nlu.currency, date_from=nlu.date_from,
+                        date_to=nlu.date_to, merchant=nlu.merchant_hint)
     except ToolError as e:
         return _tool_failure(session, turn, e, "No se pudo consultar la información del cliente.")
 
@@ -159,8 +183,16 @@ def _message(session: Session, turn: Turn, text: str) -> None:
         return turn.say("no_candidates")
     if len(options) == 1:
         return _select_transaction(session, turn, options[0].transaction_id)
+    conv.data["options"] = [o.transaction_id for o in options]
     turn.say("options")
     turn.ui = ChatUI(type="transaction_options", options=options)
+
+
+def _show_options(session: Session, turn: Turn, transaction_ids: list[str]) -> None:
+    """Vuelve a mostrar las opciones (p. ej. el cliente pidió "la quinta" y solo había 2)."""
+    options = [_try(lambda t=t: transactions.get_transaction(session, t)) for t in transaction_ids]
+    turn.say("options")
+    turn.ui = ChatUI(type="transaction_options", options=[o for o in options if o is not None])
 
 
 def _select_transaction(session: Session, turn: Turn, transaction_id: str) -> None:
@@ -184,6 +216,7 @@ def _select_transaction(session: Session, turn: Turn, transaction_id: str) -> No
     turn.rule_id = decision.rule_id
     conv.state = "EVALUAR"
     conv.data.update(transaction_id=tx.transaction_id, decision=decision.model_dump())
+    conv.data.pop("options", None)
 
     if decision.action == "INFORM":
         conv.state = "CERRAR"
@@ -344,6 +377,13 @@ def _handoff(session: Session, turn: Turn, reason: str, tx=None, decision: Decis
         summary = "El cliente quiere disputar un cargo, pero no se identificó la transacción."
     if case is not None:
         facts.append(VerifiedFact(fact="case_id", value=case.case_id, source="cases"))
+
+    summary, _, summary_usage = _try(lambda: compose_summary(summary, conv.language, {
+        "transaction_id": tx.transaction_id, "amount": tx.amount, "currency": tx.currency,
+        "business_date": tx.business_date} if tx is not None else {})) or (summary, "template", None)
+    if summary_usage is not None:
+        with turn.tracer.span("llm.compose_summary") as out:
+            out["_usage"] = summary_usage
 
     priority = (decision.priority if decision and decision.priority
                 else "high" if reason == "TOOL_FAILURE" else "medium")

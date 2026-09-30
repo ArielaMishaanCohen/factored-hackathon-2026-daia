@@ -42,6 +42,10 @@ class TurnTracer:
             error = type(e).__name__ + (f": {e.code}" if hasattr(e, "code") else "")
             raise
         finally:
+            usage = out.pop("_usage", None)   # LLMUsage de Gemini, si el paso lo usó
+            if usage is not None:
+                extra = {**extra, "model": usage.model, "tokens_in": usage.tokens_in,
+                         "tokens_out": usage.tokens_out, "cost_usd": usage.cost_usd}
             self.spans.append(Span(name=name, latency_ms=int((time.perf_counter() - start) * 1000),
                                    output=out or None, error=error, **extra))
 

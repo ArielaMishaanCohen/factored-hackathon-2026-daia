@@ -11,8 +11,8 @@ TEMPLATES: dict[str, dict[str, str]] = {
         "pt": "No momento só posso ajudar com cobranças que você não reconhece, cobranças incorretas, cartões roubados ou o status de uma contestação.",
     },
     "clarify": {
-        "es": "¿Me cuentas un poco más? Por ejemplo, el monto, la fecha o el comercio del cargo.",
-        "pt": "Pode me contar um pouco mais? Por exemplo, o valor, a data ou o estabelecimento da cobrança.",
+        "es": "Puedo ayudarte con cargos que no reconoces, cobros incorrectos, tarjetas robadas o el estado de un reclamo. ¿Me cuentas el monto, la fecha o el comercio del cargo?",
+        "pt": "Posso ajudar com cobranças que você não reconhece, cobranças incorretas, cartões roubados ou o status de uma contestação. Pode me contar o valor, a data ou o estabelecimento da cobrança?",
     },
     "no_candidates": {
         "es": "No encontré ese cargo. ¿Me das el monto exacto o la fecha aproximada?",
