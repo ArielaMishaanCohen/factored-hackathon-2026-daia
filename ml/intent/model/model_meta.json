@@ -1,0 +1,40 @@
+{
+  "model_version": "tfidf_lr-C10-20260929-17b293b7",
+  "candidato": "tfidf_lr",
+  "params": {
+    "C": 10
+  },
+  "clases": [
+    "cargo_no_reconocido",
+    "cobro_incorrecto",
+    "tarjeta_comprometida",
+    "estado_disputa",
+    "fuera_de_alcance"
+  ],
+  "tau_val": 0.81,
+  "entrenado": "2026-09-29T19:48:58",
+  "datos": {
+    "splits": [
+      "train",
+      "val"
+    ],
+    "n_frases": 2326,
+    "por_clase": {
+      "cargo_no_reconocido": 447,
+      "cobro_incorrecto": 485,
+      "estado_disputa": 265,
+      "fuera_de_alcance": 743,
+      "tarjeta_comprometida": 386
+    },
+    "por_idioma": {
+      "es": 1194,
+      "mix": 145,
+      "pt": 987
+    },
+    "md5_train_val": "17b293b7a4b6aa4f317049893152f6a3",
+    "md5_frases": "793bf2754972e5b007e46d8cdc2f239f"
+  },
+  "sklearn": "1.9.1",
+  "git_commit": "aa2c570d01d42e20fdd3c8b39d6d1849d4470dff-dirty",
+  "tamano_bytes": 1009156
+}

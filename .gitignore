@@ -4,8 +4,8 @@ env/
 
 # Datos y artefactos pesados (se regeneran con make data)
 /data_exploracion/
-*.duckdb
-*.duckdb.wal
+#*.duckdb
+#*.duckdb.wal
 *.parquet
 *.sqlite
 *.sqlite3

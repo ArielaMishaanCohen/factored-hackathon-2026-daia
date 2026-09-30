@@ -320,8 +320,8 @@ Guarda los runs y arma una tabla con macro-F1 total y por idioma. Dime en
 palabras simples qué muestra cada ablación.
 ```
 
-- [ ] Ablación de fuentes: B77 ____ · supl. ____ · ambos ____
-- [ ] Ablación de ruido: con ____ · sin ____
+- [X] Ablación de fuentes: B77 **0.399** · supl. **0.557** · ambos **0.702** (test)
+- [X] Ablación de ruido: con **0.702** · sin **0.712** (test)
 
 ---
 

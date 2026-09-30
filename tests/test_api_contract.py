@@ -46,7 +46,9 @@ def test_multiple_candidates_show_options(client, auth):
 
 
 def test_out_of_scope_abstains(client, auth):
-    body = client.post("/api/chat", headers=auth(), json={"message": "Quiero un préstamo"}).json()
+    # Con el clasificador de la 4.2, "Quiero un préstamo" se abstiene (conf 0,48): "préstamo" no
+    # aparece en train/val. Aquí se prueba el contrato (fuera_de_alcance con confianza → ABSTENERSE).
+    body = client.post("/api/chat", headers=auth(), json={"message": "Cómo cambio mi PIN"}).json()
     assert body["state"] == "ABSTENERSE" and body["ui"] is None
 
 

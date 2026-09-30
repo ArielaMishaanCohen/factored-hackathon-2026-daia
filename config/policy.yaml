@@ -2,7 +2,7 @@
 # Cambiar cualquier valor sube policy_version. Datos calibrados en Fase 2;
 # el umbral de intención sigue a cargo de B (Fase 4).
 
-policy_version: "1.1.0"
+policy_version: "1.2.0"   # 1.2.0: tau_intencion calibrado (Fase 4.2)
 
 # "Hoy" para ventanas y SLA. Última process_date en transactions_12m (2026-06-17).
 reference_date: "2026-06-17"
@@ -10,7 +10,12 @@ reference_date: "2026-06-17"
 currencies: [ARS, COP, USD]   # no hay MXN: los clientes de México operan en USD
 
 intent:
-  tau_intencion: 0.60          # B calibra en val (precisión ≥ 95 %)
+  # TF-IDF + LR (C=10), elegido en val: ml/intent/criterio_seleccion.md §4 (el τ de mayor
+  # cobertura con precisión ≥ 95 %). Val: cobertura 63,3 %, precisión 95,3 %, 80 % de los
+  # ambiguo abstenidos (runs/20260929-170918_tfidf_lr_val.json, figures/cobertura_precision_val.png).
+  # Test (una vez, resultados_test.md): cobertura 35,5 %, precisión 84,5 %. El modelo servido se
+  # reentrena con train+val (make train), así que el τ viene de un modelo algo distinto.
+  tau_intencion: 0.81
   max_clarifications: 2
 
 search:

@@ -14,6 +14,7 @@ COPY backend/requirements.txt backend/requirements.txt
 RUN pip install --no-cache-dir -r backend/requirements.txt
 COPY backend/ backend/
 COPY config/ config/
+COPY ml/intent/model/ ml/intent/model/
 COPY --from=frontend /frontend/dist frontend/dist
 # Gold de servicio (rol A): el backend lo detecta solo en /srv/data/gold/gold.duckdb.
 # Si alguna vez no está, el backend usa los stubs (ver /api/health → data_manifest).

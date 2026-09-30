@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 from . import confirmations, faults
 from .config import get_policy, get_settings
 from .errors import APIError
-from .nlu.stub import understand
+from .nlu import understand
 from .policy.engine import evaluate
 from .responder.templates import render
 from .schemas import (INTENT_TO_DISPUTE_TYPE, ActionRecord, ChatMessage, ChatRequest, ChatResponse, ChatUI,

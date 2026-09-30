@@ -222,14 +222,15 @@ def evaluar(candidato, split: str, permitir_test: bool = False, tau: float | Non
 # --- Registro ----------------------------------------------------------------
 
 
-def guardar_run(candidato: str, split: str, params: dict, res: dict, datos: dict | None = None) -> Path:
-    """Escribe ml/intent/runs/<fecha>_<candidato>_<split>.json."""
-    RUNS_DIR.mkdir(exist_ok=True)
+def guardar_run(candidato: str, split: str, params: dict, res: dict, datos: dict | None = None,
+                carpeta: Path = RUNS_DIR) -> Path:
+    """Escribe <carpeta>/<fecha>_<candidato>_<split>.json (por defecto ml/intent/runs/)."""
+    carpeta.mkdir(parents=True, exist_ok=True)
     fecha = datetime.now().strftime("%Y%m%d-%H%M%S")
-    ruta = RUNS_DIR / f"{fecha}_{candidato}_{split}.json"
+    ruta = carpeta / f"{fecha}_{candidato}_{split}.json"
     k = 2
     while ruta.exists():
-        ruta = RUNS_DIR / f"{fecha}_{candidato}_{split}_{k}.json"
+        ruta = carpeta / f"{fecha}_{candidato}_{split}_{k}.json"
         k += 1
     run = {
         "candidato": candidato,
@@ -247,8 +248,9 @@ def guardar_run(candidato: str, split: str, params: dict, res: dict, datos: dict
 
 
 def correr(nombre: str, params: dict, split: str, fuentes=None, sin_ruido: bool = False,
-           permitir_test: bool = False, tau: float | None = None) -> tuple[dict, Path]:
-    """Entrena ml.intent.candidates.<nombre> con train (sin ambiguo), evalúa y guarda el run."""
+           permitir_test: bool = False, tau: float | None = None,
+           carpeta: Path = RUNS_DIR) -> tuple[dict, Path]:
+    """Entrena ml.intent.candidates.<nombre> con train (sin ambiguo), evalúa y guarda el run en carpeta."""
     _revisar_llave(split, permitir_test)
     if split == "train":
         raise ValueError("evaluar en train no sirve para elegir; usa val")
@@ -259,7 +261,7 @@ def correr(nombre: str, params: dict, split: str, fuentes=None, sin_ruido: bool 
     candidato.fit(train["text"].tolist(), train["label"].tolist())
     res = evaluar(candidato, split, permitir_test=permitir_test, tau=tau)
     datos = {"train_fuentes": fuentes or "todas", "train_sin_ruido": sin_ruido, "train_n": int(len(train))}
-    return res, guardar_run(nombre, split, params, res, datos)
+    return res, guardar_run(nombre, split, params, res, datos, carpeta)
 
 
 def _valor(v: str):

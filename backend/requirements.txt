@@ -5,4 +5,7 @@ pydantic==2.*
 pyjwt==2.*
 pyyaml==6.*
 duckdb>=1.1
+# Clasificador de intención (Fase 4.2). Misma versión con que se entrena: el .joblib es un pickle.
+scikit-learn==1.9.1
+joblib==1.6.*
 python-dotenv

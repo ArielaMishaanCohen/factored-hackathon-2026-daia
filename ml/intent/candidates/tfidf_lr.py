@@ -40,10 +40,12 @@ class TfidfLR:
         return self
 
     def predict_proba(self, textos):
-        # Reordena las columnas de sklearn (orden alfabético) al orden de CLASES.
+        # Reordena las columnas de sklearn (orden alfabético) al orden de CLASES. Una clase que no
+        # estuvo en el train (ablación solo Banking77: sin estado_disputa) queda con probabilidad 0.
         probs = self.pipe.predict_proba(textos)
-        orden = [list(self.pipe.classes_).index(c) for c in CLASES]
-        return probs[:, orden]
+        vistas = list(self.pipe.classes_)
+        return np.column_stack([probs[:, vistas.index(c)] if c in vistas else np.zeros(len(probs))
+                                for c in CLASES])
 
 
 def crear(**params):
