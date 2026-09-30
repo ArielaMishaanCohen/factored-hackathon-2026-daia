@@ -5,7 +5,8 @@
 - El texto del cliente se minimiza (app.llm.minimizar) y va entre <mensaje_cliente> y
   </mensaje_cliente>, separado de las instrucciones: es un dato, no una orden.
 - La respuesta se valida campo por campo con CamposLLM (Pydantic). Un campo inválido se descarta
-  (queda en None, o sale de las reglas si es language o suspected_injection); el resto se conserva.
+  (queda en None, o sale de las reglas si es language); el resto se conserva. suspected_injection
+  es el OR de Gemini y la heurística de reglas: un Gemini que obedece la inyección no la apaga.
 - Si la respuesta entera no es un objeto JSON con las claves pedidas, 1 reintento. Si vuelve a
   fallar, o Gemini no está disponible, lanza LLMUnavailable: understand() cae a las reglas.
 - El log nunca lleva el texto del cliente ni los valores extraídos: solo nombres de campos.
@@ -187,8 +188,8 @@ def validar(crudo: dict, texto: str, state: str | None, ref: date) -> tuple[dict
     # campos obligatorios de NLUResult: si Gemini los manda mal, salen de las reglas
     if out["language"] is None:
         out["language"] = rules.detectar_idioma(texto)
-    if out["suspected_injection"] is None:
-        out["suspected_injection"] = rules.detectar_inyeccion(texto)
+    # Gemini puede obedecer la inyección y decir false: la heurística de reglas cuenta igual
+    out["suspected_injection"] = bool(out["suspected_injection"]) or rules.detectar_inyeccion(texto)
     # la confirmación solo vale en CONFIRMAR_ACCION y nunca junto a una inyección (§1.3)
     if state != "CONFIRMAR_ACCION" or out["suspected_injection"]:
         out["confirmation"] = None

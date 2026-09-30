@@ -119,7 +119,8 @@ def _message(session: Session, turn: Turn, text: str) -> None:
     conv = turn.conv
     with turn.tracer.span("nlu.understand") as out:
         nlu, usage = understand_con_uso(text, conv.state)
-        out.update(intent=nlu.intent, confidence=nlu.intent_confidence, extractor=nlu.extractor)
+        out.update(intent=nlu.intent, confidence=nlu.intent_confidence, extractor=nlu.extractor,
+                   suspected_injection=nlu.suspected_injection)  # solo métrica (roadmap 4.4)
         if usage is not None:
             out["_usage"] = usage
     turn.model_version = nlu.model_version
