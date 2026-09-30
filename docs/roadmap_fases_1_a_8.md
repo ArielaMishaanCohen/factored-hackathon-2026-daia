@@ -453,7 +453,8 @@ Tratamiento de duplicados, corrección de `amount_usd`, zona horaria, ventana de
 - [x] Tabla de comparación de los 5 candidatos en test, por idioma (`ml/intent/resultados_test.md`; los opcionales 5 y 6 se saltaron)
 - [x] Modelo elegido integrado en el backend con τ_intención (TF-IDF + LR, τ = 0,81; D4.3)
 - [x] `ml/intent/model_card.md` (datos, split, métricas, límites)
-- [ ] Extracción y redacción con Gemini, con fallback probado
+- [x] Extracción y redacción con Gemini, con fallback probado (D4.4; `ml/llm/report.md`: test de extracción 55/55 con Gemini y 49/55 con reglas, 125/126 redacciones aprobadas por el verificador; tests con Gemini falso y el turno completo sin `GEMINI_API_KEY` en el Paso 11)
+- [x] Guardia contra inyección probada de punta a punta (`tests/test_inyeccion.py`, 22 tests; `ml/llm/inyeccion.md`)
 
 ---
 

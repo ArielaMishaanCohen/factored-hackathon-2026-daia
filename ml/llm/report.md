@@ -1,6 +1,6 @@
 # Reporte 4.3 · Extracción y redacción con Gemini
 
-Generado por `ml/llm/evaluar.py` a partir de las corridas en `ml/llm/runs/`. El split test se abrió una sola vez, con el prompt y las reglas ya fijados; no se cambiaron después. La sección «Lectura» se escribe a mano y el script la conserva.
+Generado por `ml/llm/evaluar.py` a partir de las corridas en `ml/llm/runs/`. El split test se abrió una sola vez, con el prompt y las reglas ya fijados; no se cambiaron después. Desde «Lectura» hasta el final (lectura, turno completo, piezas, set de evaluación, inyección y limitaciones: secciones 3 a 7) se escribe a mano y el script lo conserva.
 
 ## 1. Extracción en el split test (55 frases)
 
@@ -260,3 +260,51 @@ Fuera de ese caso, el turno más lento fue de 6,1 s (fuera de alcance: extracci�
 - **Costo: ~USD 0,004 por conversación y ~USD 0,02 los 5 escenarios de la demo.** El 55 % de los tokens de entrada son de la extracción (~1.900 por llamada, el prompt largo). Coincide con el Paso 8.
 - **Sin llave el flujo es idéntico en los 3 escenarios con transacción** (mismas reglas, mismos estados, plantillas en vez de redacción). **Cambia en fuera de alcance e inyección:** sin Gemini, el clasificador se abstiene (confianza 0,69 y 0,44 < `tau_intencion` 0,81) y el turno va a ACLARAR (pregunta de aclaración, que cuenta para el handoff por aclaración agotada). Con Gemini, la segunda opinión dice `fuera_de_alcance` (1,0 y 0,98) y el turno va a ABSTENERSE. En los dos modos, la inyección queda marcada con `suspected_injection = true` y no se consulta ninguna transacción.
 - **Qué haría para el p95 (no se tocó):** (1) una llamada de calentamiento a Gemini al arrancar el servidor, para que el primer cliente de la demo no pague la conexión en frío; (2) un presupuesto por turno (p. ej. 8 s): si la extracción se come el presupuesto, la redacción se salta y va la plantilla. Es un cambio en `gemini_client`/`orchestrator` (roles B y C) y se decide aparte.
+
+## 4. Qué hace cada pieza
+
+Escrita a mano. Todo lo que llega a Gemini pasa antes por la minimización, y todo lo que Gemini devuelve se valida antes de usarlo. Si Gemini no está (sin `GEMINI_API_KEY`, error de la API, timeout, JSON inválido), el turno sigue con reglas y plantillas: el flujo y las decisiones no cambian, solo el texto.
+
+| pieza | archivo | qué hace | si falla |
+|:--|:--|:--|:--|
+| Cliente de Gemini | `backend/app/llm/gemini_client.py` | Llama a `gemini-3.8-flash` con temperatura 0 y `thinking_level=LOW`, timeout de 8 s por intento, hasta 2 reintentos solo en errores transitorios, caché LRU en memoria y costo por llamada (`LLMUsage`, va a la traza) | Devuelve error; quien llama cae a su fallback |
+| Minimización | `backend/app/llm/minimizar.py` | Enmascara números de tarjeta, correos y documentos (CPF, CUIT, DNI…) del texto del cliente. Los montos y los últimos 4 dígitos pasan | — |
+| Extracción por reglas | `backend/app/nlu/rules.py` | Idioma, monto, moneda, fechas relativas a `reference_date`, comercio, opción, confirmación e inyección por heurística. Es el fallback y la vara de comparación | — |
+| Extracción con Gemini | `backend/app/nlu/extract_llm.py` + `prompts/extraccion_v1.txt` | Devuelve JSON con los mismos campos, validado campo por campo con Pydantic (1 reintento si el JSON es inválido). Un comercio que no está en el texto se descarta. `suspected_injection` = Gemini **OR** reglas (Paso 9) | Reglas |
+| Segunda opinión de intención | `backend/app/nlu/intent_llm.py` + `prompts/intent_zeroshot_v1.txt` | Solo si el clasificador se abstiene (confianza < τ), en paralelo con la extracción; se acepta con confianza ≥ `tau_gemini` = 0,80 (D4.5) | El turno sigue abstenido |
+| `understand()` | `backend/app/nlu/__init__.py` | Junta clasificador (D4.3), segunda opinión y extracción en un `NLUResult`, con el uso de Gemini para la traza | — |
+| Redacción | `backend/app/responder/compose.py` + `prompts/redaccion_v1.txt` | Recibe la plantilla ya renderizada por el orquestador y los `facts`, y la reescribe en el idioma del cliente (máx. 2 frases, 280 caracteres). Los `facts` de texto libre no se envían | Plantilla tal cual (`source = template`) |
+| Verificador | `verificar()` en `compose.py` | Por reglas: todo ID, tarjeta, número, fecha y nombre propio del texto tiene que estar en la plantilla o en los `facts`, y todo dato de la plantilla tiene que seguir en el texto; sin promesas de una lista fija (reembolso, aprobado, bloquear, «mañana»…) que la plantilla no diga; idioma, largo y cantidad de frases | Plantilla tal cual |
+| Resumen del handoff | `compose_summary()` en `compose.py` + `prompts/resumen_handoff_v1.txt` | Lo mismo para el resumen del paquete que recibe el especialista (máx. 3 frases, 400 caracteres) | Resumen por plantilla |
+
+Gemini nunca decide la acción, nunca llama herramientas y nunca ve datos de otro cliente: el `customer_id` sale del token de sesión, la búsqueda filtra por ese cliente y toda escritura exige un `confirmation_token` firmado por el servidor.
+
+## 5. Set de evaluación de extracción (Paso 2)
+
+Escrita a mano. Detalle y convenciones en [extraccion_casos.md](extraccion_casos.md).
+
+- **Cómo se hizo.** 111 frases escritas por Claude a mano (generadas por `construir_casos.py`), **nunca con Gemini**, porque Gemini es uno de los dos extractores que se miden. Se escribió **antes del prompt** de extracción y se revisó a mano con `extraccion_casos_revision.csv`; las frases con un esperado dudoso se quitaron en vez de adivinar. Cubre formatos de monto (3.500, 350,50, 1.200.000, «120 mil», «doscientos»), moneda, fechas relativas a `reference_date = 2026-06-17`, comercios, selección de opción, confirmaciones dentro y fuera de `CONFIRMAR_ACCION`, 12 inyecciones y 5 «falsas inyecciones», y las 7 frases de `integracion_backend.md` §1.4.
+- **Idiomas:** ~50 % ES, ~40 % PT, ~10 % mezcla.
+- **Split dev/test 50/50 por familia** (la misma frase en ES y PT, o dentro y fuera de un estado, nunca queda partida), balanceado por tipo e idioma: **dev 56 · test 55**. Dev se usó para ajustar el prompt y las reglas; test se abrió una sola vez en el Paso 8. Las frases de §1.4 van enteras a dev. `op-04` («a última» = −1) queda pendiente de acordar con rol C y no cuenta en las métricas.
+- **Congelado antes del prompt:** commit **`a78b2f3`** («4.3: set de evaluación de extracción (antes del prompt)»), anterior al commit del Paso 5 (`25d74e4`, prompt `extraccion_v1`). Versión del set 1.0, md5 `fcaa7480511339b90685705f129b9de9` (el mismo que registra la corrida del Paso 8).
+- **Redacción:** no tiene un set etiquetado. Se evaluó con las 21 plantillas × ES/PT × 3 juegos de `facts` del gold de demo; lo que se mide es cuánto aprueba el verificador y qué se le escapa al leerlas (sección 2).
+
+## 6. Inyección (Paso 9)
+
+Escrita a mano. Detalle en [inyeccion.md](inyeccion.md).
+
+- **La defensa es estructural, no la detección.** `tests/test_inyeccion.py` tiene **22 tests end-to-end** por `POST /api/chat`, con un Gemini falso honesto y uno **malicioso** que obedece la inyección y nunca la marca. Los 22 están en verde (corridos de nuevo el 30-sep-2026, sin `GEMINI_API_KEY`).
+- **De los 11 ataques, 8 los detiene la arquitectura** (sesión, filtro por cliente, `confirmation_token` firmado; en uno junto con el verificador), **2 el verificador** (promesa de reembolso) y **1 depende de la heurística** (una confirmación falsa en `CONFIRMAR_ACCION` con un Gemini que obedece), que igual solo podría ejecutar la acción que el cliente ya tiene en pantalla, sobre su transacción.
+- **Lo que encontraron y se arregló:** un Gemini malicioso podía apagar la heurística. Ahora `suspected_injection` es el OR de Gemini y las reglas, y queda en el span `nlu.understand` de la traza.
+- **Efecto del OR en el test del Paso 8** (calculado con las predicciones guardadas de la corrida, sin volver a llamar a Gemini): 7/7 inyecciones detectadas y 0/48 falsos positivos, igual que Gemini solo, porque las reglas no marcaron ninguna frase normal.
+- **Con Gemini real, en el turno completo (Paso 11):** la inyección de la demo queda con `suspected_injection = true`, no se consulta ninguna transacción y el turno va a ABSTENERSE (sin Gemini, a ACLARAR).
+
+## 7. Limitaciones
+
+- **El set de extracción es chico y lo escribió Claude, sin mensajes reales.** 55 frases de test: 55/55 solo dice que la tasa de frases con error está por debajo de ~5 % con 95 % de confianza. Las frases tienen el estilo de un LLM, son más limpias que un chat real (pocas faltas, poco contexto de conversaciones previas) y no hay ningún mensaje de un cliente real. En monto, moneda y fechas el test no separa a Gemini de las reglas: los dos dan 100 %.
+- **«Pesos» sin país queda en `null`.** El NLU no conoce el país del cliente, así que «me cobraron 3.500 pesos» da `amount = 3500` y `currency = null`, y la búsqueda no filtra por moneda. Lo mismo pasa con «$» y con «R$»/«reais» (BRL no está en el contrato ni en el gold).
+- **El verificador es por reglas y puede dejar pasar un cambio de sentido sin datos nuevos.** Revisa datos (IDs, números, fechas, nombres), promesas de una lista fija, idioma y largo; no entiende el significado. Pasaron el verificador, por ejemplo: «te transfiero con un especialista» (promete una transferencia en vivo), «nos comunicaremos contigo» (promete un contacto), «perda ou roubo» (amplía el alcance) y «quédate tranquilo» (supone el género). También da falsos rechazos («Escalated» después de «(»), que fallan hacia el lado seguro. Nada de esto se corrigió después de ver el test.
+- **Gemini no es determinista** aun con temperatura 0: las repeticiones se sirven desde la caché en disco para que los números no cambien al volver a correr.
+- **El timeout de 8 s es por intento, no por turno.** Con reintentos y dos llamadas en serie, un turno puede pasar de 8 s (1 de 50 en el Paso 11: 19,4 s en frío). No hay presupuesto por turno.
+- **La tabla de inyección del Paso 8 mide Gemini solo**; el OR del Paso 9 se estimó con las predicciones guardadas, no con una corrida nueva.
+- **Fuera del alcance de estas mediciones:** la intención (tiene su set en la 4.2) y la resolución de la opción elegida, que es del orquestador. La evaluación end-to-end es de la Fase 6.

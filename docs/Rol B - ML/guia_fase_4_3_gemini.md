@@ -397,7 +397,7 @@ llamadas a Gemini, tokens y costo. Compáralo con GEMINI_API_KEY vacía. Si un
 turno pasa de 8 s, dime cuál y por qué. Agrega la tabla a ml/llm/report.md.
 ```
 
-- [ ] Turno con Gemini: p50 **____** s · p95 **____** s · costo por conversación USD **____**
+- [X] Turno con Gemini: p50 **2.5** s · p95 **4.2** s · costo por conversación USD **0.0039**
 
 ---
 
@@ -425,9 +425,9 @@ Paso 12 de la guía de la 4.3.
    Fase 4.
 ```
 
-- [ ] `ml/llm/report.md` listo
-- [ ] D4.4 en `decisions.md`
-- [ ] Roadmap actualizado
+- [X] `ml/llm/report.md` listo
+- [X] D4.4 en `decisions.md`
+- [X] Roadmap actualizado
 
 ---
 

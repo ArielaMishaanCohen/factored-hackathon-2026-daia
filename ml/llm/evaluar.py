@@ -433,7 +433,8 @@ def escribir_reporte(ext: tuple[dict, str] | None, red: tuple[dict, str] | None)
     L = ["# Reporte 4.3 · Extracción y redacción con Gemini", "",
          "Generado por `ml/llm/evaluar.py` a partir de las corridas en `ml/llm/runs/`. "
          "El split test se abrió una sola vez, con el prompt y las reglas ya fijados; no se cambiaron después. "
-         "La sección «Lectura» se escribe a mano y el script la conserva.", ""]
+         "Desde «Lectura» hasta el final (lectura, turno completo, piezas, set de evaluación, inyección "
+         "y limitaciones: secciones 3 a 7) se escribe a mano y el script lo conserva.", ""]
     if ext:
         L += _md_extraccion(*ext) + [""]
     if red:
