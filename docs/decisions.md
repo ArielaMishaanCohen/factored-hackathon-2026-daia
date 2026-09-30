@@ -252,7 +252,7 @@ Resultados del score no equivalen a evaluación end-to-end de fase 6.
 **Cómo validamos:** kappa de Cohen > 0,8 entre dos personas sobre 100 frases (`ml/intent/kappa/`, muestra lista; **pendiente** la segunda persona), en total y por fuente; y en la 4.2, la ablación de fuentes (mismo modelo con solo Banking77, solo suplemento y ambos) debe mostrar que el híbrido gana en macro-F1 de test.
 
 ### D4.3 · Clasificador de intención: TF-IDF + regresión logística, τ = 0,81
-**Fecha:** 29-sep-2026 · **Responsable:** rol B · **Estado:** Tomada
+**Fecha:** 29-sep-2026 · **Responsable:** rol B · **Estado:** Tomada. Actualizada el 30-sep-2026: se reentrenó con el lote de fuera de alcance (D4.6), con el mismo τ, y bajo τ ahora opina Gemini (D4.5).
 **Contexto:** el componente aprendido del reto. Clasifica el mensaje del cliente (ES, PT o mezcla) en una de las 5 intenciones de D1.5 con una confianza; bajo el umbral τ_intención el bot no actúa y pide aclaración. Tiene que evaluarse contra baselines, sin fuga, con el set de D4.2, y caber en la imagen del backend sin PyTorch. Detalle en `ml/intent/model_card.md`.
 **Alternativas** (criterio escrito antes de entrenar: `ml/intent/criterio_seleccion.md`, commit `51dbbe6`):
 - 0. Clase mayoritaria. Piso.
@@ -275,7 +275,7 @@ Resultados del score no equivalen a evaluación end-to-end de fase 6.
 
 ### D4.4 · Gemini en el flujo: extracción, redacción y verificador
 **Fecha:** 29-sep-2026 · **Responsable:** rol B · **Estado:** Propuesta. Se completa en el Paso 12 de la guía 4.3 (`docs/Rol B - ML/guia_fase_4_3_gemini.md`) con los resultados de los Pasos 8 y 11.
-**Contexto:** Gemini extrae datos del mensaje (monto, moneda, fechas, comercio, opción, confirmación) y redacta las respuestas en ES/PT. La intención la sigue decidiendo el clasificador (D4.3). Si Gemini no está disponible, `understand` cae a reglas y `compose` a la plantilla (`integracion_backend.md` §1.1 y §1.6).
+**Contexto:** Gemini extrae datos del mensaje (monto, moneda, fechas, comercio, opción, confirmación) y redacta las respuestas en ES/PT. La intención la sigue decidiendo el clasificador (D4.3); Gemini opina solo cuando el clasificador se abstiene (D4.5). Si Gemini no está disponible, `understand` cae a reglas y `compose` a la plantilla (`integracion_backend.md` §1.1 y §1.6).
 **Alternativas:** *(pendiente, Paso 12)* solo reglas; Gemini sin fallback; Gemini con fallback y verificador; Gemini también para la intención.
 **Decisión:** *(pendiente, Paso 12)*
 **Configuración de la llamada** (`backend/app/llm/gemini_client.py`, Paso 3), probada contra la API el 29-sep-2026:
@@ -287,6 +287,41 @@ Resultados del score no equivalen a evaluación end-to-end de fase 6.
 **Por qué:** *(pendiente, Paso 12: números de los Pasos 8 y 11)*
 **Condiciones de uso de datos de la capa pagada:** *(pendiente, Paso 12, con fuente y fecha de consulta; roadmap 4.3.5)*
 **Cómo validamos:** en la Fase 6: tasa de fallback, % de redacciones rechazadas por el verificador, latencia p95 y 0 afirmaciones no verificadas. Si el p95 queda cerca de los 8 s, se revisan el timeout y el nivel de razonamiento.
+
+**Resultados del Paso 8** (30-sep-2026, `ml/llm/report.md`; el test de extracción se abrió una vez, con `extraccion_v1` y las reglas ya fijados):
+- Extracción en test (55 frases): Gemini acierta todos los campos (55/55 frases sin error); reglas 49/55 (comercio 98,2 %, opción 98,2 %, confirmación 96,4 %, inyección 96,4 %). Fallback 0/55. Latencia p50 1,3 s · p95 2,3 s. USD 1,76 por 1.000 frases (~1.900 tokens de entrada por llamada).
+- Inyección en test: Gemini 7/7, reglas 5/7; 0/48 falsos positivos con los dos (0/3 en las «falsas inyecciones»).
+- Redacción: 125/126 aprobadas (99,2 %). El único rechazo es un falso rechazo del verificador («Escalated» después de «(» se toma como inicio de frase). Latencia p50 1,4 s · p95 3,6 s. USD 0,83 por 1.000.
+- Hallazgos que el verificador deja pasar (no se corrigieron después de ver los resultados): supone el género del cliente («quédate tranquilo»), amplía el alcance («perda ou roubo»), promete una transferencia en vivo («te transfiero») o un contacto («nos comunicaremos contigo»). Además, dos problemas de las plantillas (rol C): los estados salen en inglés (Open/Escalated) y los montos con formato de EE. UU. también en ES y PT.
+
+### D4.5 · Segunda opinión de Gemini sobre la intención, solo bajo τ
+**Fecha:** 30-sep-2026 · **Responsable:** rol B (avisado a rol C) · **Estado:** Tomada
+**Contexto:** con τ = 0,81, el clasificador contesta solo el 37,5 % del test (D4.3). La frase principal de la demo, «Ayer me cobraron USD 350 en Oxxo y no fui yo», sale con confianza 0,52: el bot pide aclaración y, si el cliente la repite, pasa a un humano (`max_clarifications` = 2). Eso baja la resolución automática segura (D1.6). D4.3 ya dejaba prevista esta salida («si la tasa de aclaraciones es alta, se evalúa Gemini como segunda opinión bajo τ»).
+**Alternativas:**
+- A. Bajar τ. En test, τ = 0,5 da cobertura 80 % pero precisión 77 %, y deja de abstenerse en 3 de cada 4 frases `ambiguo`. Además, sería elegir τ después de abrir el test.
+- B. Calibrar las probabilidades (`CalibratedClassifierCV`) y volver a elegir τ. Cambia el modelo después del test y no garantiza que la frase de la demo pase τ.
+- C. Gemini como clasificador principal. Mejor en test (macro-F1 1,000), pero toda frase depende de la red y cuesta ~2 s y USD 1,51 por 1.000.
+- D. Cascada: el clasificador decide si su confianza es ≥ τ; si no, Gemini (`intent_zeroshot_v1`, el candidato ya evaluado en la 4.2) da una segunda opinión.
+**Decisión:** D. `backend/app/nlu/intent_llm.py`, llamado desde `understand()` solo cuando el clasificador se abstiene, en paralelo con la extracción (no suma latencia a la extracción). Se acepta la intención de Gemini si es una de las 5 clases (no `ambiguo`) y su confianza es ≥ `intent.tau_gemini` = 0,80 (`config/policy.yaml`, política 1.3.0). Si no, o si Gemini falla, el turno sigue abstenido como hasta ahora. Gemini nunca cambia una intención que el clasificador ya aceptó. La frase se minimiza antes de enviarla. `model_version` agrega `+intent_zeroshot_v1` cuando decide Gemini, para que la traza muestre quién decidió.
+**Por qué:** simulando la cascada con las predicciones guardadas de la 4.2 (clasificador reentrenado de D4.6 + Gemini):
+
+| | val: cobertura | val: precisión | val: `ambiguo` abstenidas | test: cobertura | test: precisión | test: `ambiguo` abstenidas |
+|:--|--:|--:|--:|--:|--:|--:|
+| Clasificador solo (τ = 0,81) | 63,9 % | 95,4 % | 80,0 % | 37,5 % | 85,3 % | 79,2 % |
+| Cascada (τ_g = 0,80) | 93,9 % | 90,1 % | 66,7 % | 92,0 % | 92,4 % | 66,7 % |
+
+Gemini se llama en el 35 % de las frases de val y el 62 % de las de test. Con el Gemini real, la frase de Oxxo sale `cargo_no_reconocido` 0,98 y «Quiero un préstamo» sale `fuera_de_alcance` 1,00; «hola» y «Tengo un problema con mi tarjeta» siguen pidiendo aclaración (Gemini dice `ambiguo`).
+**Cómo se eligió τ_g:** el criterio de D4.3 (precisión ≥ 95 % en val) no lo cumple ningún τ_g. Se usó el τ_g de mayor cobertura con precisión ≥ 90 % en val y, en el empate (0 a 0,80 dan lo mismo), el más alto. **Limitación declarada:** este criterio se escribió con los números de val y test a la vista (las dos corridas ya existían desde la 4.2), así que el test no es una medición limpia de la cascada. Los errores que agrega la cascada en val son sobre todo de frontera entre `cobro_incorrecto` y `fuera_de_alcance` (comisiones de cajero), donde la etiqueta de Banking77 es discutible, y 6 frases `ambiguo` más contestadas.
+**Por qué el riesgo es aceptable:** equivocarse de intención es barato en este diseño. La intención no ejecuta nada: después vienen la búsqueda de la transacción (solo del cliente de la sesión), la política y la confirmación explícita con `confirmation_token`.
+**Cómo validamos:** en la Fase 6, sobre los casos end-to-end: % de turnos que resuelve Gemini bajo τ, ningún caso resuelto sin humano por una intención mal puesta por Gemini, tasa de aclaraciones y de handoffs por `max_clarifications`, y latencia p95 del turno. Tests en `tests/test_nlu.py` (segunda opinión válida, `ambiguo`, bajo τ_g, fuera del esquema, errores, sin `tau_gemini`, minimización).
+
+### D4.6 · Lote de fuera de alcance en el set de intenciones
+**Fecha:** 30-sep-2026 · **Responsable:** rol B · **Estado:** Tomada
+**Contexto:** el escenario obligatorio «Ambiguo o no soportado: "Quiero un préstamo" → se abstiene y explica qué sí puede hacer» (roadmap) salía como `estado_disputa` con confianza 0,48: el bot pedía «el monto, la fecha o el comercio del cargo». No había ninguna frase de préstamo en train ni en val. Lo detectó rol C revisando el flujo, no el test.
+**Decisión:** 33 frases nuevas escritas por Claude (nunca con Gemini), en 11 familias (6 ES, 5 PT): préstamo, límite, saldo o pago mínimo, PIN, abrir cuenta o pedir tarjeta, inversiones o seguros. Están en `ml/intent/suplemento_fuera_alcance.csv`. No se incluyó la frase literal de la demo. Entran como lote 2 en `build_dataset.py`, divididas por familia con su propio generador aleatorio, **para que el split de las familias existentes no cambie** (verificado: ninguna frase existente cambia de split ni de texto). Resultado: 27 frases a train y 6 a val. El validador de fuga atrapó una frase idéntica a una del test («Esqueci a senha do cartão»), que se reemplazó.
+**Resultados:** val (entrenado con train): macro-F1 0,906 (antes 0,908) y el criterio vuelve a dar τ = 0,81 (cobertura 63,9 %, precisión 95,4 %). Test (**segunda apertura**, con τ fijo): macro-F1 0,701 (antes 0,702), cobertura 37,5 %, precisión 85,3 % (antes 84,5 %). Modelo servido `tfidf_lr-C10-20260930-18569ee2`. «Quero um empréstimo» pasa a `fuera_de_alcance` 0,82 (sobre τ: responde qué sí puede hacer). «Quiero un préstamo» pasa a `fuera_de_alcance` 0,62 (bajo τ: sin Gemini pide aclaración; con D4.5 se resuelve).
+**Limitación declarada:** el test de intención se abrió por segunda vez. El cambio no se motivó en el test, pero el test tiene 2 frases de préstamo, así que la mejora en test no es independiente. Runs: `ml/intent/runs/20260930-111809_tfidf_lr_val.json` y `20260930-111820_tfidf_lr_test.json`.
+**Complemento (rol C):** el mensaje de aclaración también dirá qué sí puede hacer el bot, para que una abstención tenga sentido aunque no haya Gemini.
 
 ## Fase 5 · Frontend
 

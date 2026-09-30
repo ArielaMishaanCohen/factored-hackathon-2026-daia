@@ -1,23 +1,29 @@
 """NLU (integracion_backend.md §1.1): intención con el clasificador de la 4.2; el resto de los campos
 con Gemini (extract_llm) y, si Gemini falla por lo que sea, con las reglas (rules).
 
-- intent, intent_confidence y abstain salen siempre del clasificador y de tau_intencion: Gemini
-  nunca cambia la intención.
+- intent, intent_confidence y abstain salen del clasificador y de tau_intencion. Solo si el
+  clasificador se abstiene, Gemini da una segunda opinión (intent_llm, D4.5) en paralelo con la
+  extracción: si nombra una de las 5 clases con confianza >= tau_gemini, esa es la intención y el
+  turno deja de abstenerse. Gemini nunca cambia una intención que el clasificador ya aceptó.
 - Si el modelo del clasificador no carga, la intención sale del stub y los campos de las reglas.
-- model_version = "<versión del clasificador>+<extraccion_vN o rules>".
+- model_version = "<versión del clasificador>[+intent_zeroshot_v1]+<extraccion_vN o rules>"; el
+  segmento del medio aparece solo cuando la intención la decidió Gemini.
 - Nunca lanza.
 """
 from __future__ import annotations
 
 import logging
+from concurrent.futures import ThreadPoolExecutor
 
 from ..config import get_policy
 from ..llm.gemini_client import LLMUnavailable, LLMUsage
 from ..schemas import NLUResult
-from . import extract_llm, rules, stub
+from . import extract_llm, intent_llm, rules, stub
 from .classifier import get_classifier
 
 log = logging.getLogger("latam.nlu")
+
+_hilos = ThreadPoolExecutor(max_workers=4, thread_name_prefix="nlu-intent")
 
 
 def _extraer(text: str, state: str | None, con_llm: bool) -> tuple[dict, str, str, LLMUsage | None]:
@@ -43,7 +49,20 @@ def _understand(text: str, state: str | None) -> tuple[NLUResult, LLMUsage | Non
         abstain = conf < get_policy()["intent"]["tau_intencion"]
         version = clf.model_version
 
+    tau_gemini = get_policy()["intent"].get("tau_gemini")
+    segunda = None
+    if clf is not None and abstain and tau_gemini is not None:
+        segunda = _hilos.submit(intent_llm.clasificar, text, tau_gemini)
+
     campos, extractor, v_extraccion, uso = _extraer(text, state, con_llm=clf is not None)
+
+    if segunda is not None:
+        g_intent, g_conf, g_uso = segunda.result()
+        if g_uso is not None:
+            uso = extract_llm._sumar(uso, g_uso)
+        if g_intent is not None:
+            intent, conf, abstain = g_intent, g_conf, False
+            version = f"{version}+{intent_llm.PROMPT_VERSION}"
     return NLUResult(intent=intent, intent_confidence=conf, abstain=abstain, **campos,
                      extractor=extractor, model_version=f"{version}+{v_extraccion}"), uso
 

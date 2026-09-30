@@ -1,7 +1,7 @@
 # Model card · clasificador de intención (Fase 4.2)
 
 **Dueño:** B · **Fecha:** 29-sep-2026 · **Decisión:** D4.3 en `docs/decisions.md`
-**Modelo servido:** `tfidf_lr-C10-20260929-17b293b7` (`ml/intent/model/`, se regenera con `make train`)
+**Modelo servido:** `tfidf_lr-C10-20260930-18569ee2` (desde el 30-sep, con el lote de fuera de alcance de D4.6; antes `tfidf_lr-C10-20260929-17b293b7`) (`ml/intent/model/`, se regenera con `make train`)
 **Umbral:** `tau_intencion: 0.81` en `config/policy.yaml` (política 1.2.0)
 
 ## 1. Resumen
@@ -167,6 +167,8 @@ La latencia de los modelos locales se midió en una laptop sin red; la de Gemini
   - Set sintético o traducido: las métricas no reemplazan una validación con mensajes reales de clientes.
 - **Confianza sin calibrar:** la confianza es la probabilidad de la regresión logística, sin calibración aparte. En test, frases mal clasificadas llegan a 0,97.
 - **Un solo turno:** clasifica cada mensaje por separado; el contexto de la conversación lo maneja el orquestador.
+
+**Actualización del 30-sep-2026 (D4.6 y D4.5, `docs/decisions.md`):** se agregaron 33 frases de fuera de alcance (préstamo, límite, saldo, PIN, cuenta, inversiones) como lote 2, sin cambiar el split existente. En val (train solo): macro-F1 0,906 y τ = 0,81 de nuevo. En test (segunda apertura): macro-F1 0,701, cobertura 37,5 %, precisión 85,3 %. Los números de las secciones 1 a 10 son del modelo anterior. Bajo τ, ahora Gemini da una segunda opinión (D4.5).
 
 ## 12. Reproducir
 

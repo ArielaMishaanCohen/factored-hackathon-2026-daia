@@ -1,0 +1,34 @@
+family_id,label,language,variant,subtema,text
+s161,fuera_de_alcance,es,MX,Pide un préstamo o crédito personal,Necesito que me presten dinero para pagar la colegiatura de mi hijo.
+s161,fuera_de_alcance,es,MX,Pide un préstamo o crédito personal,¿Tienen créditos personales? Me urgen unos 20 mil pesos.
+s161,fuera_de_alcance,es,MX,Pide un préstamo o crédito personal,Me gustaría sacar un préstamo a 12 meses.
+s162,fuera_de_alcance,es,AR,Pide subir el límite de la tarjeta,Quiero que me suban el límite de la tarjeta.
+s162,fuera_de_alcance,es,AR,Pide subir el límite de la tarjeta,"Che, ¿cómo hago para tener más cupo en la tarjeta?"
+s162,fuera_de_alcance,es,AR,Pide subir el límite de la tarjeta,No me alcanza el límite para las compras del mes; ¿me lo pueden aumentar?
+s163,fuera_de_alcance,es,CO,Consulta el saldo o cuánto debe,¿Cuánto debo en la tarjeta de crédito?
+s163,fuera_de_alcance,es,CO,Consulta el saldo o cuánto debe,Quiero saber cuánta plata tengo disponible.
+s163,fuera_de_alcance,es,CO,Consulta el saldo o cuánto debe,Dígame el pago mínimo de este mes por favor.
+s164,fuera_de_alcance,es,neutro,Olvidó o quiere cambiar el PIN,Se me olvidó el PIN de la tarjeta.
+s164,fuera_de_alcance,es,neutro,Olvidó o quiere cambiar el PIN,¿Cómo cambio la clave del cajero?
+s164,fuera_de_alcance,es,neutro,Olvidó o quiere cambiar el PIN,Metí mal la clave tres veces y ahora no me deja sacar efectivo.
+s165,fuera_de_alcance,es,MX,Quiere abrir una cuenta o pedir una tarjeta nueva,Quiero abrir una cuenta de ahorro con ustedes.
+s165,fuera_de_alcance,es,MX,Quiere abrir una cuenta o pedir una tarjeta nueva,¿Qué requisitos piden para sacar una tarjeta de crédito?
+s165,fuera_de_alcance,es,MX,Quiere abrir una cuenta o pedir una tarjeta nueva,Me interesa una tarjeta adicional para mi esposa.
+s166,fuera_de_alcance,es,CO,Pregunta por inversiones o seguros,¿Qué tasa me dan en un CDT a seis meses?
+s166,fuera_de_alcance,es,CO,Pregunta por inversiones o seguros,Quisiera contratar el seguro de vida que ofrecen.
+s166,fuera_de_alcance,es,CO,Pregunta por inversiones o seguros,¿Dónde puedo invertir mis ahorros con el banco?
+s167,fuera_de_alcance,pt,BR,Pede um empréstimo ou crédito pessoal,Preciso de um dinheiro emprestado até o fim do mês.
+s167,fuera_de_alcance,pt,BR,Pede um empréstimo ou crédito pessoal,Vocês fazem crédito consignado?
+s167,fuera_de_alcance,pt,BR,Pede um empréstimo ou crédito pessoal,Queria simular um empréstimo pessoal de 5 mil reais.
+s168,fuera_de_alcance,pt,BR,Pede aumento de limite,Quero aumentar o limite do meu cartão.
+s168,fuera_de_alcance,pt,BR,Pede aumento de limite,Meu limite tá muito baixo; tem como liberar mais?
+s168,fuera_de_alcance,pt,BR,Pede aumento de limite,Como faço pra pedir mais limite no crédito?
+s169,fuera_de_alcance,pt,BR,Consulta saldo ou fatura,Qual é o valor da minha fatura deste mês?
+s169,fuera_de_alcance,pt,BR,Consulta saldo ou fatura,Quanto eu tenho de saldo na conta?
+s169,fuera_de_alcance,pt,BR,Consulta saldo ou fatura,Quando vence a fatura do cartão?
+s170,fuera_de_alcance,pt,PT,Esqueceu ou quer trocar a senha,"Não lembro mais minha senha, e agora?"
+s170,fuera_de_alcance,pt,PT,Esqueceu ou quer trocar a senha,Como altero o código PIN?
+s170,fuera_de_alcance,pt,PT,Esqueceu ou quer trocar a senha,O cartão ficou bloqueado porque errei a senha três vezes.
+s171,fuera_de_alcance,pt,BR,Quer abrir uma conta ou pedir um cartão,Quero abrir uma conta corrente.
+s171,fuera_de_alcance,pt,BR,Quer abrir uma conta ou pedir um cartão,O que preciso pra pedir um cartão de crédito de vocês?
+s171,fuera_de_alcance,pt,BR,Quer abrir uma conta ou pedir um cartão,Dá pra fazer um cartão adicional pro meu filho?

@@ -2,10 +2,13 @@
 
 Uso: make dataset   (o .venv/bin/python -m ml.intent.build_dataset)
 
-1. Lee b77_traducido.csv (Banking77), suplemento_llm.csv y test_para_escribir.csv.
+1. Lee b77_traducido.csv (Banking77), suplemento_llm.csv, suplemento_fuera_alcance.csv
+   (lote 2, D4.6) y test_para_escribir.csv.
    Quita del pool los textos repetidos con la misma etiqueta (y los lista).
 2. Divide el pool Banking77 + suplemento en train/val 80/20 por familia (semilla
-   42), estratificando por source × label × language. El test va aparte.
+   42), estratificando por source × label × language. El test va aparte. Las familias
+   del lote 2 se dividen después y con su propio generador, para que agregarlas no
+   cambie el split de las familias que ya existían.
 3. Aplica noise.py a train/val (nunca a test) y guarda el texto sin ruido en
    data/sin_ruido.csv, para la ablación con/sin ruido de la 4.2.
 4. Valida (y falla con un mensaje claro si algo está mal): familias en dos
@@ -71,8 +74,12 @@ def leer_banking77() -> pd.DataFrame:
     })
 
 
+LOTE_2 = "suplemento_fuera_alcance.csv"  # D4.6: fuera de alcance (préstamo, límite, saldo, PIN, cuenta)
+
+
 def leer_suplemento() -> pd.DataFrame:
-    df = pd.read_csv(INTENT_DIR / "suplemento_llm.csv")
+    df = pd.concat([pd.read_csv(INTENT_DIR / "suplemento_llm.csv").assign(lote=1),
+                    pd.read_csv(INTENT_DIR / LOTE_2).assign(lote=2)], ignore_index=True)
     nn = df.groupby("family_id").cumcount() + 1
     return pd.DataFrame({
         "id": df["family_id"] + "-" + nn.map("{:02d}".format),
@@ -84,6 +91,7 @@ def leer_suplemento() -> pd.DataFrame:
         "origin": "llm",
         "source": "suplemento",
         "source_ref": None,
+        "lote": df["lote"],
     })
 
 
@@ -138,15 +146,17 @@ def deduplicar(pool: pd.DataFrame) -> pd.DataFrame:
 
 def split_por_familia(pool: pd.DataFrame) -> pd.Series:
     """80/20 por familia, estratificado por source × label × language."""
-    familias = pool.groupby("family_id")[["source", "label", "language"]].first().reset_index()
-    rng = random.Random(SEED)
+    lote = pool["lote"].fillna(1) if "lote" in pool else pd.Series(1, index=pool.index)
+    familias = pool.assign(lote=lote).groupby("family_id")[["source", "label", "language", "lote"]].first().reset_index()
     split = {}
-    for _, grupo in familias.groupby(["source", "label", "language"], sort=True):
-        ids = sorted(grupo["family_id"])
-        rng.shuffle(ids)
-        n_val = round(len(ids) * VAL_FRAC)
-        for i, fam in enumerate(ids):
-            split[fam] = "val" if i < n_val else "train"
+    for n_lote in sorted(familias["lote"].unique()):
+        rng = random.Random(SEED + int(n_lote) - 1)
+        for _, grupo in familias[familias["lote"] == n_lote].groupby(["source", "label", "language"], sort=True):
+            ids = sorted(grupo["family_id"])
+            rng.shuffle(ids)
+            n_val = round(len(ids) * VAL_FRAC)
+            for i, fam in enumerate(ids):
+                split[fam] = "val" if i < n_val else "train"
     return pool["family_id"].map(split)
 
 

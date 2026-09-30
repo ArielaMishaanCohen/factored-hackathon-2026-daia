@@ -46,8 +46,8 @@ def test_multiple_candidates_show_options(client, auth):
 
 
 def test_out_of_scope_abstains(client, auth):
-    # Con el clasificador de la 4.2, "Quiero un préstamo" se abstiene (conf 0,48): "préstamo" no
-    # aparece en train/val. Aquí se prueba el contrato (fuera_de_alcance con confianza → ABSTENERSE).
+    # Contrato: fuera_de_alcance con confianza → ABSTENERSE. "Quiero un préstamo" llega aquí solo con
+    # la segunda opinión de Gemini (D4.5; tests/test_nlu.py); sin llave, el clasificador pide aclaración.
     body = client.post("/api/chat", headers=auth(), json={"message": "Cómo cambio mi PIN"}).json()
     assert body["state"] == "ABSTENERSE" and body["ui"] is None
 
