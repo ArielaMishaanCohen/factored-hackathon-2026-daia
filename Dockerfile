@@ -15,6 +15,8 @@ RUN pip install --no-cache-dir -r backend/requirements.txt
 COPY backend/ backend/
 COPY config/ config/
 COPY --from=frontend /frontend/dist frontend/dist
-# gold se monta o se copia en la Fase 7 (data/gold/gold.duckdb); los stubs no lo necesitan.
+# Gold de servicio (rol A): el backend lo detecta solo en /srv/data/gold/gold.duckdb.
+# Si alguna vez no está, el backend usa los stubs (ver /api/health → data_manifest).
+COPY data/gold/gold.duckdb data/gold/gold.duckdb
 EXPOSE 8000
 CMD ["sh", "-c", "uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port ${PORT:-8000}"]

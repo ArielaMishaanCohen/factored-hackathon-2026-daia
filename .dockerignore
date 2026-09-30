@@ -13,3 +13,7 @@ frontend/dist
 *.duckdb
 *.parquet
 *.sqlite
+
+# Excepción: el gold de SERVICIO (chico, ~3 MB, sin datos personales) sí va en la imagen.
+# Tiene que ir al final: en .dockerignore gana la última regla que coincide.
+!data/gold/gold.duckdb

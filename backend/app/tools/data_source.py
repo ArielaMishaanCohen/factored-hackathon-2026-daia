@@ -110,7 +110,7 @@ def card(customer_id: str, product_id: str) -> dict | None:
 def demo_customers() -> list[dict]:
     if using_gold():
         return _query("SELECT customer_id, display_name, segment, country, suggested_language, scenario "
-                      "FROM demo_customers ORDER BY customer_id")
+                      "FROM demo_customers ORDER BY display_name, customer_id")  # 1, 2, 3… en la pantalla de login
     return list(stub_data.DEMO_CUSTOMERS)
 
 

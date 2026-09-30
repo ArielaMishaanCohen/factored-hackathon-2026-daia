@@ -6,6 +6,7 @@ los casos leyendo estos campos, así que su forma no cambia sin avisar.
 import json
 import logging
 
+from app.config import get_policy
 from app.store import store
 
 
@@ -43,7 +44,8 @@ def test_cada_turno_guarda_lo_que_necesita_la_evaluacion(client, auth):
 def test_la_traza_lleva_versiones(client, auth):
     _, r = _caso_completo(client, auth)
     v = store.traces[r["trace_id"]].turns[0].versions
-    assert v["policy_version"] == "1.0.0" and v["intent_model"] and v["data_source"] in {"stub"} | {v["data_source"]}
+    assert v["policy_version"] == get_policy()["policy_version"]   # la versión configurada, no un número fijo
+    assert v["intent_model"] and v["data_source"] == "stub"         # los tests corren con los stubs (conftest.py)
     assert "llm_model" in v
 
 
