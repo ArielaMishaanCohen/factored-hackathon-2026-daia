@@ -11,6 +11,7 @@ from .auth import get_session, issue_token, require_role
 from .config import get_policy, get_settings
 from . import faults
 from .errors import APIError, register_error_handlers
+from .nlu.classifier import get_classifier
 from .orchestrator import handle_chat
 from .schemas import (AgentLoginRequest, CasesResponse, ChatRequest, ChatResponse, DemoCustomer,
                       DemoCustomersResponse, HandoffPackage, HandoffsResponse, HandoffSummary,
@@ -35,8 +36,11 @@ api = APIRouter(prefix="/api")
 @api.get("/health", response_model=HealthResponse)
 def health():
     s = get_settings()
+    clf = get_classifier()
     return HealthResponse(status="ok", policy_version=get_policy()["policy_version"],
-                          intent_model="stub-keywords-0", llm_model=s.gemini_model, data_manifest=data_source.source_name())
+                          intent_model=clf.model_version if clf else "stub-keywords-0",
+                          llm_model=s.gemini_model if s.gemini_api_key else f"{s.gemini_model} (sin llave: plantillas)",
+                          data_manifest=data_source.source_name())
 
 
 # --- Auth (sección 7) -----------------------------------------------------------
