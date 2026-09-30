@@ -1,5 +1,9 @@
 # Uso: make <objetivo>. Asume .venv creado con `make setup`.
+ifeq ($(OS),Windows_NT)
+PY := .venv/Scripts/python.exe
+else
 PY := .venv/bin/python
+endif
 
 .PHONY: setup dev-backend dev-frontend test data dataset train eval up down
 

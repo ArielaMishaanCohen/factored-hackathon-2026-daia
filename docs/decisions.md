@@ -121,7 +121,73 @@
 
 ## Fase 2 · Pipeline de datos
 
-*(pendiente)*
+### D2.1 · Origen S3 y materialización local
+**Fecha:** 29-sep-2026 · **Responsable:** rol A · **Estado:** Implementada.
+**Decisión:** S3 `data/` es la fuente oficial; extracción con boto3 de solo lectura,
+bronze Parquet inmutable, silver DuckDB/Parquet y dos gold (completo y serving reducido).
+Se ejecuta en la computadora del rol A; el servidor de chat recibe gold y no necesita
+las llaves del bucket. Un espejo CSV local permite probar sin credenciales.
+**Alternativa descartada:** leer CSV de S3 en cada turno del chat: acoplaría credenciales,
+latencia y disponibilidad de la demo al bucket.
+**Validación:** carga real de ocho tablas y aceptación HTTP del backend sin modificarlo.
+
+### D2.2 · Fechas, duplicados y corrección monetaria
+**Decisión:** fecha de negocio = partición, contrastada con `process_date`; timestamp con
+offset normalizado a UTC y naive interpretado como UTC por supuesto configurable/documentado.
+El diccionario no especifica zona horaria, así que no se presenta este supuesto como un hecho.
+Deduplicar por PK con orden temporal y desempate determinista; duplicados de contenido con
+IDs distintos se conservan y se reportan. USD se iguala a amount; ARS/COP nulos se completan
+con tasa directa moneda→USD de la misma fecha y centavos. Sin tasa, falla dura.
+**Evidencia:** esquema y pares de daily_exchange_rates inspeccionados directamente en S3;
+en el primer full se validaron 1,429,456 transacciones del período julio-2025 a junio-2026.
+**Validación:** contratos Pandera por lotes, unicidad global, tests de tasas ausentes,
+timestamp que cruza medianoche y conservación de gold al fallar.
+
+### D2.3 · Incrementalidad y publicación
+**Decisión:** inventario paginado, ETag/LastModified para detectar cambios y SHA-256 de
+los bytes para linaje. Ventana de reproceso inclusiva D−3. Se reutiliza bronze verificado;
+silver y gold se reconstruyen desde el conjunto vigente con deduplicación por PK.
+Una modificación fuera de la ventana se advierte; requiere full o ampliar --since.
+Las corridas son inmutables, el gold activo se reemplaza atómicamente tras validar y un
+lock evita ejecuciones concurrentes. El manifiesto documenta versiones, hashes y conteos.
+**Límite:** atomicidad por archivo, no transacción multiartefacto; consultar la corrida
+inmutable ante falla de publicación. Reiniciar backend para abrir la nueva instantánea.
+**Validación:** fixture generada por el equipo con N, N+1, duplicado, llegada N−2 y columna
+nueva; igualdad lógica de incremental repetido y full.
+
+### D2.4 · Clientes reales, tarjetas y minimización
+**Decisión:** respetar literalmente SCHEMA de `scripts/make_demo_gold.py`; agregar únicamente
+baseline_metrics. Seleccionar ocho clientes reales y una muestra determinista de cien.
+Serving reducido conserva transacciones de tarjetas para garantizar cobertura en cards.
+Gold completo mantiene todos los tipos de producto; no se fabrican tarjetas para cuentas.
+**Evidencia:** productos reales usan nombres españoles. Búsqueda ±2 %, ventana 120 días,
+reclamo 60 días y precedencia de reglas comprobados contra backend.
+**Validación:** login y mensajes reales, selección, confirmación, caso, bloqueo/handoff,
+rechazo y portugués, usando SQLite en memoria. Sin is_fraud ni PII de contacto en gold.
+**Coordinación pendiente externa a fase 2:** backend decide incorporación del archivo al
+Docker/deploy y comportamiento de bloqueo si se sirve una transacción de cuenta del gold completo.
+
+### D2.5 · Calibración temporal y política 1.1.0
+**Decisión:** calibración julio-2025–marzo-2026; prueba abril–17-junio-2026.
+Límites de monto = p95 de calibración después de corrección monetaria, a centavos.
+Se conservan los cortes conservadores 30/40 acordados y se documenta la alternativa 31.
+**Evidencia:** en calibración, ≥40 tiene precisión 483/483 y recall 483/1006;
+en prueba, 143/143 y 143/296. ≥30 tiene precisión 557/701 y 165/215 respectivamente.
+La búsqueda de corte entero con precisión ≥99 % propone 31: calibración 544/544 y
+recall 544/1006; prueba 164/164 y recall 164/296. Es una mejora empírica en esta muestra,
+no una garantía de riesgo real. No se oculta esa alternativa ni se selecciona con el test.
+**Motivo de conservar 40:** preserva la banda acordada y el test de backend que exige R9
+para score 35; adoptar 31 requiere coordinación del contrato de comportamiento con rol C.
+La ventana de 60 días sigue como política sintética: no se infiere una norma bancaria.
+**Validación:** `analysis/02_politica.ipynb`, `reports/policy_calibration.json` y pruebas
+de bordes existentes. No se cambia `intent.tau_intencion`, propiedad del rol B.
+
+### D2.6 · Fuente única para métricas
+**Decisión:** métricas generadas por `data_pipeline/analytics.py`, exportadas a
+`analysis/metricas_problema.json`. Se distinguen quejas totales/con subcategoría,
+resolución observada, denominadores de FCR y CSAT separado de NPS/CES.
+**Límite:** histórico de atención y carga conversacional held-out no son la misma población.
+Resultados del score no equivalen a evaluación end-to-end de fase 6.
 
 ## Fase 3 · Núcleo determinista
 
