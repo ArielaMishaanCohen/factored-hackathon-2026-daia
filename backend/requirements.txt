@@ -9,3 +9,5 @@ duckdb>=1.1
 scikit-learn==1.9.1
 joblib==1.6.*
 python-dotenv
+# Fase 4.3 · Gemini (extracción y redacción). Cliente HTTP puro, sin torch.
+google-genai
