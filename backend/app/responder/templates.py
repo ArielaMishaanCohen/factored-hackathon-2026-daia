@@ -95,3 +95,21 @@ TEMPLATES: dict[str, dict[str, str]] = {
 
 def render(key: str, language: str, **facts) -> str:
     return TEMPLATES[key][language].format(**facts)
+
+
+# Texto corto junto a los botones Confirmar/Cancelar (pending_action.summary).
+# No es un mensaje del chat: no pasa por Gemini, solo se traduce.
+SUMMARIES: dict[str, dict[str, str]] = {
+    "block_card": {
+        "es": "Bloquear la tarjeta {card}",
+        "pt": "Bloquear o cartão {card}",
+    },
+    "create_dispute_case": {
+        "es": "Registrar disputa por {amount} {currency} del {date}",
+        "pt": "Registrar contestação de {amount} {currency} de {date}",
+    },
+}
+
+
+def render_summary(action: str, language: str, **facts) -> str:
+    return SUMMARIES[action][language].format(**facts)

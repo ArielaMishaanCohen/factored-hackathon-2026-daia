@@ -155,3 +155,13 @@ def test_aclaracion_explica_que_si_puede_hacer(client, auth):
     r = _chat(client, auth("CUS-DEMO-01"), message="hola")
     assert r["state"] == "ACLARAR"
     assert "cargos que no reconoces" in r["messages"][0]["text"]
+
+
+def test_resumen_de_la_accion_en_el_idioma_del_cliente(client, auth):
+    """El texto junto a los botones Confirmar/Cancelar sale en portugués si la conversación es en PT."""
+    h = auth("CUS-DEMO-03")
+    r = _chat(client, h, message="Não reconheço uma compra de 3.500")
+    assert r["language"] == "pt" and r["ui"]["pending_action"]["summary"].startswith("Bloquear o cartão")
+    r = _chat(client, h, conversation_id=r["conversation_id"], ui_action={
+        "type": "confirm", "pending_action_id": r["ui"]["pending_action"]["pending_action_id"]})
+    assert r["ui"]["pending_action"]["summary"].startswith("Registrar contestação")

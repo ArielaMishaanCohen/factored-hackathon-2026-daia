@@ -19,7 +19,7 @@ from .errors import APIError
 from .nlu import understand_con_uso
 from .responder.compose import compose, compose_summary
 from .policy.engine import evaluate
-from .responder.templates import render
+from .responder.templates import render, render_summary
 from .schemas import (INTENT_TO_DISPUTE_TYPE, ActionRecord, ChatMessage, ChatRequest, ChatResponse, ChatUI,
                       Decision, HandoffCustomer, HandoffPackage, PendingActionView, Session, ToolError,
                       TurnAudit, VerifiedFact)
@@ -225,11 +225,12 @@ def _select_transaction(session: Session, turn: Turn, transaction_id: str) -> No
         return turn.say(f"inform_{decision.rule_id}", case_id=existing.get("case_id", ""),
                         status=existing.get("status", ""))
     if decision.action == "FRAUD":
-        pa = confirmations.propose(session, "block_card", tx.product_id, f"Bloquear la tarjeta {tx.card_mask}")
+        pa = confirmations.propose(session, "block_card", tx.product_id, render_summary("block_card", conv.language, card=tx.card_mask))
         turn.say("confirm_block", card=tx.card_mask)
     else:
         pa = confirmations.propose(session, "create_dispute_case", tx.transaction_id,
-                                   f"Registrar disputa por {tx.amount:,.2f} {tx.currency} del {tx.business_date}")
+                                   render_summary("create_dispute_case", conv.language, amount=f"{tx.amount:,.2f}",
+                                          currency=tx.currency, date=tx.business_date))
         turn.say("confirm_case", amount=f"{tx.amount:,.2f}", currency=tx.currency, date=tx.business_date)
     _show_confirmation(turn, pa)
 
@@ -296,7 +297,8 @@ def _execute_block(session: Session, turn: Turn, pa, token: str, tx, decision: D
     if not verified:
         raise ToolError("INTERNAL", "El bloqueo no se reflejó al volver a leer la tarjeta.")
     next_pa = confirmations.propose(session, "create_dispute_case", tx.transaction_id,
-                                    f"Registrar disputa por {tx.amount:,.2f} {tx.currency}")
+                                    render_summary("create_dispute_case", conv.language, amount=f"{tx.amount:,.2f}",
+                                           currency=tx.currency, date=tx.business_date))
     turn.say("blocked_then_case", card=tx.card_mask, amount=f"{tx.amount:,.2f}", currency=tx.currency)
     _show_confirmation(turn, next_pa)
 
