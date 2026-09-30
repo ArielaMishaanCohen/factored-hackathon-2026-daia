@@ -131,7 +131,7 @@ def test_si_compose_falla_se_usa_la_plantilla(client, auth, monkeypatch):
         raise RuntimeError("Gemini explotó")
     monkeypatch.setattr(orchestrator, "compose", roto)
     r = _chat(client, auth("CUS-DEMO-01"), message="No reconozco un cargo de 350 en Oxxo")
-    assert r["messages"][0]["source"] == "template" and "350.00 USD" in r["messages"][0]["text"]
+    assert r["messages"][0]["source"] == "template" and "350,00 USD" in r["messages"][0]["text"]
     assert r["audit"]["fallback_used"] is True
 
 
@@ -165,3 +165,28 @@ def test_resumen_de_la_accion_en_el_idioma_del_cliente(client, auth):
     r = _chat(client, h, conversation_id=r["conversation_id"], ui_action={
         "type": "confirm", "pending_action_id": r["ui"]["pending_action"]["pending_action_id"]})
     assert r["ui"]["pending_action"]["summary"].startswith("Registrar contestação")
+
+
+def test_montos_fechas_y_estados_como_los_escribe_una_persona(client, auth):
+    """Nada de '1,952,832.76', '2026-06-10' ni 'Open' en los mensajes al cliente (ES y PT)."""
+    h = auth("CUS-DEMO-01")
+    r = _chat(client, h, message="No reconozco un cargo de 350 en Oxxo")
+    assert "350,00 USD del 10 de junio de 2026" in r["messages"][0]["text"]
+    assert r["ui"]["pending_action"]["summary"] == "Registrar disputa por 350,00 USD del 10 de junio de 2026"
+    r = _chat(client, h, conversation_id=r["conversation_id"], ui_action={
+        "type": "confirm", "pending_action_id": r["ui"]["pending_action"]["pending_action_id"]})
+    assert "-2026" not in r["messages"][0]["text"] and " de 2026" in r["messages"][0]["text"]
+    r = _chat(client, h, message="¿Cómo va mi reclamo?")
+    assert "DSP-000001 (abierto)" in r["messages"][0]["text"]
+    r = _chat(client, h, message="Não reconheço uma cobrança de 350")
+    assert "status aberto" in r["messages"][0]["text"] and "Open" not in r["messages"][0]["text"]
+
+
+def test_formatos_por_idioma():
+    from datetime import date
+    from app.responder.templates import fmt_amount, fmt_date, fmt_status
+    assert fmt_amount(1952832.76, "es") == "1.952.832,76" == fmt_amount(1952832.76, "pt")
+    assert fmt_amount(83.05, "es") == "83,05"
+    assert fmt_date(date(2026, 5, 13), "es") == "13 de mayo de 2026"
+    assert fmt_date(date(2026, 3, 1), "pt") == "1 de março de 2026"
+    assert (fmt_status("In Process", "es"), fmt_status("In Process", "pt")) == ("en proceso", "em andamento")

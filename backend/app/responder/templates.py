@@ -113,3 +113,34 @@ SUMMARIES: dict[str, dict[str, str]] = {
 
 def render_summary(action: str, language: str, **facts) -> str:
     return SUMMARIES[action][language].format(**facts)
+
+
+# --- Formato por idioma (montos, fechas y estados como los escribe una persona) -------------
+
+_MESES = {
+    "es": ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto",
+           "septiembre", "octubre", "noviembre", "diciembre"],
+    "pt": ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto",
+           "setembro", "outubro", "novembro", "dezembro"],
+}
+_ESTADOS = {
+    "Open": ("abierto", "aberto"), "In Process": ("en proceso", "em andamento"),
+    "Escalated": ("escalado", "escalado"), "Resolved": ("resuelto", "resolvido"),
+    "Closed": ("cerrado", "fechado"), "Rejected": ("rechazado", "rejeitado"),
+}
+
+
+def fmt_amount(amount: float, language: str) -> str:
+    """1952832.76 → '1.952.832,76' (ES y PT usan punto de miles y coma decimal)."""
+    return f"{amount:,.2f}".replace(",", "_").replace(".", ",").replace("_", ".")
+
+
+def fmt_date(d, language: str) -> str:
+    """date(2026, 5, 13) → '13 de mayo de 2026' / '13 de maio de 2026'."""
+    return f"{d.day} de {_MESES[language][d.month - 1]} de {d.year}"
+
+
+def fmt_status(status: str, language: str) -> str:
+    """'Open' → 'abierto' / 'aberto'. Si no se conoce, se deja tal cual."""
+    pair = _ESTADOS.get(status)
+    return pair[0 if language == "es" else 1] if pair else status

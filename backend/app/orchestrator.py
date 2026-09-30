@@ -19,7 +19,7 @@ from .errors import APIError
 from .nlu import understand_con_uso
 from .responder.compose import compose, compose_summary
 from .policy.engine import evaluate
-from .responder.templates import render, render_summary
+from .responder.templates import fmt_amount, fmt_date, fmt_status, render, render_summary
 from .schemas import (INTENT_TO_DISPUTE_TYPE, ActionRecord, ChatMessage, ChatRequest, ChatResponse, ChatUI,
                       Decision, HandoffCustomer, HandoffPackage, PendingActionView, Session, ToolError,
                       TurnAudit, VerifiedFact)
@@ -164,7 +164,7 @@ def _message(session: Session, turn: Turn, text: str) -> None:
             conv.state = "INFORMAR_ESTADO"
             if not open_cases:
                 return turn.say("status_none")
-            return turn.say("status_list", cases=", ".join(f"{c.case_id} ({c.status})" for c in open_cases))
+            return turn.say("status_list", cases=", ".join(f"{c.case_id} ({fmt_status(c.status, conv.language)})" for c in open_cases))
 
         options = _tool(turn, "search_transactions", transactions.search_transactions,
                         session, amount=nlu.amount, currency=nlu.currency, date_from=nlu.date_from,
@@ -222,15 +222,15 @@ def _select_transaction(session: Session, turn: Turn, transaction_id: str) -> No
         conv.state = "CERRAR"
         existing = customer_ctx["open_cases_by_tx"].get(tx.transaction_id, {})
         return turn.say(f"inform_{decision.rule_id}", case_id=existing.get("case_id", ""),
-                        status=existing.get("status", ""))
+                        status=fmt_status(existing.get("status", ""), conv.language))
     if decision.action == "FRAUD":
         pa = confirmations.propose(session, "block_card", tx.product_id, render_summary("block_card", conv.language, card=tx.card_mask))
         turn.say("confirm_block", card=tx.card_mask)
     else:
         pa = confirmations.propose(session, "create_dispute_case", tx.transaction_id,
-                                   render_summary("create_dispute_case", conv.language, amount=f"{tx.amount:,.2f}",
-                                          currency=tx.currency, date=tx.business_date))
-        turn.say("confirm_case", amount=f"{tx.amount:,.2f}", currency=tx.currency, date=tx.business_date)
+                                   render_summary("create_dispute_case", conv.language, amount=fmt_amount(tx.amount, conv.language),
+                                          currency=tx.currency, date=fmt_date(tx.business_date, conv.language)))
+        turn.say("confirm_case", amount=fmt_amount(tx.amount, conv.language), currency=tx.currency, date=fmt_date(tx.business_date, conv.language))
     _show_confirmation(turn, pa)
 
 
@@ -296,9 +296,9 @@ def _execute_block(session: Session, turn: Turn, pa, token: str, tx, decision: D
     if not verified:
         raise ToolError("INTERNAL", "El bloqueo no se reflejó al volver a leer la tarjeta.")
     next_pa = confirmations.propose(session, "create_dispute_case", tx.transaction_id,
-                                    render_summary("create_dispute_case", conv.language, amount=f"{tx.amount:,.2f}",
-                                           currency=tx.currency, date=tx.business_date))
-    turn.say("blocked_then_case", card=tx.card_mask, amount=f"{tx.amount:,.2f}", currency=tx.currency)
+                                    render_summary("create_dispute_case", conv.language, amount=fmt_amount(tx.amount, conv.language),
+                                           currency=tx.currency, date=fmt_date(tx.business_date, conv.language)))
+    turn.say("blocked_then_case", card=tx.card_mask, amount=fmt_amount(tx.amount, conv.language), currency=tx.currency)
     _show_confirmation(turn, next_pa)
 
 
@@ -322,11 +322,11 @@ def _execute_case(session: Session, turn: Turn, token: str, tx, decision: Decisi
     conv.data["case_id"] = result.case.case_id
     if not result.created:  # la tool devolvió un caso que ya existía: no decir "Registré"
         conv.state = "CERRAR"
-        return turn.say("inform_R5", case_id=result.case.case_id, status=result.case.status)
+        return turn.say("inform_R5", case_id=result.case.case_id, status=fmt_status(result.case.status, conv.language))
     if decision.action in {"FRAUD", "ESCALATE"}:
         return _handoff(session, turn, "POLICY_ESCALATION", tx=tx, decision=decision, case=result.case)
     conv.state = "CERRAR"
-    turn.say("case_created", case_id=result.case.case_id, sla=result.case.sla_due_at.date().isoformat())
+    turn.say("case_created", case_id=result.case.case_id, sla=fmt_date(result.case.sla_due_at.date(), conv.language))
     turn.ui = ChatUI(type="case_created", case=result.case)
 
 
