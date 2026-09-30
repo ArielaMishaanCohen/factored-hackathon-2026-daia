@@ -31,7 +31,9 @@
 | D1.8 | Autenticación de prueba | 1 | Tomada |
 | D1.9 | Almacenamiento: DuckDB (gold) + SQLite (operativo) | 1 | Tomada |
 | D1.10 | Fecha de referencia, monedas y SLA sintético | 1 | Tomada |
-| D1.11 | Modelo de Gemini fijado: `gemini-3.5-flash` | 1 | Tomada |
+| D1.11 | Modelo de Gemini fijado: `gemini-3.5-flash` | 1 | Reemplazada por D1.12 |
+| D1.12 | Modelo de Gemini: `gemini-3.8-flash` | 1 | Tomada |
+| D1.13 | Capa pagada de la API de Gemini | 1 | Tomada |
 | D2.x | Pipeline: duplicados, `amount_usd`, zona horaria, reproceso, umbrales | 2 | Pendiente |
 | D4.1 | Set de intenciones generado por el equipo | 4 | Reemplazada por D4.2 |
 | D4.2 | Set de intenciones híbrido: Banking77 + suplemento + test aparte | 4 | Tomada |
@@ -107,7 +109,7 @@
 **Cómo validamos:** el contrato de silver pasa sin nulos en `amount_usd`; los tests de política usan `reference_date` de `policy.yaml`.
 
 ### D1.11 · Modelo de Gemini fijado: `gemini-3.5-flash`
-**Fecha:** 29-sep-2026 · **Responsable:** equipo · **Estado:** Tomada
+**Fecha:** 29-sep-2026 · **Responsable:** equipo · **Estado:** Reemplazada por D1.12 (la capa gratuita no alcanza para medir)
 **Contexto:** D1.2 dejó el ID del modelo por fijar. Hay que fijarlo antes del Paso 7 de la Fase 4.2 (Gemini zero-shot como candidato de clasificador), porque su F1, latencia y costo dependen del modelo exacto. Es el mismo modelo que usa el bot para extraer y redactar. Se configura con `GEMINI_MODEL` en `.env` y en Render.
 **Alternativas:**
 - A. `gemini-3.8-flash`: el Flash más nuevo disponible para nuestra API key y más barato hoy (ver precios). El 29-sep dio 503 `UNAVAILABLE` ("high demand") en 3 de 4 llamadas, y la única que respondió tardó 11,3 s.
@@ -116,6 +118,28 @@
 **Por qué:** D1.2 se valida con latencia p95 y tasa de fallback por errores de la API; un modelo saturado empeora justo esas métricas y es un riesgo para la demo del viernes 2. Las tareas del LLM (extraer en JSON y redactar en ES/PT, y el candidato de referencia en 4.2) no deberían necesitar el modelo más nuevo; el Paso 7 lo mide.
 **Precio al 29-sep-2026** (ai.google.dev/gemini-api/docs/pricing, capa pagada, por 1M de tokens): `gemini-3.5-flash` USD 1,50 entrada y USD 9,00 salida. Como referencia, `gemini-3.8-flash` cuesta USD 0,75 y USD 3,75 hasta el 31-dic-2026 (USD 1,50 y USD 7,50 desde el 1-ene-2027). Ambos tienen capa gratuita. **Costo aceptado:** el 3.5 cuesta ~2× en entrada y ~2,4× en salida; con los volúmenes del hackathon la diferencia es marginal frente a la estabilidad.
 **Cómo validamos:** en el Paso 7 de la 4.2 y en la Fase 6, latencia p95 y tasa de errores de la API con `gemini-3.5-flash`. Si el 3.8 se estabiliza, cambiarlo exige volver a correr el candidato Gemini de la 4.2 y registrarlo como decisión nueva que reemplace a esta.
+
+### D1.12 · Modelo de Gemini: `gemini-3.8-flash`
+**Fecha:** 29-sep-2026 · **Responsable:** rol B · **Estado:** Tomada (reemplaza a D1.11)
+**Contexto:** el Paso 7 de la 4.2 (Gemini zero-shot en val, 507 frases) no pudo correr con `gemini-3.5-flash`: su capa gratuita permite 20 pedidos por día por proyecto (`GenerateRequestsPerDayPerProjectPerModel-FreeTier`, valor 20), y las pruebas previas los agotaron antes de la primera frase de val. En esas pruebas el 3.5 también dio 503 `UNAVAILABLE` en 3 de 9 llamadas y tardó 10 a 22 s por respuesta, con 150 a 300 tokens de razonamiento por frase.
+**Alternativas:**
+- A. Seguir con `gemini-3.5-flash` y pasar a la capa pagada: ~USD 0,004 por frase, ~USD 2 por todo val.
+- B. `gemini-3.8-flash`: la mitad del precio de entrada y ~40 % del de salida; el 29-sep (D1.11) estaba saturado.
+- C. Un modelo Flash-Lite, que suele tener más cuota gratuita. No lo probamos.
+**Decisión:** B, `gemini-3.8-flash`, en `GEMINI_MODEL` (`.env` y Render). Es el modelo que mide el Paso 7 y el que usa el bot para extraer y redactar.
+**Por qué:** es más barato que el 3.5 si hay que pagar, y el argumento de D1.11 (estabilidad) no se pudo sostener: el 3.5 también dio 503 y latencias altas. El Paso 7 mide su tasa de errores y su latencia con las mismas reglas.
+**Precio al 29-sep-2026** (ai.google.dev/gemini-api/docs/pricing, capa pagada, por 1M de tokens): USD 0,75 entrada y USD 3,75 salida hasta el 31-dic-2026; USD 1,50 y USD 7,50 desde el 1-ene-2027. Los tokens de razonamiento se cobran como salida. Está en `PRECIOS` de `ml/intent/candidates/gemini_zeroshot.py`.
+**Cómo validamos:** el run del Paso 7 en `ml/intent/runs/` (tasa de errores de la API, latencia p50/p95, costo por 1.000 frases). Si la cuota gratuita del 3.8 no alcanza para val, se decide entre pagar o probar C, y se registra como decisión nueva.
+
+### D1.13 · Capa pagada de la API de Gemini
+**Fecha:** 29-sep-2026 · **Responsable:** rol B · **Estado:** Tomada
+**Contexto:** la capa gratuita de `gemini-3.8-flash` también permite 20 pedidos por día por proyecto. La corrida del Paso 7 respondió 7 frases de val antes de agotarla: los 503 y sus reintentos gastan pedidos. Con eso no alcanza ni para val (507 frases) ni para la demo.
+**Alternativas:**
+- A. Pagar la API con el mismo modelo (D1.12). Estimado con los tokens de prueba: ~USD 0,002 por frase, ~USD 1 por val.
+- B. Un modelo Flash-Lite gratis, si su cuota diaria pasa de ~600. El bot quedaría con un modelo distinto al medido, o habría que cambiarlo también.
+**Decisión:** A. Se cargaron USD 5 en la API el 29-sep-2026.
+**Por qué:** lo medido en el Paso 7 es el mismo modelo que usa el bot, y el costo es marginal frente al saldo.
+**Cómo validamos:** el costo total del run del Paso 7 (`metricas.gemini.costo_total_usd`) y el gasto real en la consola de Google AI Studio; si se acercan al saldo antes del viernes 2, se revisa.
 
 ---
 

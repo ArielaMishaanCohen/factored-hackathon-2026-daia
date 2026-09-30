@@ -118,7 +118,7 @@ Después haz commit solo de ese archivo con el mensaje
 
 **Qué haces tú:** léelo. Si algo no te convence, cámbialo **ahora**; después ya no se puede.
 
-- [ ] Criterio escrito y con commit (hash: ________)
+- [X] Criterio escrito y con commit (hash: **`51dbbe6`**)
 
 ---
 
@@ -145,7 +145,7 @@ Agrega tests cortos en tests/ para las métricas de abstención con un ejemplo a
 mano. Corre pytest.
 ```
 
-- [ ] `evaluate.py` listo y tests en verde
+- [X] `evaluate.py` listo y tests en verde
 
 ---
 
@@ -167,7 +167,7 @@ Paso 4 de la guía de la 4.2. En ml/intent/candidates/ crea:
 Evalúa los dos en val con evaluate.py, guarda los runs y muéstrame la tabla.
 ```
 
-- [ ] Baselines en val: mayoritaria macro-F1 ____ · reglas ____
+- [X] Baselines en val: mayoritaria macro-F1 **0.099** · reglas **0.646**
 
 ---
 
@@ -187,7 +187,7 @@ tabla, la matriz de confusión en val y los 15 errores con más confianza.
 
 **Qué haces tú:** mira los errores. ¿Son errores del modelo o etiquetas dudosas? Si ves etiquetas mal puestas, **anótalas** en vez de corregirlas ahora (se corrigen con el kappa, Paso 10 de la 4.1).
 
-- [ ] TF-IDF en val: macro-F1 ____ (C = ____)
+- [X] TF-IDF en val: macro-F1 **0.908** (C = **10**)
 
 ---
 
@@ -210,8 +210,8 @@ con la del modelo de 5 clases.
 Guarda los runs y muéstrame la tabla con latencia p50 y tamaño en disco.
 ```
 
-- [ ] Embeddings en val: macro-F1 ____ (modelo ________, C = ____)
-- [ ] ¿5 o 6 clases? ________ (decidido en val)
+- [X] Embeddings en val: macro-F1 **0.857** (modelo **small**, C = **10**)
+- [X] ¿5 o 6 clases? **6 da mejor abstención con el mismo F1, pero el candidato igual pierde contra TF-IDF por 5pts** (decidido en val)
 
 ---
 
@@ -237,7 +237,7 @@ cuéntala como error, no la saltes.
 
 **Qué haces tú:** si la cuota gratuita no alcanza para las 507 frases de val, dile a Claude que evalúe una muestra estratificada de val y que lo declare en el run.
 
-- [ ] Gemini en val: macro-F1 ____ · costo por 1.000 frases ____ · latencia p50 ____
+- [X] Gemini en val: macro-F1 **0.904** · costo por 1.000 frases **USD2.03** · latencia p50 **2.0s**
 
 ---
 
@@ -258,7 +258,8 @@ requirements.txt), evalúa en val:
 Guarda los runs en el mismo formato que evaluate.py.
 ```
 
-- [ ] Hecho · o [ ] Saltado (se declara en `model_card.md`)
+- [ ] Hecho · o
+- [X] [ ] Saltado (se declara en `model_card.md`)
 
 ---
 
@@ -278,8 +279,8 @@ y precisión da, y qué % de las frases ambiguo de val quedan abstenidas.
 No toques el test.
 ```
 
-- [ ] Modelo elegido: ________________
-- [ ] τ_intención = ____ (val: cobertura ____ %, precisión ____ %)
+- [X] Modelo elegido: **TF-IDF + regresión logística (C=10)**
+- [X] τ_intención = **0.81** (val: cobertura **63.3%**, precisión **95.3%**)
 
 ---
 
@@ -300,7 +301,7 @@ No cambies nada del modelo ni de τ.
 
 **Qué haces tú:** si el test sale mucho peor que val, **no lo arregles**: es justo lo que el `data_report.md` anticipa (val es de la misma distribución que train). Se explica en el model card.
 
-- [ ] Test: macro-F1 ____ (ES ____ · PT ____ · mix ____) · cobertura ____ % · precisión ____ %
+- [X] Test: macro-F1 **0.702** (ES **0.698** · PT **0.673** · mix **0.693**) · cobertura **35.5** % · precisión **84.5** %
 
 ---
 

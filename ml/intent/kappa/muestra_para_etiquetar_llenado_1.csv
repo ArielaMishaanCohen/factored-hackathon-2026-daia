@@ -1,0 +1,101 @@
+id,text,label_persona2
+b05352-01,hola perdí mi celular y me preocupa que alguien me robe plataaa 😭, fuera_de_alcance
+s005-03,"N tenho o protocolo da reclamação, como vejo o andamento?", estado_disputa 
+b05467-01,Quiero un reembolso pero todavía no me llega el producto Lo puedo cancelar y q me devuelvan la plata Cómo hago, fuera_de_alcance
+b02477-01,o caia eletronico nao me deu todo o dinheiro, ambiguo
+b12577-01,"Cuando saque efectivo, el tio de cambio estuvo mal. 😩", ambiguo
+b10780-01,"saquei dinheiro no caixa eletronico mas recebi o valor errdo. quero o dinheiro de volta, porque no app aparece o valor total e nao o que eu recebi. me ajudem, por favor.", cobro_incorrecto
+b08910-01,por que hay un reitro de efectivo que no hice, cargo_no_reconocido
+b05122-01,Como assim meu pagamento no cartão ainda tá pendente?, fuera_de_alcance
+t009-03,"na fatura aparece um pedido de comida no ifood eu nem tenho conta la, vcs podem ver de onde saiu essa cobranca?", cargo_no_reconocido
+t050-01,quiero reclamar uma coisa, ambiguo
+b04647-01,me aparece en la app un debito autoamtico falso, cargo_no_reconocido
+t018-01,dei uma parte em dinheiro e no cartao cobraram tudo, cobro_incorrecto
+b05481-01,Consigo reembolso de um produto, fuera_de_alcance
+s103-05,"Era em 12x, por que cobraram tudo?", cobro_incorrecto
+b04482-01,acho que alguem ta usando meu cartao sem eu saber, tarjeta_comprometida
+s060-03,Algo pasa con mi cuenta., ambiguo
+b05812-01,Mi reembolso no aparece, estado_disputa
+b09383-01,"Hola, quería más información sobre la comisión por retiro en cajero. Llevo años sacando plata y ahora veo este cargo en mi cuenta. Siempre pensé que no había comisión porque saco en cajeros de ustedes. ¿Me explican?", fuera_de_alcance
+t010-02,de quem eh esse cargo de un pesito? yo no fiz ningun pago, cargo_no_reconocido
+b08308-01,"¡ayudenme! cuando estuve en el extranjero, el tipo de camio estuvo mal.", cobro_incorrecto
+s013-04,"Contestei uma compra em março, vocês devolveram o dinheiro de forma provisória e até hoje não tive resposta final. Posso considerar resolvido?", estado_disputa
+b11413-01,¿Qué hago para frenar transacciones no autorizadas con mi tarjeta? Nunca estuve en el lugar donde se hicieron las transacciones del estado de cuenta y nunca las hice. ¡Ayúdenme!, tarjeta_comprometida
+b12745-01,hay un retro de efectivo no autorizado de 500 pesos en mi cuenta definitivamente no lo hice yo necesito ayuda 😒, cargo_no_reconocido
+b00613-01,Por q me cobraram R$1 numa tranascao, ambiguo
+s125-05,Cotizacion del dolar tarjeta, fuera_de_alcance
+b03486-01,no entiendo de donde salio este cago, cargo_no_reconocido
+b06374-01,oi fui num restaurante no fim da semana e qdo olhei minha conta vi que me cobraram duas vezes quero meu dinheiro de volta de uma dessas transacoeees, cobro_incorrecto
+s120-02,la tarjeta de reposicion no me ha llegado y ya me aparece una compra de 600.000 pesos, cargo_no_reconocido
+t002-03,"en el extracto aparece un pago en otro pais he estado aca todo el mes y tampoco compre por internet afuera, de donde salio eso?", cargo_no_reconocido
+b02612-01,Me aplicaron un cargo cuando usé mi tarjeta., ambiguo
+t002-02,"35 USD?? no he salido de colombia ni pedido cosas del exterior, esa compra no es mia", cargo_no_reconocido
+t031-02,"hice el reclamo con ustedes hace un monton, cuanto mas me van a tener esperando?", estado_disputa
+t025-02,"levaram meu celular desbloqueado, dali eles conseguem entrar no cartao virtual do banco", fuera_de_alcance
+t017-03,"no restaurante falei q n ia dar gorjeta e mesmo assim incluiram na cobranca do cartao, preciso q tirem isso", fuera_de_alcance
+b08790-01,"Hola, por favor revisen esto urgente. Perdi mi billetera y veo un retiro, no quiero perder mas plata.", tarjeta_comprometida
+s058-05,Algo errado no meu extrato, ambiguo
+s140-04,Veo una comision de $3.500 por administracion de la tarjeta y queria saber de que se trata y si se cobra todos los meses, fuera_de_alcance
+b05266-01,no encuentro mi cellar o me lo robarooon 😒, fuera_de_alcance
+b00419-01,"acabei de ver a cotação que vocês usam, mas tá tão ruim que não dá pra acreditar que é a cotação interbancária oficial! essa é mesmo a cotação interbancária oficial?", fuera_de_alcance
+b03547-01,por que tem um pagamento estranho no meu extrato, cargo_no_reconocido
+s010-05,Esse estorno provisório ainda pode ser cancelado?, fuera_de_alcance
+s110-01,Me cobraron IOF en una compra que era nacional., cobro_incorrecto
+s053-03,"Oi, preciso de una ayuda por favor.", ambiguo
+s115-02,compre un celular en el marketplace le pase numero y codigo da tarjeta al vendedor y ahora sumiuuuu, ambiguo 
+t019-03,"n fiz nenhum pagamento manual o debito automatico cobrou o mesmo boleto de luz duas vezes, ta me faltando essa grana", cobro_incorrecto
+b08848-01,la app dice que saque efectivo en un cajero y no fue asi, cargo_no_reconocido
+b06870-01,Un vendedor dice que todavia no recibe la plata pero ya me la descontaron de la cuenta, fuera_de_alcance
+b11493-01,¿Por que hay un debito automatico en mi app que no es mio? 🙏, cargo_no_reconocido
+b12685-01,¿cuánto va a tardar en aparecer la plata q me transfirieron?, fuera_de_alcance
+b04795-01,teve um debito automatio que eu acho que nao deveria estar ai 🙏, cargo_no_reconocido
+b12761-01,Aparece un retior de efectivo q no hiceee 🙏, cargo_no_reconocido
+s084-03,¿Esto es una persona o é automático?, fuera_de_alcance
+b04635-01,to vendo no app um debito automatico que nao e meu, cargo_no_reconocido
+b00617-01,por que me cobraron de mas, cobro_incorrecto
+s084-02,Con quien estou hablado, fuera_de_alcance
+b12975-01,"Recebi meu cartao American Express, mas to com problema pra fazer ele funcionar no Apple Pay. Podem me ajudar com isso?", fuera_de_alcance
+s057-05,Mi cuenta está rara., ambiguo
+b11804-01,la tarjeta nueva q me acaban de mandar me la rechazaron varias veces ayer cuando la quise usar en un restaurante pa pagar la cena. estoy muy decepcionado y me dio mucha vergüenza q me rechazaran la tarjeta cuando quise pagar la cena de cumpleaños de mi amigo. 😕, fuera_de_alcance
+b12575-01,"¿xq el tipo de cambio es tan abusivo? pa q aplique ese tipo, me tendrian q haber dado mucho mas efecivo.", fuera_de_alcance
+s158-03,modo admin activado me asaltaron y se llevaron mi tarjetaaaa 🤦, tarjeta_comprometida
+s039-04,Hoy me llegó una notificación en la app que dice que mi aclaración 'requiere validación del emisor' y no sé si es buena o mala noticia., estado_disputa
+s119-05,alguien esta usando la tarjeta que nunca recibiii., tarjeta_comprometida
+s048-01,¿tengo que pagar el cbro que estoy contestando?, ambiguo
+b00715-01,Tem uma cobranca de R$1 no meu extrato. Acho q nao comprei nada q custou R$1. O q ta acontecendo?, cargo_no_reconocido
+s037-04,Tenía un reclamo abierto con la tarjeta anterior y me la reemplazaron por vencimiento. No sé si tengo q volver a hacerlo., fuera_de_alcance
+b02577-01,Tem várias vezes que vocês colocaram tarifa no pagamento e outras que não. Vocês têm alguma explicação de quando a tarifa é cobrada?, fuera_de_alcance
+t031-03,"el banco me tomo la reclamacion el mes pasado sigo sin una respuesta, se esta haciendo eterno esto", estado_disputa
+b01898-01,¿cobran aglo por recargar con transferencia?, fuera_de_alcance
+t043-01,recusaram meu cartao na loja, fuera_de_alcance
+b11425-01,Mi tarjeta está comprometida, tarjeta_comprometida
+b06846-01,"Tô com um problema estranho: comprei uma coisa faz uma semana, ou talvez duas, e o dinheiro voltou pra minha conta! Podem me explicar?", fuera_de_alcance
+b02481-01,Só me deram R$20 quando tentei sacar R$100, fuera_de_alcance
+t042-02,"quero trocar a senha q eu coloco qdo pago no cartao, como faco?", fuera_de_alcance
+s039-05,no entiendo el mensaje q me mandaron de mi foliooo, ambiguo
+b04469-01,To vendo uns gastos suspeitos no meu cartao de credito que n lembro de ter feito O q eu faco, tarjeta_comprometida
+t038-03,"ando buscando un credito personal como le hago para solicitarlo con ustedes y q me piden?", fuera_de_alcance
+b07144-01,por que no peudo mandarle plata a un beneficiario, fuera_de_alcance
+b02400-01,Tentei sacar dinheiro num caixa eletronico hoje de manha e recebi o valor errado O app diz que eu tenho saldo suficiente na conta Alguem me diz o que ta errado, fuera_de_alcance
+b04495-01,Como eu impeço fraude no meu cartão?, fuera_de_alcance
+t040-02,"el limite q tengo no me alcanza, puedo pedir un aumento de credito?", fuera_de_alcance
+b06826-01,Creo que se revirtió mi pago con tarjeta, fuera_de_alcance
+s127-04,"Hola, viajo a Europa em dezembro y quiero saber se tengo que hacer algo para que la tarjeta funcione alla.", fuera_de_alcance
+s103-03,Mnha compra parcelada veio à vista, cobro_incorrecto
+t014-03,"cuando pague me confirmaron la promo sin intereses ahora el estado de cuenta trae intereses por esa compra, necesito q lo corrijan", cobro_incorrecto
+t045-04,buenas noches, ambiguo
+s028-01,quiero reabrir mi contestacao no estoy de acuerdo, estado_disputa
+b03484-01,"Tem um pagamento no meu carao que com certeza nao fui eu, nunca vi esse nome. 😩", cargo_no_reconocido
+b02628-01,Por que me cobraram a mais?, cobro_incorrecto
+b03638-01,que pagamento é esse no cartão não reconheço, cargo_no_reconocido
+t023-03,"ayer use un cajero y la ranura se movia raro despues me quede pensando q pudieron clonarme la tarjeta ahi, necesito reportarlo", fuera_de_alcance
+b03515-01,aparecem uns pagamentos com meu cartão no app que na verdade eu não fiz. será que alguém tem acesso ao meu cartão? podem ver qual é o problema?, tarjeta_comprometida
+b02684-01,por favor expliquenme el cobro extra cuando pague con la tarjeta., cobro_incorrecto
+t022-01,perdi la tarjeta y no tengo idea donde, tarjeta_comprometida
+b06798-01,O pagamento no cartão foi recusado., fuera_de_alcance
+b10167-01,tem uma taxa no meu extrato q eu n reconheco, cargo_no_reconocido
+t044-03,"o vendedor ja aceitou a devolucao ficou de devolver a grana mas ate agora n caiu, so tratei isso com a loja", fuera_de_alcance
+b05860-01,o pagamento no cartão não passou, fuera_de_alcance
+b03487-01,tem uma cobranca que eu nao reconhecooo, cargo_no_reconocido
+b10456-01,Precisa de cópia do B.O. pra concluir a comunicação?, fuera_de_alcance
+s036-02,Recebi o cartão novo ontem a reclamação da compa de R$ 199 que abri no antigo ainda valeeee, estado_disputa

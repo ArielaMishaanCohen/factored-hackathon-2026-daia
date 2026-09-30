@@ -8,6 +8,8 @@ Interfaz de un candidato (ml/intent/candidates/<nombre>.py expone crear(**params
     costo_por_1000_usd      -> atributo opcional (0 si no existe).
 Las filas de predict_proba no tienen que sumar 1: un candidato que puede decir
 "ambiguo" (6 clases, Gemini) deja esa masa fuera y su confianza queda baja.
+Una fila toda en 0 es "sin respuesta" (Gemini dijo ambiguo o la API falló): su
+predicción es SIN_RESPUESTA, cuenta como fallo en macro-F1 y se abstiene a todo τ > 0.
 
 Uso por línea de comandos:
     .venv/bin/python -m ml.intent.evaluate --candidato tfidf_lr --split val --param C=1
@@ -37,6 +39,7 @@ RUNS_DIR = INTENT_DIR / "runs"
 
 CLASES = ["cargo_no_reconocido", "cobro_incorrecto", "tarjeta_comprometida", "estado_disputa", "fuera_de_alcance"]
 AMBIGUO = "ambiguo"
+SIN_RESPUESTA = "sin_respuesta"
 SPLITS = {"train", "val", "test"}
 
 # criterio_seleccion.md §4
@@ -110,7 +113,7 @@ def curva_cobertura_precision(labels, preds, confianzas, taus=TAUS) -> list[dict
     for tau in taus:
         contesta = conf >= tau
         n_cont = int(contesta.sum())
-        aciertos = int((contesta & (preds == labels)).sum())  # preds nunca es "ambiguo"
+        aciertos = int((contesta & (preds == labels)).sum())  # preds nunca es "ambiguo"; SIN_RESPUESTA nunca acierta
         curva.append({
             "tau": float(tau),
             "contestadas": n_cont,
@@ -153,8 +156,8 @@ def metricas(df: pd.DataFrame, probs: np.ndarray) -> dict:
     probs = np.asarray(probs, dtype=float)
     if probs.shape != (len(df), len(CLASES)):
         raise ValueError(f"predict_proba debe devolver forma {(len(df), len(CLASES))}, devolvió {probs.shape}")
-    preds = np.array(CLASES)[probs.argmax(axis=1)]
     conf = probs.max(axis=1)
+    preds = np.where(conf > 0, np.array(CLASES)[probs.argmax(axis=1)], SIN_RESPUESTA)
     labels = df["label"].to_numpy()
 
     # Macro-F1 de 5 clases: sin ambiguo y sin abstención (criterio §2).
@@ -169,6 +172,7 @@ def metricas(df: pd.DataFrame, probs: np.ndarray) -> dict:
     return {
         "n": int(len(df)),
         "n_sin_ambiguo": int(m.sum()),
+        "n_sin_respuesta": int((preds == SIN_RESPUESTA).sum()),
         "macro_f1": _macro_f1(y5, p5),
         "f1_por_clase": dict(zip(CLASES, map(float, f1_clase))),
         "por_idioma": por_grupo("language"),
