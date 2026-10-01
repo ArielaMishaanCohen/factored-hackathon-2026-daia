@@ -28,7 +28,7 @@ import duckdb
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from eval.cases.esperado import CasoPrevio, esperado, politica
+from eval.cases.esperado import CasoPrevio, esperado, politica, tarjeta_activa
 from eval.cases.mensajes_fuente import CASOS
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -218,13 +218,17 @@ def main() -> int:
             regla = esperado(cli, tx_id, intencion, casos_previos=[CasoPrevio(t) for t in open_cases]).rule_id
         if regla not in REGLAS_OK[cat]:
             errores.append(f"{cid}: regla {regla} no encaja con la categoría {cat}")
+        if intencion == "tarjeta_comprometida" and regla not in (None, "R1", "R7") and not tarjeta_activa(tx_id):
+            errores.append(f"{cid}: tarjeta_comprometida con {regla} pero la tarjeta no está Active: no se propone el bloqueo")
+        if c.get("bloqueo") and (intencion != "tarjeta_comprometida" or regla == "R7"):
+            errores.append(f"{cid}: bloqueo= solo aplica a tarjeta_comprometida fuera de R7")
         if cat == "falla_herramienta" and {"block_card": "R7", "create_dispute_case": "R12"}[c["herramienta"]] != regla:
             errores.append(f"{cid}: herramienta {c['herramienta']} con regla {regla}")
         accion = "ABSTAIN" if cat == "fuera_de_alcance" else ("NOT_FOUND" if cat == "datos_incorrectos" else ACCION[regla])
 
         variante = {"es": VARIANTE[perfil["country"]], "pt": "BR",
                     "mix": f"{VARIANTE[perfil['country']]}+BR"}[c["language"]]
-        extra = {x: c[x] for x in ("tema", "tipo_iny", "via", "error", "forma", "herramienta") if x in c}
+        extra = {x: c[x] for x in ("tema", "tipo_iny", "via", "error", "forma", "herramienta", "bloqueo") if x in c}
         filas.append(dict(
             id=cid, split=c["split"], category=cat, language=c["language"], variant=variante,
             customer_id=cli, segment=perfil["segment"], country=perfil["country"],
@@ -290,7 +294,7 @@ def main() -> int:
             prep_txt = (f"{f['expected_rule']}: casos abiertos en {', '.join(f['open_cases_sugeridos'])}"
                         if f["open_cases_sugeridos"] else "")
             nota = "; ".join(str(x) for x in (f.get("tema"), f.get("tipo_iny"), f.get("via"), f.get("error"),
-                                               f.get("forma"), f.get("herramienta"), f["notes"]) if x)
+                                               f.get("forma"), f.get("herramienta"), f.get("bloqueo"), f["notes"]) if x)
             w.writerow([f["id"], f["category"], f["language"], msg, f["transaction_id"] or "",
                         f["expected_rule"] or f["expected_action"], f["split"], f["variant"], f["customer_id"],
                         f["segment"], dato, f["candidatas"] if f["candidatas"] is not None else "", prep_txt,

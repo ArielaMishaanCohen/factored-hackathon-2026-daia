@@ -81,6 +81,16 @@ def transaccion_gold(transaction_id: str) -> dict | None:
     """, [transaction_id])
 
 
+def tarjeta_activa(transaction_id: str) -> bool:
+    """Si la tarjeta de la transacción está Active en el gold. Con tarjeta_comprometida fuera de R7, el
+    bloqueo solo se propone si lo está (design.md §3.2): una tarjeta ya bloqueada no se vuelve a ofrecer."""
+    fila = _fila("""
+        SELECT c.status FROM dispute_transactions t JOIN cards c ON c.product_id = t.product_id
+        WHERE t.transaction_id = ?
+    """, [transaction_id])
+    return bool(fila) and fila["status"] == "Active"
+
+
 def quejas_90d(customer_id: str) -> int:
     fila = _fila("SELECT prior_complaints_90d FROM customer_profile WHERE customer_id = ?", [customer_id])
     return int(fila["prior_complaints_90d"] or 0) if fila else 0
@@ -137,8 +147,8 @@ def esperado(customer_id: str, transaction_id: str, intencion: str, *,
     if tx["amount_usd"] > topes.get(tx["transaction_type"], topes["default"]):
         return Esperado("R10", "ESCALATE", "high", "disputas", True)
 
-    # R11: ≥ τ_k disputas en la ventana: quejas del gold + casos de la preparación
-    # (se asumen creados hoy, dentro de repeat_window_days, sea cual sea su estado).
+    # R11: ≥ τ_k disputas en la ventana, en cualquier estado (design.md §3.2): quejas del gold + casos
+    # de la preparación (se asumen creados hoy, dentro de repeat_window_days; Closed también cuenta).
     if quejas_90d(customer_id) + len(casos) >= r["repeat_disputes_k"]:
         return Esperado("R11", "ESCALATE", "medium", "disputas", True)
 

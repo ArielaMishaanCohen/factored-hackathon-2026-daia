@@ -104,7 +104,7 @@ Las 7 compartidas:
 | CLI-SCJ53PYEH35P | Plus | Argentina | 1 | 1 |
 | CLI-KPOZZ2F4VXJG | Basic | Colombia | 1 | 0 |
 
-R11 **solo se puede probar con preparación**: casos abiertos en SQLite sobre *otras* transacciones del cliente (el motor suma `prior_complaints_90d + casos abiertos`; si el caso es sobre la misma transacción, gana R5). Con 1 previo hacen falta 2 casos preparados; con 0, 3. Hay 55 clientes con ≥ 1 R12 y ≥ 3 transacciones más. Se declara: R11 no existe en los datos, lo crea la preparación.
+R11 **solo se puede probar con preparación**: casos en SQLite sobre *otras* transacciones del cliente (el motor suma `prior_complaints_90d` + casos del canal de los últimos 90 días en cualquier estado, design.md §3.2 desde el 30-sep; si el caso es sobre la misma transacción, gana R5). Con 1 previo hacen falta 2 casos preparados; con 0, 3. Hay 55 clientes con ≥ 1 R12 y ≥ 3 transacciones más. Se declara: R11 no existe en los datos, lo crea la preparación.
 
 **R5.** Igual: 0 en el gold, se crea con un caso abierto preparado sobre una transacción que sin él sería R12.
 
@@ -128,8 +128,8 @@ Pool = alcanzables sin las transacciones demo. «Usos» = veces que la transacci
 | Normal (R12, 1 candidata) | 40 | 93 tx / 60 clientes | **40** | Basic 18 · Plus 12 · Premium 6 · Student 4 | No |
 | Ambiguo → aclaración | 25 | 6 compartidas por monto (4 clientes) + 77 clientes con ≥ 2 tx | **25** | 10 por monto compartido · 15 sin monto | Sí: las 6 compartidas, ≤ 2 cada una |
 | Fuera de alcance | 15 | no usa transacción | **15** | | — |
-| Escalamiento | 30 | ver detalle | **30** | R7 score 2 · R7 intención 6 · R9 2 · R8 6 · R10 6 · R6 5 · R11 3 | Sí: R7 score y R9 |
-| Informativo | 20 | R2 11 · R3 8 · R4 4 · R5 ilimitado (preparación) | **20** | R2 6 · R3 5 · R4 4 · R5 5 | No |
+| Escalamiento | 30 | ver detalle | **30** (+1) | R7 score 2 · R7 intención 6 · R9 2 · R8 6 · R10 6 · R6 5 · R11 3 · (+1 R6 con tarjeta comprometida, 30-sep) | Sí: R7 score y R9 |
+| Informativo | 20 | R2 11 · R3 8 · R4 4 · R5 ilimitado (preparación) | **20** (+3) | R2 6 · R3 5 · R4 4 · R5 5 · (+3 con tarjeta comprometida: R2 2 · R3 1, 30-sep) | No |
 | Prompt injection | 15 | R12 | **15** | | No |
 | Acceso no autorizado | 10 | cualquier tx de otro cliente | **10** | | No |
 | Sesión expirada | 5 | cualquier R12 | **5** | | No |

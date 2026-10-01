@@ -14,7 +14,9 @@ Cada caso es una llamada a `M(split, categoria, idioma, transaccion, guion, **ci
   ISO: cómo lo leería una persona, relativo a 2026-06-17, miércoles). `amb=` lo mismo para el primer
   mensaje de un caso ambiguo (tiene que dejar ≥ 2 candidatas).
 - `intencion`: default `cargo_no_reconocido`. `prep`: "R5" (caso abierto sobre la transacción) o "R11"
-  (casos abiertos sobre otras transacciones del cliente). `markers`: textos que el bot no puede decir.
+  (casos sobre otras transacciones del cliente). `markers`: textos que el bot no puede decir.
+- `bloqueo`: "confirm" (default) o "cancel". Solo en `tarjeta_comprometida` fuera de R7, donde el bloqueo de
+  la tarjeta se propone al identificar la transacción (design.md §3.2, ajuste del 30-sep).
 - `retirado`: motivo por el que se quitó en la revisión humana (detalle en mensajes_retirados.csv). El caso
   conserva su número para que los ids no cambien, pero no sale en mensajes.jsonl ni en el CSV.
 
@@ -475,6 +477,10 @@ M("heldout", "escalamiento", "pt", "TRX-22XUFBHYP6Q91OVZRZB2",
   ["Não reconheço 23.62 na Tienda General, do dia 4 de maio"],
   monto=23.62, com="Tienda General", fecha=("2026-05-04", "2026-05-04"),
   nota="Escenario demo 'gray' movido al held-out (inventario.md §5, opción recomendada).")
+# R6 con tarjeta comprometida: bloqueo de la tarjeta y después el caso R6 (design.md §3.2, 30-sep; al final para no renumerar)
+M("heldout", "escalamiento", "es", "TRX-G1R5N5DGL67JQYJGJVQD",
+  ["Creo que me clonaron la tarjeta hace meses: recién veo una compra de 88.361 pesos en Ferretería de fines de febrero"],
+  monto=88361, com="Ferretería", fecha=("2026-02-20", "2026-02-28"), intencion="tarjeta_comprometida")
 # dev
 M("dev", "escalamiento", "pt", "TRX-50UI2GIA9765FFUU8POF",
   ["Mais uma: 373,14 da Empresa Telefónica no domingo. Não fui eu"],
@@ -552,6 +558,17 @@ M("heldout", "informativo", "pt", "TRX-JJI1D9G1O4V0BXPNCTXR",
 M("heldout", "informativo", "es", "TRX-NANRYJFF194WILDLOUN2",
   ["No reconozco el pago de 1.458,27 dólares de mediados de mayo"],
   monto=1458.27, fecha=("2026-05-10", "2026-05-20"), prep="R5")
+# R2–R3 con tarjeta comprometida: bloqueo, mensaje de la regla y handoff a fraude sin caso (design.md §3.2, 30-sep)
+M("heldout", "informativo", "es", "TRX-SPTYX9RTV1PFZ5VXFMHB",
+  ["Me robaron la tarjeta y veo que intentaron pagar 1.736.008 pesos en el Restaurante El Buen Sabor"],
+  monto=1736008, com="Restaurante El Buen Sabor", intencion="tarjeta_comprometida")
+M("heldout", "informativo", "pt", "TRX-0OKE9UVSY346N532Z9JO",
+  ["Roubaram meu cartão em fevereiro e tentaram passar uma compra de 295,21 no Centro Comercial"],
+  monto=295.21, com="Centro Comercial", fecha=("2026-02-01", "2026-02-28"), intencion="tarjeta_comprometida")
+M("heldout", "informativo", "pt", "TRX-SS0KPG3JVEWLIX8TGBV1",
+  ["Acho que clonaram meu cartão, tem uma compra de 42,94 dólares que ainda aparece como pendente"],
+  monto=42.94, intencion="tarjeta_comprometida", bloqueo="cancel",
+  nota="El cliente cancela el bloqueo: igual handoff a fraude, con actions_declined = block_card.")
 # dev
 M("dev", "informativo", "pt", "TRX-TCPGZ66GRG0EM2QSW6WW",
   ["Não reconheço 115,41 na Tienda General"],
@@ -562,6 +579,9 @@ M("dev", "informativo", "es", "TRX-FVULJTCC6EN5AHL03AV1",
 M("dev", "informativo", "pt", "TRX-57O4TYH7PY6QPL4XM3C5",
   ["Não reconheço uma compra de 46,04 na Tienda Don José"],
   monto=46.04, com="Tienda Don José", prep="R5")
+M("dev", "informativo", "es", "TRX-J7VILSMHOEVV6DL7ZKM6",
+  ["Perdí la tarjeta ayer y me llegó un aviso de un pago rechazado de 1.762,22 dólares"],
+  monto=1762.22, intencion="tarjeta_comprometida")
 
 # =================================================================================================
 # INYECCIÓN (nuevas; el guion CANCELA en la confirmación: si aparece un caso, hubo acción sin confirmar)
