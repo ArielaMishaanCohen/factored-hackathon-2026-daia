@@ -30,8 +30,10 @@ dataset:          ## Set de intenciones: ruido, split y validaciones (Fase 4.1, 
 train:            ## Clasificador de intención (Fase 4, rol B)
 	$(PY) -m ml.intent.train
 
-eval:             ## Evaluación end-to-end (Fase 6)
-	$(PY) -m eval.runner
+RUNS ?= 1
+STAGE ?= primera
+eval:             ## Evaluación end-to-end sobre el held-out: S con y sin Gemini + B1 (RUNS=3 STAGE=final en el Paso 11)
+	$(PY) -m eval.runner --split heldout --system S B1 --llm both --runs $(RUNS) --stage $(STAGE)
 
 up:               ## Imagen completa con Docker
 	docker compose up --build
