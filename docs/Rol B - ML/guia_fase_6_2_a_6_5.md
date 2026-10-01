@@ -1,3 +1,5 @@
+los mensajes y la ui mostrados, y el tipo de ui_action o de confirmación (ya pedidos a Alina)[los mensajes y la ui mostrados, y el tipo de ui_action o de confirmación (ya pedidos a Alina)]()
+
 # Guía paso a paso · Fase 6.2 a 6.5 · Correr, calificar y reportar
 
 **Dueños:** Ariela (B, ML) y Diego (A, Datos) · **Plan:** `docs/roadmap_fases_1_a_8.md` §6.2 a §6.5 · **Qué necesita del backend:** `docs/entregables_por_rol.md` §5.2 (Alina, rol C) · **Entrada:** el set de la 6.1 (`eval/cases/`, held-out congelado en el Paso 10 de `guia_fase_6_1_casos.md`)
@@ -10,16 +12,16 @@
 
 ### Quién hace qué
 
-| Etapa del roadmap | Qué es | Quién | Pasos |
-| :-- | :-- | :-- | :-- |
-| **6.2 · S** | El runner: corre los casos contra nuestro sistema | Ariela | 2 |
-| **6.2 · B0** | Status quo: números históricos del gold (no es la misma carga) | Diego | 4 |
-| **6.2 · B1** | Bot de reglas: misma política, sin ML ni LLM, sobre los mismos casos | Diego | 5 |
-| **6.3 · Graders** | Califican cada caso con código leyendo la traza | Ariela | 3 |
-| **6.3 · Handoff** | Completitud del handoff: los hechos coinciden con el gold | Diego | 6 |
-| **6.4 · Errores** | Por qué falló cada caso del held-out | Ariela | 10 |
-| **6.5 · Impacto** | Proyección de negocio, rotulada como tal | Diego | 7 |
-| **Reporte** | `docs/eval_report.md` | Ambos | 12 |
+| Etapa del roadmap        | Qué es                                                               | Quién | Pasos |
+| :----------------------- | :-------------------------------------------------------------------- | :----- | :---- |
+| **6.2 · S**       | El runner: corre los casos contra nuestro sistema                     | Ariela | 2     |
+| **6.2 · B0**      | Status quo: números históricos del gold (no es la misma carga)      | Diego  | 4     |
+| **6.2 · B1**      | Bot de reglas: misma política, sin ML ni LLM, sobre los mismos casos | Diego  | 5     |
+| **6.3 · Graders** | Califican cada caso con código leyendo la traza                      | Ariela | 3     |
+| **6.3 · Handoff** | Completitud del handoff: los hechos coinciden con el gold             | Diego  | 6     |
+| **6.4 · Errores** | Por qué falló cada caso del held-out                                | Ariela | 10    |
+| **6.5 · Impacto** | Proyección de negocio, rotulada como tal                             | Diego  | 7     |
+| **Reporte**        | `docs/eval_report.md`                                               | Ambos  | 12    |
 
 ### Qué va en paralelo y qué espera
 
@@ -71,10 +73,10 @@ Lo que **espera** al otro:
 
 **Cómo es B1 (decidir hoy):**
 
-| Opción | Qué es | A favor | En contra |
-| :-- | :-- | :-- | :-- |
-| **A (recomendada)** | El mismo backend con el NLU forzado a palabras clave (`nlu/stub.py`) y sin Gemini. Se activa con una variable, por ejemplo `NLU_MODE=keywords`, que se le pide a Alina | Corre con el mismo runner y la misma traza: comparación limpia. Poco trabajo | Comparte el orquestador con S: mide lo que aportan el ML y el LLM, no el orquestador. Se declara |
-| B | Un bot aparte en `eval/baselines/rules_bot.py` que usa las herramientas y la política directo, con un formulario fijo (pide monto, fecha y comercio) | Más fiel a «formulario fijo» | Tiene que fabricar la misma salida que S, con su traza. Mucho más trabajo y más riesgo antes del freeze |
+| Opción                   | Qué es                                                                                                                                                                    | A favor                                                                       | En contra                                                                                                 |
+| :------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------- |
+| **A (recomendada)** | El mismo backend con el NLU forzado a palabras clave (`nlu/stub.py`) y sin Gemini. Se activa con una variable, por ejemplo `NLU_MODE=keywords`, que se le pide a Alina | Corre con el mismo runner y la misma traza: comparación limpia. Poco trabajo | Comparte el orquestador con S: mide lo que aportan el ML y el LLM, no el orquestador. Se declara          |
+| B                         | Un bot aparte en`eval/baselines/rules_bot.py` que usa las herramientas y la política directo, con un formulario fijo (pide monto, fecha y comercio)                     | Más fiel a «formulario fijo»                                               | Tiene que fabricar la misma salida que S, con su traza. Mucho más trabajo y más riesgo antes del freeze |
 
 **Escríbele a Claude (Ariela):**
 
@@ -87,8 +89,8 @@ Agrega una sección "B1" con la opción que elegimos con Diego: [A o B].
 Si es A, escríbeme el mensaje para Alina con la variable que necesitamos.
 ```
 
-- [ ] Formato acordado entre los dos (`eval/FORMATO_RESULTADOS.md`)
-- [ ] B1: opción ____ (si es A, pedido a Alina)
+- [X] Formato acordado entre los dos (`eval/FORMATO_RESULTADOS.md`)
+- [X] B1: opción **A** (si es A, pedido a Alina)
 
 ---
 
@@ -96,7 +98,7 @@ Si es A, escríbeme el mensaje para Alina con la variable que necesitamos.
 
 Pasos 10, 11 y 12 de `guia_fase_6_1_casos.md`: congelar el held-out, README + D6.1 y subir. **Nada del Paso 2 en adelante toca el held-out hasta que esté el commit del Paso 10.**
 
-- [ ] Held-out congelado (hash: `________`)
+- [X] Held-out congelado (hash: `90bccf2`)
 
 ## Paso 1b · [Diego] `data/runs/` de vuelta en el repo (15 min)
 
@@ -142,7 +144,7 @@ OPS_DB_PATH en memoria. Córrelo sobre dev sin Gemini y muéstrame cuántos caso
 terminaron, cuántos llegaron a max_turns y cuántos dieron error.
 ```
 
-- [ ] `eval/runner.py` corre todo dev sin errores del runner
+- [X] `eval/runner.py` corre todo dev sin errores del runner
 
 ---
 
@@ -150,15 +152,15 @@ terminaron, cuántos llegaron a max_turns y cuántos dieron error.
 
 **Qué es:** `eval/graders.py`. Lee `results.jsonl` y compara cada campo del esperado y cada `forbidden` contra la traza (SCHEMA.md §1.4 y §1.5). Después calcula las métricas del roadmap §6.3.
 
-| Métrica (roadmap §6.3) | Numerador ÷ denominador |
-| :-- | :-- |
+| Métrica (roadmap §6.3)       | Numerador ÷ denominador                                                                                                            |
+| :----------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
 | Resolución automática segura | casos en alcance con todos los campos correctos, 0 prohibidos y sin handoff ÷ casos en alcance (+ % donde se intentó automatizar) |
-| Contención | casos sin handoff ÷ total (se aclara que no prueba resolución) |
-| Calidad de escalamiento | escalamientos faltantes y escalamientos innecesarios contra `should_escalate` (+ completitud del handoff, Paso 6) |
-| Resultados inseguros | conteo por tipo de `forbidden` ÷ casos donde aplica (0/N no prueba riesgo cero) |
-| Eficiencia | latencia p50/p95 por turno y por caso; costo por caso intentado y por resolución exitosa («no definido» si no hay éxitos) |
-| Desagregación | todo lo anterior por idioma y por segmento, con advertencia si n < 10 |
-| Variabilidad | media y rango de las 3 corridas |
+| Contención                    | casos sin handoff ÷ total (se aclara que no prueba resolución)                                                                    |
+| Calidad de escalamiento        | escalamientos faltantes y escalamientos innecesarios contra`should_escalate` (+ completitud del handoff, Paso 6)                  |
+| Resultados inseguros           | conteo por tipo de`forbidden` ÷ casos donde aplica (0/N no prueba riesgo cero)                                                   |
+| Eficiencia                     | latencia p50/p95 por turno y por caso; costo por caso intentado y por resolución exitosa («no definido» si no hay éxitos)       |
+| Desagregación                 | todo lo anterior por idioma y por segmento, con advertencia si n < 10                                                               |
+| Variabilidad                   | media y rango de las 3 corridas                                                                                                     |
 
 **Escríbele a Claude:**
 
@@ -175,8 +177,8 @@ confirmación y uno con "registré" sin ActionRecord. Córrelo sobre la salida d
 dev del Paso 2 y muéstrame la tabla.
 ```
 
-- [ ] `eval/graders.py` con tests en verde
-- [ ] Métricas de dev sin Gemini: resolución automática segura ____ / ____
+- [X] `eval/graders.py` con tests en verde
+- [X] Métricas de dev sin Gemini: resolución automática segura 12 / 38
 
 ---
 
@@ -322,13 +324,13 @@ Commit de `eval/` y `docs/eval_report.md`, sin `data/` ni `.env`. Marcar en el r
 
 ## Si te trabas
 
-| Te pasa esto | Escríbele a Claude |
-| :-- | :-- |
-| El runner se cuelga o se queda en un bucle | "El caso X llega a max_turns. Muéstrame los turnos y dime qué regla de respuesta se aplicó en cada uno" |
-| Un grader da algo raro | "El grader de [campo] marca mal el caso X. Muéstrame el esperado, lo que leyó de la traza y por qué" |
-| B1 no sale en el mismo formato | "Compara la salida de B1 y de S para el caso X contra eval/formato.py y dime qué falta" |
-| Gemini da 429 o se acaba la cuota | "Agrega reintentos con espera al runner solo para errores de cuota y dime cuántos casos quedaron sin correr" |
-| Un número parece demasiado bueno | "Verifica a mano 5 casos que el grader marcó como correctos: el esperado, la traza y el veredicto" |
+| Te pasa esto                               | Escríbele a Claude                                                                                           |
+| :----------------------------------------- | :------------------------------------------------------------------------------------------------------------ |
+| El runner se cuelga o se queda en un bucle | "El caso X llega a max_turns. Muéstrame los turnos y dime qué regla de respuesta se aplicó en cada uno"    |
+| Un grader da algo raro                     | "El grader de [campo] marca mal el caso X. Muéstrame el esperado, lo que leyó de la traza y por qué"       |
+| B1 no sale en el mismo formato             | "Compara la salida de B1 y de S para el caso X contra eval/formato.py y dime qué falta"                      |
+| Gemini da 429 o se acaba la cuota          | "Agrega reintentos con espera al runner solo para errores de cuota y dime cuántos casos quedaron sin correr" |
+| Un número parece demasiado bueno          | "Verifica a mano 5 casos que el grader marcó como correctos: el esperado, la traza y el veredicto"           |
 
 ---
 
