@@ -41,6 +41,7 @@ class Turn:
         self.intent_confidence = None
         self.rule_id = None
         self.model_version = "none"   # versión del NLU que atendió el turno
+        self.confirmation = None      # "yes"/"no" escrito, según el NLU
 
     def say(self, key: str, **facts) -> None:
         """Mensaje al cliente: Gemini lo redacta (compose + verificador); si algo falla, la plantilla."""
@@ -96,6 +97,10 @@ def handle_chat(session: Session, req: ChatRequest) -> ChatResponse:
         input_kind="ui_action" if req.ui_action else "message", language=conv.language,
         intent=turn.intent, intent_confidence=turn.intent_confidence, rule_id=turn.rule_id,
         transaction_id=conv.data.get("transaction_id"),
+        input_action=req.ui_action.type if req.ui_action else None, confirmation=turn.confirmation,
+        assistant_messages=[m.text for m in turn.messages], ui_type=turn.ui.type if turn.ui else None,
+        ui_transaction_ids=[o.transaction_id for o in (turn.ui.options or [])] if turn.ui else [],
+        pending_action=turn.ui.pending_action.action if turn.ui and turn.ui.pending_action else None,
         actions=[ActionRecord.model_validate(a) for a in conv.data.get("actions", [])[actions_before:]],
         case_id=turn.case.case_id if turn.case else None, handoff_id=turn.handoff_id,
         versions={"policy_version": get_policy()["policy_version"], "intent_model": turn.model_version,
@@ -125,6 +130,16 @@ def _message(session: Session, turn: Turn, text: str) -> None:
         if usage is not None:
             out["_usage"] = usage
     turn.model_version = nlu.model_version
+    turn.confirmation = nlu.confirmation
+
+    # Respuesta a "¿cuál es?": si ya sabemos la intención (turno anterior) y el mensaje trae datos
+    # para buscar, no se vuelve a depender del umbral τ del clasificador.
+    known = conv.data.get("intent")
+    has_data = any(v is not None for v in (nlu.amount, nlu.currency, nlu.date_from, nlu.date_to, nlu.merchant_hint))
+    if (conv.state == "IDENTIFICAR_TRANSACCION" and nlu.abstain and has_data
+            and known in {"cargo_no_reconocido", "cobro_incorrecto", "tarjeta_comprometida"}):
+        nlu = nlu.model_copy(update={"intent": known, "abstain": False})
+        turn.tracer.spans[-1].output = {**(turn.tracer.spans[-1].output or {}), "intent_from_context": True}
 
     pending_id = conv.data.get("pending_action_id")
     if conv.state == "CONFIRMAR_ACCION" and pending_id and nlu.confirmation:
@@ -342,7 +357,8 @@ def _execute_case(session: Session, turn: Turn, token: str, tx, decision: Decisi
     conv.state = "VERIFICAR"
     with turn.tracer.span("verify.case_exists") as out:
         verified = _tool(turn, "get_case", cases.get_case, session, result.case.case_id) == result.case
-        out["verified"] = verified
+        out.update(verified=verified, case_id=result.case.case_id, dispute_type=result.case.dispute_type,
+                   priority=result.case.priority, sla_due_at=result.case.model_dump(mode="json")["sla_due_at"])  # mismo formato que la API
     _record(conv, "create_dispute_case", "verified" if verified else "failed")
     if not verified:
         raise ToolError("INTERNAL", "El caso no se encontró al volver a leerlo.")
@@ -455,8 +471,10 @@ def _handoff(session: Session, turn: Turn, reason: str, tx=None, decision: Decis
         conversation_id=conv.conversation_id, trace_id=conv.trace_id,
     )
     try:
-        with turn.tracer.span("tool.create_handoff"):
+        with turn.tracer.span("tool.create_handoff") as out:
             ref = handoff.create_handoff(session, package)
+            out.update(handoff_id=ref.handoff_id, handoff_reason=reason,
+                       suggested_queue=package.suggested_queue, priority=package.priority)
     except Exception:
         # Último recurso: ni el handoff se pudo guardar. No inventar nada; pedir que reintente.
         conv.state = "CERRAR"

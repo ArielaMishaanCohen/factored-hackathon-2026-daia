@@ -375,6 +375,12 @@ class TraceTurn(BaseModel):
     intent_confidence: float | None = None
     rule_id: RuleId | None = None
     transaction_id: str | None = None      # la transacción en juego en este turno (si ya se identificó)
+    input_action: Literal["select_transaction", "confirm", "cancel"] | None = None   # botón que mandó el cliente
+    confirmation: Literal["yes", "no"] | None = None                                # "sí"/"no" escrito (NLU)
+    assistant_messages: list[str] = []     # lo que el bot le mostró al cliente (no el texto del cliente)
+    ui_type: str | None = None
+    ui_transaction_ids: list[str] = []     # opciones mostradas
+    pending_action: Literal["create_dispute_case", "block_card"] | None = None
     actions: list[ActionRecord] = []          # acciones de ESTE turno, con verified/failed
     case_id: str | None = None
     handoff_id: str | None = None
