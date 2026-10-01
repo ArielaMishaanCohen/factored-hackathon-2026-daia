@@ -104,7 +104,8 @@ def handle_chat(session: Session, req: ChatRequest) -> ChatResponse:
         actions=[ActionRecord.model_validate(a) for a in conv.data.get("actions", [])[actions_before:]],
         case_id=turn.case.case_id if turn.case else None, handoff_id=turn.handoff_id,
         versions={"policy_version": get_policy()["policy_version"], "intent_model": turn.model_version,
-                  "llm_model": get_settings().gemini_model, "data_source": data_source.source_name()},
+                  "llm_model": get_settings().gemini_model, "data_source": data_source.source_name(),
+                  "nlu_mode": get_settings().nlu_mode},
     )
     return ChatResponse(
         conversation_id=conv.conversation_id, turn_id=conv.turn_id, trace_id=conv.trace_id, state=conv.state,
@@ -113,6 +114,14 @@ def handle_chat(session: Session, req: ChatRequest) -> ChatResponse:
                         tools=tracer.tools(), latency_ms=tracer.latency_ms,
                         fallback_used=any(m.source == "template" for m in turn.messages)),
     )
+
+
+def _understand(text: str, conv: Conversation):
+    """NLU con el estado y el idioma de la conversación (este último, si el NLU lo acepta)."""
+    try:
+        return understand_con_uso(text, conv.state, language=conv.language)
+    except TypeError:            # versión del NLU sin el parámetro language
+        return understand_con_uso(text, conv.state)
 
 
 def _tool(turn: Turn, name: str, fn, *args, **kwargs):
@@ -124,7 +133,7 @@ def _tool(turn: Turn, name: str, fn, *args, **kwargs):
 def _message(session: Session, turn: Turn, text: str) -> None:
     conv = turn.conv
     with turn.tracer.span("nlu.understand") as out:
-        nlu, usage = understand_con_uso(text, conv.state)
+        nlu, usage = _understand(text, conv)
         out.update(intent=nlu.intent, confidence=nlu.intent_confidence, extractor=nlu.extractor,
                    suspected_injection=nlu.suspected_injection)  # solo métrica (roadmap 4.4)
         if usage is not None:
@@ -140,6 +149,12 @@ def _message(session: Session, turn: Turn, text: str) -> None:
             and known in {"cargo_no_reconocido", "cobro_incorrecto", "tarjeta_comprometida"}):
         nlu = nlu.model_copy(update={"intent": known, "abstain": False})
         turn.tracer.spans[-1].output = {**(turn.tracer.spans[-1].output or {}), "intent_from_context": True}
+    # Confianza baja, pero el mensaje ya trae monto, fecha o comercio y la intención más probable es
+    # una disputa: se busca en vez de pedir lo que el cliente ya dio. Siempre hay confirmación después.
+    # (No para tarjeta_comprometida: propondría un bloqueo con una intención dudosa.)
+    elif nlu.abstain and has_data and nlu.intent in {"cargo_no_reconocido", "cobro_incorrecto"}:
+        nlu = nlu.model_copy(update={"abstain": False})
+        turn.tracer.spans[-1].output = {**(turn.tracer.spans[-1].output or {}), "intent_from_data": True}
 
     pending_id = conv.data.get("pending_action_id")
     if conv.state == "CONFIRMAR_ACCION" and pending_id and nlu.confirmation:

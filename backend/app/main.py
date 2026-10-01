@@ -38,7 +38,8 @@ def health():
     s = get_settings()
     clf = get_classifier()
     return HealthResponse(status="ok", policy_version=get_policy()["policy_version"],
-                          intent_model=clf.model_version if clf else "stub-keywords-0",
+                          intent_model=clf.model_version if clf and s.nlu_mode == "full" else "stub-keywords-0",
+                          nlu_mode=s.nlu_mode,
                           llm_model=s.gemini_model if s.gemini_api_key else f"{s.gemini_model} (sin llave: plantillas)",
                           data_manifest=data_source.source_name())
 

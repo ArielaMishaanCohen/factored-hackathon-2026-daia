@@ -5,6 +5,7 @@ El filtro por cliente vive en la consulta (data_source), no aquí ni en el orque
 """
 from __future__ import annotations
 
+import unicodedata
 from datetime import date, timedelta
 
 from ..config import get_policy
@@ -15,6 +16,11 @@ from . import data_source
 
 def _view(row: dict) -> TransactionView:
     return TransactionView(**{k: row.get(k) for k in TransactionView.model_fields})
+
+
+def _norm(s: str) -> str:
+    """'Óptica Visión' → 'optica vision': sin tildes ni mayúsculas, para comparar comercios."""
+    return "".join(c for c in unicodedata.normalize("NFD", s.lower()) if unicodedata.category(c) != "Mn")
 
 
 def search_transactions(session: Session, amount: float | None = None, currency: str | None = None,
@@ -31,7 +37,7 @@ def search_transactions(session: Session, amount: float | None = None, currency:
     if currency:
         rows = [r for r in rows if r["currency"] == currency]
     if merchant:
-        rows = [r for r in rows if r["merchant_name"] and merchant.lower() in r["merchant_name"].lower()]
+        rows = [r for r in rows if r["merchant_name"] and _norm(merchant) in _norm(r["merchant_name"])]
     if amount is not None:
         rows = [r for r in rows if abs(r["amount"] - amount) <= amount * tol]
         rows.sort(key=lambda r: (abs(r["amount"] - amount), -r["business_date"].toordinal()))

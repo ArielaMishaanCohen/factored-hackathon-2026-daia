@@ -27,6 +27,10 @@ class Settings:
     gemini_api_key: str | None = field(default_factory=lambda: os.environ.get("GEMINI_API_KEY") or None)
     gemini_model: str = field(default_factory=lambda: os.environ.get("GEMINI_MODEL", "sin-fijar"))
     fault_injection: bool = field(default_factory=lambda: _bool("FAULT_INJECTION", False))
+    # "full" (por defecto): clasificador + Gemini. "keywords": baseline B1 de la evaluación (stub de
+    # palabras clave + reglas + plantillas, sin Gemini aunque haya llave). Otro valor → "full".
+    nlu_mode: str = field(default_factory=lambda: "keywords" if os.environ.get("NLU_MODE", "full").strip().lower()
+                          == "keywords" else "full")
     policy_path: Path = field(default_factory=lambda: Path(os.environ.get("POLICY_PATH", ROOT / "config" / "policy.yaml")))
     gold_db_path: Path = field(default_factory=lambda: Path(os.environ.get("GOLD_DB_PATH", ROOT / "data" / "gold" / "gold.duckdb")))
     ops_db_path: Path = field(default_factory=lambda: Path(os.environ.get("OPS_DB_PATH", ROOT / "data" / "ops.sqlite")))

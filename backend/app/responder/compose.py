@@ -32,7 +32,7 @@ from decimal import Decimal, InvalidOperation
 from functools import lru_cache
 from typing import Any
 
-from ..config import ROOT
+from ..config import ROOT, get_settings
 from ..llm import gemini_client
 from ..llm.gemini_client import LLMUsage
 from . import templates
@@ -281,6 +281,8 @@ def _limpiar(texto: str) -> str:
 def _redactar(clave: str, version: str, etiqueta: str, base: str, language: str, facts: dict,
               max_frases: int, max_chars: int, client: Any) -> tuple[str, str, LLMUsage | None]:
     uso: LLMUsage | None = None
+    if get_settings().nlu_mode == "keywords":   # baseline B1: nunca Gemini, siempre la plantilla
+        return base, "template", None
     try:
         cliente = client or gemini_client.get_client()
         if not getattr(cliente, "disponible", True):

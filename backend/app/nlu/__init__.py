@@ -15,7 +15,7 @@ from __future__ import annotations
 import logging
 from concurrent.futures import ThreadPoolExecutor
 
-from ..config import get_policy
+from ..config import get_policy, get_settings
 from ..llm.gemini_client import LLMUnavailable, LLMUsage
 from ..schemas import NLUResult
 from . import extract_llm, intent_llm, rules, stub
@@ -39,7 +39,23 @@ def _extraer(text: str, state: str | None, con_llm: bool) -> tuple[dict, str, st
     return rules.extract(text, state), "rules", "rules", None
 
 
+def _sin_senal_de_idioma(text: str) -> bool:
+    """True si el texto no trae ninguna palabra que marque español o portugués ("88,88, Ferretería")."""
+    palabras = rules.re.findall(r"[\wáéíóúâêôãõçñü]+", text.lower())
+    return not any(p in rules._MARCADORES_ES or p in rules._MARCADORES_PT for p in palabras) \
+        and not rules._ARTICULO_PT_INICIAL.search(text)
+
+
+def _keywords(text: str, state: str | None) -> NLUResult:
+    """Baseline B1 (NLU_MODE=keywords): intención del stub y campos de las reglas. Nunca Gemini."""
+    base = stub.understand(text)
+    return NLUResult(intent=base.intent, intent_confidence=base.intent_confidence, abstain=base.abstain,
+                     **rules.extract(text, state), extractor="rules", model_version=f"{base.model_version}+rules")
+
+
 def _understand(text: str, state: str | None) -> tuple[NLUResult, LLMUsage | None]:
+    if get_settings().nlu_mode == "keywords":
+        return _keywords(text, state), None
     clf = get_classifier()
     if clf is None:
         base = stub.understand(text)
@@ -67,16 +83,23 @@ def _understand(text: str, state: str | None) -> tuple[NLUResult, LLMUsage | Non
                      extractor=extractor, model_version=f"{version}+{v_extraccion}"), uso
 
 
-def understand_con_uso(text: str, state: str | None = None) -> tuple[NLUResult, LLMUsage | None]:
-    """Como understand(), más el uso de Gemini (None si no se usó) para el span nlu.understand."""
+def understand_con_uso(text: str, state: str | None = None,
+                       language: str | None = None) -> tuple[NLUResult, LLMUsage | None]:
+    """Como understand(), más el uso de Gemini (None si no se usó) para el span nlu.understand.
+
+    language: idioma actual de la conversación. Si el texto no trae ninguna señal de idioma
+    ("88,88, Ferretería"), se conserva ese idioma en vez de desempatar en español."""
     text = (text or "")[:2000]
     try:
-        return _understand(text, state)
+        r, uso = _understand(text, state)
+        if language in ("es", "pt") and r.language != language and _sin_senal_de_idioma(text):
+            r = r.model_copy(update={"language": language})
+        return r, uso
     except Exception as e:  # noqa: BLE001 - última red: el orquestador nunca ve una excepción del NLU
         log.error("nlu: falló understand (%s); se abstiene", type(e).__name__)
         return NLUResult(language="es", intent="fuera_de_alcance", intent_confidence=0.0, abstain=True,
                          extractor="rules", model_version="fallback+rules"), None
 
 
-def understand(text: str, state: str | None = None) -> NLUResult:
-    return understand_con_uso(text, state)[0]
+def understand(text: str, state: str | None = None, language: str | None = None) -> NLUResult:
+    return understand_con_uso(text, state, language)[0]

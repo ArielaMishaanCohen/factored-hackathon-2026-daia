@@ -403,6 +403,7 @@ class HealthResponse(BaseModel):
     intent_model: str
     llm_model: str
     data_manifest: str | None
+    nlu_mode: Literal["full", "keywords"] = "full"
 
 
 class ErrorBody(BaseModel):
