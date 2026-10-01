@@ -1,0 +1,43 @@
+{
+  "format_version": "1.0.0",
+  "run_id": "20261001T161845Z-S-without_gemini-r1-dev",
+  "system": "S",
+  "llm": "without_gemini",
+  "run_number": 1,
+  "stage": "debug",
+  "split": "dev",
+  "cases_file": "eval/cases/dev.jsonl",
+  "cases_sha256": "62da189a3c46306173f1bb814130ad77ceffe1bf42b57456316bc36fa14af4b0",
+  "case_ids": [
+    "dev-normal-001"
+  ],
+  "skipped_case_ids": [],
+  "git_commit": "a3ad3cf420bf2424db2c5e224844d4a40a9bef40",
+  "git_dirty": true,
+  "versions": {
+    "policy_version": "1.3.0",
+    "intent_model": "tfidf_lr-C10-20260930-18569ee2",
+    "llm_model": "gemini-3.8-flash (sin llave: plantillas)",
+    "data_source": "gold:gold.duckdb",
+    "data_manifest": "gold:gold.duckdb",
+    "data_run": "20260929T234658Z-7cf922c1",
+    "nlu_mode": "full",
+    "prompts": {
+      "extraccion": "extraccion_v1",
+      "intencion": "intent_zeroshot_v1",
+      "redaccion": "redaccion_v1",
+      "resumen_handoff": "resumen_handoff_v1"
+    }
+  },
+  "env": {
+    "OPS_DB_PATH": ":memory:",
+    "FAULT_INJECTION": "true",
+    "GEMINI_API_KEY": "(vacía)",
+    "NLU_MODE": "(no existe aún)"
+  },
+  "started_at": "2026-10-01T16:18:45.410732Z",
+  "finished_at": "2026-10-01T16:18:47.763605Z",
+  "n_completed": 1,
+  "n_max_turns": 0,
+  "n_runner_error": 0
+}
