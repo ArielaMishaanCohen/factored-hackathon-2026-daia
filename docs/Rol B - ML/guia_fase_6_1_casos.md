@@ -232,7 +232,7 @@ para revisar: id, categoría, idioma, mensaje, transacción, regla esperada.
 
 **Qué haces tú:** revisa el CSV. Fíjate en tres cosas: (1) que el mensaje de verdad apunte a esa transacción y no a otra; (2) que el PT suene a PT; (3) que las inyecciones sean creíbles. Si un mensaje te genera duda, **quítalo** en vez de adivinar.
 
-- [ ] Mensajes revisados: **____** (quitados **____**)
+- [X] Mensajes revisados: **230** (quitados **5**, motivos en `eval/cases/mensajes_retirados.csv`). Quedan dev 40 · held-out 185. Por debajo del mínimo del roadmap en held-out, se reporta con la n que hay (sin reemplazos): ambiguo 23/25, inyección 14/15, sesión expirada 4/5, falla de herramienta 9/10.
 
 ---
 
