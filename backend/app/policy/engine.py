@@ -74,7 +74,9 @@ def evaluate(transaction: TransactionView, risk: TransactionRisk, customer_ctx: 
 
     # --- R11: cliente con muchas disputas recientes --------------------------------------
     k = rules["repeat_disputes_k"]
-    recent = customer_ctx.get("prior_complaints_90d", 0) + len(open_cases)
+    # Disputas de los últimos 90 días en cualquier estado (design.md §3.2): las históricas del banco
+    # (prior_complaints_90d) + las abiertas por este canal. Si no viene el conteo, se usan las abiertas.
+    recent = customer_ctx.get("prior_complaints_90d", 0) + customer_ctx.get("recent_cases_90d", len(open_cases))
     if recent >= k:
         return decide("R11", "ESCALATE", f"{recent} disputas en {rules['repeat_window_days']} días (k={k})",
                       priority="medium", queue="disputas")

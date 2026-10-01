@@ -34,6 +34,10 @@ TEMPLATES: dict[str, dict[str, str]] = {
         "es": "Para protegerte, te recomiendo bloquear la tarjeta {card}. ¿La bloqueo?",
         "pt": "Para sua proteção, recomendo bloquear o cartão {card}. Posso bloquear?",
     },
+    "card_blocked": {
+        "es": "Listo, la tarjeta {card} quedó bloqueada.",
+        "pt": "Pronto, o cartão {card} foi bloqueado.",
+    },
     "blocked_then_case": {
         "es": "Listo, la tarjeta {card} quedó bloqueada. ¿Registro también la disputa por el cargo de {amount} {currency}?",
         "pt": "Pronto, o cartão {card} foi bloqueado. Registro também a contestação da cobrança de {amount} {currency}?",

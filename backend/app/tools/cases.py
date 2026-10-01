@@ -24,6 +24,13 @@ def get_open_cases(session: Session) -> list[DisputeCase]:
     return [c for c in store.cases.values() if c.customer_id == session.customer_id and c.status in _OPEN]
 
 
+def get_recent_cases(session: Session, days: int) -> list[DisputeCase]:
+    """Casos del cliente creados en los últimos `days` días, en CUALQUIER estado (R11)."""
+    inject("get_recent_cases")
+    desde = datetime.now(timezone.utc) - timedelta(days=days)
+    return [c for c in store.cases.values() if c.customer_id == session.customer_id and c.created_at >= desde]
+
+
 def get_case(session: Session, case_id: str) -> DisputeCase:
     inject("get_case")
     case = store.cases.get(case_id)

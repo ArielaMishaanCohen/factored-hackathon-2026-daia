@@ -13,6 +13,7 @@ USO = LLMUsage("gemini-3.8-flash", 300, 40, 0.0004)
 FACTS = {
     "confirm_case": {"amount": "350.00", "currency": "USD", "date": "2026-06-10"},
     "confirm_block": {"card": "•••• 4821"},
+    "card_blocked": {"card": "•••• 4821"},
     "blocked_then_case": {"card": "•••• 4821", "amount": "120,000.00", "currency": "COP"},
     "case_created": {"case_id": "DSP-000001", "sla": "2026-10-09"},
     "handoff": {"case_id": "DSP-000001"},

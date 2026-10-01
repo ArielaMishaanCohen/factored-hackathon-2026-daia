@@ -147,13 +147,13 @@ class NLUResult(BaseModel):
 | R8 | `fraud_score` nulo | `ESCALATE` (riesgo desconocido) | Alta | `disputas` | 20 % nulos |
 | R9 | `τ_bajo ≤ fraud_score < τ_alto` | `ESCALATE` (zona gris) | Alta | `fraude` | 37 % fraude en 30–39 |
 | R10 | `amount_usd > τ_monto[transaction_type]` | `ESCALATE` | Alta | `disputas` | p90/p95 por tipo |
-| R11 | Cliente con ≥ **τ_k** disputas en 90 días | `ESCALATE` | Media | `disputas` | Casos + `complaints` por cliente |
+| R11 | Cliente con ≥ **τ_k** disputas en 90 días, **en cualquier estado** (`prior_complaints_90d` del banco + casos de este canal creados en los últimos `repeat_window_days`) | `ESCALATE` | Media | `disputas` | Casos + `complaints` por cliente |
 | R12 | Ninguna de las anteriores | `AUTO_REGISTER`: confirmación → crear → verificar → número + SLA | Media | — | — |
 
 **Notas:**
 
 - R0 y R1 se aplican antes de mirar cualquier dato de la transacción. R1 nunca confirma que un `transaction_id` existe.
-- En R7 por intención `tarjeta_comprometida`, la propuesta de bloqueo se hace **a nivel de tarjeta** aunque el cliente todavía no haya identificado una transacción concreta. Luego se identifican las transacciones y cada una pasa por la política.
+- Intención `tarjeta_comprometida` (ajustado el 30-sep, D3.x): el bloqueo se propone **en cuanto se identifica la transacción**, para la tarjeta de **esa** transacción y **sea cual sea la regla** (también R2–R6). No se propone antes porque 44 de los 108 clientes de gold tienen más de una tarjeta activa: sin la transacción no se sabe cuál bloquear. Después del bloqueo (o si el cliente lo rechaza) se sigue con la decisión de la política; si es informativa (R2–R5), se informa y se hace handoff a la cola `fraude` sin caso. Si la tarjeta ya está bloqueada, no se vuelve a proponer.
 - En R6–R11 **sí** se crea el caso (con la prioridad de la tabla) antes del handoff, con confirmación del cliente. Si el cliente no confirma, se hace handoff sin caso.
 - `fraud_score` y el motivo de riesgo **no** se muestran al cliente ni se envían al LLM de redacción. El cliente solo ve "tu caso requiere revisión de un especialista".
 

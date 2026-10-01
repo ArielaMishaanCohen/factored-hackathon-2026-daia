@@ -203,6 +203,8 @@ def _select_transaction(session: Session, turn: Turn, transaction_id: str) -> No
         tx = _tool(turn, "get_transaction", transactions.get_transaction, session, transaction_id)
         risk = _tool(turn, "get_transaction_risk", transactions.get_transaction_risk, session, transaction_id)
         open_cases = _tool(turn, "get_open_cases", cases.get_open_cases, session)
+        recent_cases = _tool(turn, "get_recent_cases", cases.get_recent_cases, session,
+                             get_policy()["rules"]["repeat_window_days"])
     except ToolError as e:
         if e.code == "NOT_FOUND":            # R1: no existe o no es del cliente (mismo mensaje)
             turn.rule_id = "R1"
@@ -211,7 +213,8 @@ def _select_transaction(session: Session, turn: Turn, transaction_id: str) -> No
 
     customer_ctx = {**data_source.customer_profile(session.customer_id),
                     "open_cases_by_tx": {c.transaction_id: {"case_id": c.case_id, "status": c.status}
-                                         for c in open_cases}}
+                                         for c in open_cases},
+                    "recent_cases_90d": len(recent_cases)}
     with turn.tracer.span("policy.evaluate") as out:
         decision = evaluate(tx, risk, customer_ctx, conv.data.get("intent", "cargo_no_reconocido"), get_policy())
         out.update(rule_id=decision.rule_id, action=decision.action, priority=decision.priority,
@@ -220,6 +223,16 @@ def _select_transaction(session: Session, turn: Turn, transaction_id: str) -> No
     conv.state = "EVALUAR"
     conv.data.update(transaction_id=tx.transaction_id, decision=decision.model_dump())
     conv.data.pop("options", None)
+
+    # Tarjeta comprometida: se propone bloquear la tarjeta de ESTA transacción aunque la regla no sea
+    # R7 (p. ej. R2 rechazada o R6 vieja). Después se sigue con la decisión de la política.
+    if (conv.data.get("intent") == "tarjeta_comprometida" and decision.action != "FRAUD"
+            and _card_is_active(session, tx.product_id)):
+        conv.data["card_block_first"] = True
+        pa = confirmations.propose(session, "block_card", tx.product_id,
+                                   render_summary("block_card", conv.language, card=tx.card_mask))
+        turn.say("confirm_block", card=tx.card_mask)
+        return _show_confirmation(turn, pa)
 
     if decision.action == "INFORM":
         conv.state = "CERRAR"
@@ -257,6 +270,14 @@ def _cancel(session: Session, turn: Turn, pending_action_id: str) -> None:
     decision = _decision(conv)
     # Si la política ya había dicho "esto necesita un humano", que el cliente diga
     # que no a una acción no cambia eso: se hace handoff (sin caso) y se anota qué rechazó.
+    if pa and decision and pa.action == "block_card" and conv.data.get("card_block_first") \
+            and decision.action == "INFORM":
+        turn.rule_id = decision.rule_id
+        conv.data.setdefault("declined", []).append(pa.action)
+        tx = _try(lambda: transactions.get_transaction(session, conv.data["transaction_id"]))
+        if tx is not None:
+            _say_inform(turn, decision, tx)
+        return _handoff(session, turn, "POLICY_ESCALATION", tx=tx, decision=_to_fraud(decision), cancelled=True)
     if pa and decision and decision.action in {"FRAUD", "ESCALATE"}:
         turn.rule_id = decision.rule_id
         conv.data.setdefault("declined", []).append(pa.action)
@@ -298,6 +319,11 @@ def _execute_block(session: Session, turn: Turn, pa, token: str, tx, decision: D
     _record(conv, "block_card", "verified" if verified else "failed")
     if not verified:
         raise ToolError("INTERNAL", "El bloqueo no se reflejó al volver a leer la tarjeta.")
+    if decision.action == "INFORM":
+        # Tarjeta comprometida sin nada que disputar (R2–R5): se informa y fraude revisa la tarjeta.
+        turn.say("card_blocked", card=tx.card_mask)
+        _say_inform(turn, decision, tx)
+        return _handoff(session, turn, "POLICY_ESCALATION", tx=tx, decision=_to_fraud(decision))
     next_pa = confirmations.propose(session, "create_dispute_case", tx.transaction_id,
                                     render_summary("create_dispute_case", conv.language, amount=fmt_amount(tx.amount, conv.language),
                                            currency=tx.currency, date=fmt_date(tx.business_date, conv.language)))
@@ -334,6 +360,25 @@ def _execute_case(session: Session, turn: Turn, token: str, tx, decision: Decisi
 
 
 # --- Auxiliares ------------------------------------------------------------------------
+
+def _card_is_active(session: Session, product_id: str) -> bool:
+    status = _try(lambda: cards.get_card_status(session, product_id))
+    return status is not None and status.status == "Active"
+
+
+def _to_fraud(decision: Decision) -> Decision:
+    """Tarjeta comprometida: aunque la regla sea informativa, el caso lo revisa la cola de fraude."""
+    return decision.model_copy(update={"queue": "fraude", "priority": decision.priority or "high"})
+
+
+def _say_inform(turn: Turn, decision: Decision, tx) -> None:
+    """Mensaje de las reglas informativas (R2–R5)."""
+    conv = turn.conv
+    existing = next((c for c in store.cases.values()
+                     if c.transaction_id == tx.transaction_id and c.customer_id == conv.customer_id), None)
+    turn.say(f"inform_{decision.rule_id}", case_id=existing.case_id if existing else "",
+             status=fmt_status(existing.status, conv.language) if existing else "")
+
 
 def _record(conv: Conversation, action: str, status: str) -> None:
     conv.data.setdefault("actions", []).append(
