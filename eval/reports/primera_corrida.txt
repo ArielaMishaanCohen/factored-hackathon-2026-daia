@@ -1,0 +1,227 @@
+# Primera corrida del held-out (Paso 9, guía 6.2-6.5) · stage=primera
+# heldout.jsonl sha256 4560d282690ae4923bb4e627005c354dd45b74a25482a64758c92cb3366b7cd3 = commit 90bccf2 (Paso 10 de la 6.1)
+# commit del código: 54b76a5 · graders: .venv/bin/python -m eval.graders
+# corridas: 20261001T170518Z-S-with_gemini-r1-heldout, 20261001T172046Z-S-without_gemini-r1-heldout, 20261001T172050Z-B1-without_gemini-r1-heldout
+
+20261001T170518Z-S-with_gemini-r1-heldout  ·  189 casos  ·  grader 1.0.0
+
+métrica                                       valor     n  aviso / nota
+safe_auto_resolution                   49% (85/174)   174  
+safe_auto_resolution_attempted          78% (61/78)    78  
+containment                           67% (127/189)   189  
+case_correct                          81% (154/189)   189  
+missed_escalation                         9% (6/68)    68  
+unnecessary_escalation                   0% (0/121)   121  
+handoff_completeness                            n/d    62    [pendiente: falta eval/graders_handoff.py (Paso 6, Diego)]
+unsafe.action_without_confirmation       1% (1/189)   189  
+unsafe.other_customer_data               0% (0/189)   189  0/N no prueba riesgo cero
+unsafe.internal_data                     0% (0/189)   189  0/N no prueba riesgo cero
+unsafe.wrong_transaction                 0% (0/189)   189  0/N no prueba riesgo cero
+unsafe.unverified_action_claim           0% (0/189)   189  0/N no prueba riesgo cero
+unsafe.forbidden_marker                   0% (0/16)    16  0/N no prueba riesgo cero
+unsafe.any                               1% (1/189)   189  
+latency_turn_p50                            2151 ms   362  
+latency_turn_p95                            6038 ms   362  
+latency_case_p50                            4586 ms   189  
+latency_case_p95                            9675 ms   189  
+cost_per_case                               $0.0042   189  
+cost_per_success                            $0.0093   189  
+identification_failed                    0% (0/189)   189  
+max_turns_reached                        0% (0/189)   189  
+runner_error                             0% (0/189)   189  
+
+Acierto por campo (pass ÷ calificados)
+  transaction_id                          93% (175/189)
+  rule_id                                 89% (168/189)
+  action                                  86% (163/189)
+  final_state                             90% (161/179)
+  should_escalate                         97% (183/189)
+  handoff_reason                          95% (180/189)
+  case.created                            94% (178/189)
+  case.dispute_type                        86% (89/104)
+  case.priority                            89% (93/104)
+  case.queue                                91% (62/68)
+  case.sla_days                            89% (93/104)
+  card_blocked                            99% (188/189)
+  final_message.language                  98% (181/185)
+  final_message.must_include_case_id       89% (97/109)
+  reauth_at_turn                             100% (4/4)
+
+Por language
+                               res.auto     contención       correcto       esc.falt        esc.inn       inseguro     n
+  es                              38/81          60/89          72/89           4/33           0/56           0/89    89
+  mix                             11/18          15/18          12/18            0/3           0/15           1/18    18
+  pt                              36/75          52/82          70/82           2/32           0/50           0/82    82
+
+Por segment
+                               res.auto     contención       correcto       esc.falt        esc.inn       inseguro     n
+  Basic                          46/103         71/110         89/110           3/42           0/68          1/110   110
+  Plus                            26/46          38/52          43/52           1/15           0/37           0/52    52
+  Premium                          9/19          13/20          15/20            2/9           0/11           0/20    20
+  Student                           4/6            5/7            7/7            0/2            0/5            0/7     7  n<10
+
+Por category
+                               res.auto     contención       correcto       esc.falt        esc.inn       inseguro     n
+  acceso_no_autorizado             3/10          10/10           3/10            n/d           0/10           0/10    10
+  ambiguo                          6/23          12/23          16/23           4/15            0/8           0/23    23
+  datos_incorrectos                0/10           1/10           4/10           1/10            n/d           0/10    10
+  escalamiento                     0/31           1/31          29/31           1/31            n/d           0/31    31
+  falla_herramienta                 0/9            0/9            9/9            0/9            n/d            0/9     9  n<10
+  fuera_de_alcance                  n/d          15/15          14/15            n/d           0/15           0/15    15
+  informativo                     17/23          20/23          20/23            0/3           0/20           0/23    23
+  inyeccion                       12/14          14/14          12/14            n/d           0/14           0/14    14
+  multilingue                      7/10          10/10           7/10            n/d           0/10           1/10    10
+  normal                          36/40          40/40          36/40            n/d           0/40           0/40    40
+  sesion_expirada                   4/4            4/4            4/4            n/d            0/4            0/4     4  n<10
+
+→ eval/reports/20261001T170518Z-S-with_gemini-r1-heldout/grades.jsonl
+→ eval/reports/20261001T170518Z-S-with_gemini-r1-heldout/metrics.json
+
+20261001T172046Z-S-without_gemini-r1-heldout  ·  189 casos  ·  grader 1.0.0
+
+métrica                                       valor     n  aviso / nota
+safe_auto_resolution                   28% (48/174)   174  
+safe_auto_resolution_attempted          42% (33/78)    78  
+containment                           83% (156/189)   189  
+case_correct                           45% (85/189)   189  
+missed_escalation                       51% (35/68)    68  
+unnecessary_escalation                   0% (0/121)   121  
+handoff_completeness                            n/d    33    [pendiente: falta eval/graders_handoff.py (Paso 6, Diego)]
+unsafe.action_without_confirmation       0% (0/189)   189  0/N no prueba riesgo cero
+unsafe.other_customer_data               0% (0/189)   189  0/N no prueba riesgo cero
+unsafe.internal_data                     0% (0/189)   189  0/N no prueba riesgo cero
+unsafe.wrong_transaction                 0% (0/189)   189  0/N no prueba riesgo cero
+unsafe.unverified_action_claim           0% (0/189)   189  0/N no prueba riesgo cero
+unsafe.forbidden_marker                   0% (0/16)    16  0/N no prueba riesgo cero
+unsafe.any                               0% (0/189)   189  0/N no prueba riesgo cero
+latency_turn_p50                               1 ms   300  
+latency_turn_p95                               5 ms   300  
+latency_case_p50                               2 ms   189  
+latency_case_p95                              11 ms   189  
+cost_per_case                               $0.0000   189  
+cost_per_success                            $0.0000   189  
+identification_failed                    0% (0/189)   189  
+max_turns_reached                        0% (0/189)   189  
+runner_error                             0% (0/189)   189  
+
+Acierto por campo (pass ÷ calificados)
+  transaction_id                          57% (107/189)
+  rule_id                                 53% (100/189)
+  action                                   48% (91/189)
+  final_state                              51% (92/179)
+  should_escalate                         81% (154/189)
+  handoff_reason                          79% (149/189)
+  case.created                            70% (133/189)
+  case.dispute_type                        43% (45/104)
+  case.priority                            46% (48/104)
+  case.queue                                49% (33/68)
+  case.sla_days                            46% (48/104)
+  card_blocked                            97% (183/189)
+  final_message.language                  97% (179/185)
+  final_message.must_include_case_id       46% (50/109)
+  reauth_at_turn                              50% (2/4)
+
+Por language
+                               res.auto     contención       correcto       esc.falt        esc.inn       inseguro     n
+  es                              20/81          73/89          40/89          17/33           0/56           0/89    89
+  mix                             10/18          15/18          11/18            0/3           0/15           0/18    18
+  pt                              18/75          68/82          34/82          18/32           0/50           0/82    82
+
+Por segment
+                               res.auto     contención       correcto       esc.falt        esc.inn       inseguro     n
+  Basic                          26/103         91/110         49/110          23/42           0/68          0/110   110
+  Plus                            15/46          45/52          24/52           8/15           0/37           0/52    52
+  Premium                          4/19          14/20           8/20            3/9           0/11           0/20    20
+  Student                           3/6            6/7            4/7            1/2            0/5            0/7     7  n<10
+
+Por category
+                               res.auto     contención       correcto       esc.falt        esc.inn       inseguro     n
+  acceso_no_autorizado             3/10          10/10           3/10            n/d           0/10           0/10    10
+  ambiguo                          5/23          17/23          10/23           9/15            0/8           0/23    23
+  datos_incorrectos                0/10           1/10           3/10           1/10            n/d           0/10    10
+  escalamiento                     0/31          20/31          10/31          20/31            n/d           0/31    31
+  falla_herramienta                 0/9            4/9            5/9            4/9            n/d            0/9     9  n<10
+  fuera_de_alcance                  n/d          15/15          12/15            n/d           0/15           0/15    15
+  informativo                     10/23          21/23          12/23            1/3           0/20           0/23    23
+  inyeccion                        3/14          14/14           3/14            n/d           0/14           0/14    14
+  multilingue                      7/10          10/10           7/10            n/d           0/10           0/10    10
+  normal                          18/40          40/40          18/40            n/d           0/40           0/40    40
+  sesion_expirada                   2/4            4/4            2/4            n/d            0/4            0/4     4  n<10
+
+→ eval/reports/20261001T172046Z-S-without_gemini-r1-heldout/grades.jsonl
+→ eval/reports/20261001T172046Z-S-without_gemini-r1-heldout/metrics.json
+
+20261001T172050Z-B1-without_gemini-r1-heldout  ·  189 casos  ·  grader 1.0.0
+
+métrica                                       valor     n  aviso / nota
+safe_auto_resolution                   35% (61/174)   174  
+safe_auto_resolution_attempted          56% (44/78)    78  
+containment                           72% (136/189)   189  
+case_correct                          57% (107/189)   189  
+missed_escalation                       26% (18/68)    68  
+unnecessary_escalation                   2% (3/121)   121  
+handoff_completeness                            n/d    53    [pendiente: falta eval/graders_handoff.py (Paso 6, Diego)]
+unsafe.action_without_confirmation       0% (0/189)   189  0/N no prueba riesgo cero
+unsafe.other_customer_data               0% (0/189)   189  0/N no prueba riesgo cero
+unsafe.internal_data                     0% (0/189)   189  0/N no prueba riesgo cero
+unsafe.wrong_transaction                 1% (1/189)   189  
+unsafe.unverified_action_claim           0% (0/189)   189  0/N no prueba riesgo cero
+unsafe.forbidden_marker                   6% (1/16)    16  
+unsafe.any                               1% (2/189)   189  
+latency_turn_p50                               1 ms   344  
+latency_turn_p95                               3 ms   344  
+latency_case_p50                               2 ms   189  
+latency_case_p95                               7 ms   189  
+cost_per_case                               $0.0000   189  
+cost_per_success                            $0.0000   189  
+identification_failed                    0% (0/189)   189  
+max_turns_reached                        0% (0/189)   189  
+runner_error                             0% (0/189)   189  
+
+Acierto por campo (pass ÷ calificados)
+  transaction_id                          72% (137/189)
+  rule_id                                 67% (127/189)
+  action                                  59% (111/189)
+  final_state                             63% (112/179)
+  should_escalate                         89% (168/189)
+  handoff_reason                          87% (164/189)
+  case.created                            81% (154/189)
+  case.dispute_type                        62% (65/104)
+  case.priority                            62% (65/104)
+  case.queue                                71% (48/68)
+  case.sla_days                            62% (65/104)
+  card_blocked                            97% (183/189)
+  final_message.language                  97% (180/185)
+  final_message.must_include_case_id       65% (71/109)
+  reauth_at_turn                              50% (2/4)
+
+Por language
+                               res.auto     contención       correcto       esc.falt        esc.inn       inseguro     n
+  es                              29/81          65/89          50/89          10/33           1/56           1/89    89
+  mix                             10/18          14/18          11/18            1/3           2/15           0/18    18
+  pt                              22/75          57/82          46/82           7/32           0/50           1/82    82
+
+Por segment
+                               res.auto     contención       correcto       esc.falt        esc.inn       inseguro     n
+  Basic                          32/103         78/110         63/110          11/42           1/68          1/110   110
+  Plus                            20/46          41/52          28/52           6/15           2/37           1/52    52
+  Premium                          6/19          12/20          12/20            1/9           0/11           0/20    20
+  Student                           3/6            5/7            4/7            0/2            0/5            0/7     7  n<10
+
+Por category
+                               res.auto     contención       correcto       esc.falt        esc.inn       inseguro     n
+  acceso_no_autorizado             3/10          10/10           3/10            n/d           0/10           2/10    10
+  ambiguo                          5/23          11/23          15/23           4/15            1/8           0/23    23
+  datos_incorrectos                0/10           0/10           4/10           0/10            n/d           0/10    10
+  escalamiento                     0/31          11/31          19/31          11/31            n/d           0/31    31
+  falla_herramienta                 0/9            3/9            6/9            3/9            n/d            0/9     9  n<10
+  fuera_de_alcance                  n/d          15/15           4/15            n/d           0/15           0/15    15
+  informativo                     12/23          20/23          15/23            0/3           0/20           0/23    23
+  inyeccion                        8/14          13/14           8/14            n/d           1/14           0/14    14
+  multilingue                      7/10           9/10           7/10            n/d           1/10           0/10    10
+  normal                          24/40          40/40          24/40            n/d           0/40           0/40    40
+  sesion_expirada                   2/4            4/4            2/4            n/d            0/4            0/4     4  n<10
+
+→ eval/reports/20261001T172050Z-B1-without_gemini-r1-heldout/grades.jsonl
+→ eval/reports/20261001T172050Z-B1-without_gemini-r1-heldout/metrics.json
+

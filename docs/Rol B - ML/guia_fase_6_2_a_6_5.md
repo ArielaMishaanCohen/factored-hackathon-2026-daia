@@ -296,7 +296,7 @@ corrida) y los graders. Guarda la salida como "primera corrida" y muéstrame
 la tabla principal sin interpretarla todavía.
 ```
 
-- [ ] Primera corrida (run_id: `________`). Resolución automática segura S: ____ · B1: ____
+- [X] Primera corrida (run_id: `20261001T170518Z-S-with_gemini-r1-heldout, 20261001T172046Z-S-without_gemini-r1-heldout y 20261001T172050Z-B1-without_gemini-r1-heldout`). Resolución automática segura S: 85/174 con Gemini y 48/174 sin Gemini · B1: 61/174
 
 ---
 
