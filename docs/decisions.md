@@ -41,7 +41,8 @@
 | D4.4 | Gemini en el flujo: extracción, redacción y verificador | 4 | Tomada |
 | D4.5 | Segunda opinión de Gemini sobre la intención, solo bajo τ | 4 | Tomada |
 | D4.6 | Lote de fuera de alcance en el set de intenciones | 4 | Tomada |
-| D6.x | Tamaño y composición del set de evaluación; baselines | 6 | Pendiente |
+| D6.1 | Set de evaluación end-to-end | 6 | Tomada |
+| D6.2 | Baselines | 6 | Pendiente |
 | D7.1 | Destino del deploy | 7 | Pendiente |
 
 ---
@@ -349,7 +350,25 @@ Gemini se llama en el 35 % de las frases de val y el 62 % de las de test. Con el
 
 ## Fase 6 · Evaluación
 
-*(pendiente)*
+### D6.1 · Set de evaluación end-to-end
+**Fecha:** 1-oct-2026 · **Responsable:** rol B (esperados revisados por rol A) · **Estado:** Tomada
+**Contexto:** la Fase 4 midió piezas sueltas (clasificador, extracción, redacción). El jurado pregunta por el sistema completo: si resuelve de forma segura y si nunca hace nada indebido (D1.6, design.md §1.3). Para medirlo hace falta un set de conversaciones con la respuesta correcta anotada de antemano, en ES y PT, repartido por segmento, con un held-out que no se use para depurar (roadmap §6.1). Además, el gold limita lo que se puede probar: 1 sola transacción con `fraud_score ≥ 40`, 1 sola en zona gris, 4 clientes Student y ninguno de Brasil. Detalle en `eval/cases/README.md` e `inventario.md`.
+**Alternativas:**
+- A. **Casos a mano** (mensajes y esperados escritos por una persona). Máximo control, pero ~230 casos no caben en el calendario, el esperado queda en la opinión de quien lo escribe y un error de lectura del gold no lo ve nadie.
+- B. **Simulador con LLM** (un LLM hace de cliente y responde a lo que diga el bot). Conversaciones más naturales y variadas, pero dos corridas no dan lo mismo, el resultado depende del simulador y no solo del sistema, y si el simulador es Gemini se evalúa a Gemini con Gemini.
+- C. **Guion determinista con reglas de respuesta.** Mensajes fijos, escritos por Claude y revisados por una persona; el runner responde con reglas fijas (si ve opciones, elige la transacción esperada por su ID; si le piden confirmar, confirma o cancela según el caso; si le piden datos, manda el siguiente mensaje). El esperado sale de un script propio sobre el gold y `policy.yaml`, sin el motor del backend.
+**Decisión:** C. 189 casos held-out y 41 dev en 11 categorías (`eval/cases/heldout.jsonl` y `dev.jsonl`, formato en `SCHEMA.md` v1.0.0, política 1.3.0). Held-out congelado en el commit **`90bccf2`**, antes de correr el sistema sobre él. Las 2 transacciones de R7 por score y R9, que eran escenarios de la demo, pasan al held-out (2 casos cada una, ES y PT); dev conserva 6 de los 8 escenarios. Cada caso se corre con Gemini y sin Gemini.
+**Por qué:**
+- **Reproducible:** las mismas reglas cada vez, sin pasos aleatorios. Un cambio en el orden de las opciones o en la redacción de Gemini no rompe el caso, porque el cliente elige por `transaction_id` y no por posición.
+- **Esperado verificable:** `esperado.py` reimplementa la precedencia R0–R12 con SQL propio, así que un bug del motor no se vuelve «lo esperado». Cada campo del esperado se compara con código contra la traza; nada depende de una opinión.
+- **Sin fuga:** los mensajes no salen de Gemini ni de los sets de la Fase 4 (similitud TF-IDF máxima 0,719 contra 4.889 frases de `ml/intent/` y `ml/llm/`); ninguna transacción ni mensaje está en los dos splits.
+- B queda fuera porque mezcla el ruido del simulador con el del sistema y no deja comparar con los baselines de la 6.2 sobre la misma carga.
+**Limitaciones declaradas:** fraude por score y zona gris salen de 1 transacción cada uno, ya vistas en la demo; Student con n muy chica (7 casos, los 4 de `normal` de un solo cliente); ningún cliente de Brasil (el PT lo escriben clientes hispanos); mensajes escritos por Claude, sin mensajes reales; esperado derivado de una política sintética. Cuatro categorías quedan bajo el mínimo del roadmap (ambiguo 23/25, inyección 14/15, sesión expirada 4/5, falla de herramienta 9/10) por 5 mensajes retirados en la revisión humana, que no se reemplazaron.
+**Cómo validamos:**
+- `python -m eval.cases.validar_casos` con 0 errores (esquema, IDs únicos, sin cruce de splits, transacción del cliente correcto, regla igual a `esperado.py`, mínimos anotados, similitud ≤ 0,9) y `tests/test_validar_casos.py` en verde (16/16). Estado al congelar: los dos en verde.
+- Revisión humana de todos los mensajes (5 retirados, quedan 230 casos) y de una muestra estratificada de 40 esperados del held-out por rol A: 40/40 sin cambios (`revision_esperados.csv`).
+- Prueba de humo con 5 casos de dev de punta a punta sin Gemini (Paso 9). Faltan campos de la traza para comparar parte del esperado (`handoff_reason` / `suggested_queue`, mensajes y `ui` mostrados, tipo de confirmación); pedidos a rol C.
+- En la corrida de la Fase 6: si `esperado.py` y el motor del backend discrepan en un caso, se revisan a mano los dos antes de contar el caso como error del sistema, y la diferencia se anota. Si el set tiene un error, se corrige en el script con un commit nuevo y se reporta cuántos casos cambiaron después de `90bccf2`.
 
 ## Fase 7 · Operación y deploy
 

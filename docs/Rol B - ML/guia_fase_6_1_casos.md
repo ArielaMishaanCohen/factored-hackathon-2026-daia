@@ -65,7 +65,7 @@ Esto sigue siendo reproducible: son las mismas reglas cada vez, no un LLM que si
 - [ ] Inventario del gold por regla y por categoría (`eval/cases/inventario.md`)
 - [ ] Esperado derivado con código propio: `eval/cases/esperado.py`
 - [ ] `eval/cases/dev.jsonl` (~40) y `eval/cases/heldout.jsonl` (~190), generados por `eval/cases/construir_casos.py`
-- [ ] `eval/cases/validar_casos.py` en verde: esquema, conteos, que no haya fuga y que el esperado coincida con el gold
+- [X] `eval/cases/validar_casos.py` en verde: esquema, conteos, que no haya fuga y que el esperado coincida con el gold
 - [ ] Casos revisados a mano (CSV) y esperados de datos revisados con A
 - [ ] 5 casos de dev corridos a mano de punta a punta (el formato sirve)
 - [ ] Held-out subido **antes** de correrlo (hash anotado)
@@ -167,7 +167,7 @@ por debajo del mínimo del roadmap.
 
 **Qué haces tú:** revisa la propuesta. Si una categoría no llega al mínimo, se reporta con la n que haya. **No se inventan transacciones.**
 
-- [X] Inventario hecho. Categorías por debajo del mínimo: **ninguna por conteo; con n muy pequeña; R7 por score, R9, R10, R4, ambiguo por monto y Student.** 
+- [X] Inventario hecho. Categorías por debajo del mínimo: **ninguna por conteo; con n muy pequeña; R7 por score, R9, R10, R4, ambiguo por monto y Student.**
 
 ---
 
@@ -192,7 +192,7 @@ design.md y por qué.
 **Qué haces tú:** si hay diferencias, decide con Alina cuál está bien **antes** de construir los casos. Si el bug es del backend, lo arregla ella; si es del esperado, se corrige el script.
 
 - [X] Esperado y motor coinciden en **757 / 757** transacciones
-- [ ] Diferencias resueltas con Alina (o no hubo) - en el gold no hubo diferencias. Fuera del gold, con casos específicos, R11 difiere: con 3 casos "Closed" el esperado da R11 y el motor R12, porque el motor solo cuenta casos abiertos. Pendiente con Alina. NOTA: la intención "disputa cargo" no existe. Se usan "cargo_no_reconocido" y "cobro_incorrecto" (design.md, 2)
+- [X] Diferencias resueltas con Alina (o no hubo) - en el gold no hubo diferencias. Fuera del gold, con casos específicos, R11 difería: con 3 casos "Closed" el esperado daba R11 y el motor R12, porque el motor solo contaba casos abiertos. Resuelto el 30-sep: Alina cambió el motor (R11 cuenta las disputas de 90 días en cualquier estado, design.md §3.2, tests/test_r11_y_tarjeta_robada.py); el esperado ya contaba así. NOTA: la intención "disputa cargo" no existe. Se usan "cargo_no_reconocido" y "cobro_incorrecto" (design.md, 2)
 
 ---
 
@@ -260,7 +260,7 @@ eval/cases/dev.jsonl y eval/cases/heldout.jsonl con semilla fija. Reglas:
 Muéstrame los conteos por split × categoría × idioma × segmento.
 ```
 
-- [ ] Set construido: dev **____** · held-out **____**
+- [X] Set construido: dev **40** · held-out **185**. El 30-sep, tras el ajuste de tarjeta comprometida de Alina (bloqueo con cualquier regla, design.md §3.2), +5 casos de tarjeta comprometida fuera de R7 (dev informativo-005 · held-out informativo-021 a 023 y escalamiento-031, uno con el bloqueo cancelado): dev **41** · held-out **189**. Los ids existentes no cambian.
 
 ---
 
@@ -281,7 +281,7 @@ inventario.md; un mensaje se parece > 0,9 a una frase de ml/intent/ o de
 ml/llm/. Agrega un test en tests/ que lo corra. Córrelo y muéstrame la salida.
 ```
 
-- [ ] `validar_casos.py` en verde
+- [X] `validar_casos.py` en verde
 
 ---
 
@@ -302,7 +302,7 @@ el sistema.
 
 **Qué haces tú:** mándale el CSV a A. Lo que A marque como dudoso se corrige en el script (no a mano en el JSONL) y se vuelve a correr el Paso 7.
 
-- [ ] Revisado por A: **____ / 40** sin cambios
+- [X] Revisado por A: **40 / 40** sin cambios
 
 ---
 
@@ -323,8 +323,8 @@ la traza actual. No toques el held-out.
 
 **Qué haces tú:** si falta un campo en la traza, escríbele a Alina con la lista exacta (entregables §5.2 dice que su forma no cambia sin avisar). Si lo que falla es el formato del caso, vuelve al Paso 2 y regenera con el Paso 6.
 
-- [ ] 5 casos de dev corren de punta a punta
-- [ ] Campos que faltan en la traza (pedidos a Alina): **__________**
+- [X] 5 casos de dev corren de punta a punta
+- [X] Campos que faltan en la traza (pedidos a Alina):**handoff_reason/suggested_queue, mensajes y ui mostrados, tipo de ui_action/confirmación (+ opcional datos del caso)**
 
 ---
 
@@ -342,7 +342,7 @@ mensajes, dev.jsonl, heldout.jsonl) y del test del Paso 7, con el mensaje
 Verifica que no entre nada de data/ ni .env.
 ```
 
-- [ ] Commit del held-out (hash: `________`)
+- [X] Commit del held-out (hash: 90bccf2960af063ae4775a8dbe74b4a90c3b02c5)
 
 ---
 
