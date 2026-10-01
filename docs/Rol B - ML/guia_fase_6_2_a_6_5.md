@@ -280,8 +280,8 @@ cambies: dime por qué). Dime cuánto costó la corrida con Gemini y estima el
 costo de 3 corridas del held-out.
 ```
 
-- [ ] Dev corre limpio para S y B1
-- [ ] Costo estimado de las 3 corridas del held-out: ____ USD
+- [X] Dev corre limpio para S y B1
+- [X] Costo estimado de las 3 corridas del held-out: 2.9 USD
 
 ---
 

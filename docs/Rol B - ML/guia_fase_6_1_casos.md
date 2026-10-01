@@ -384,7 +384,7 @@ commit.
 
 Luego, desde tu terminal: el commit, `git pull` y `git push`.
 
-- [ ] Subido. Avísale al equipo: "Set de evaluación listo: dev ____ casos, held-out ____ (congelado en `____`), 11 categorías, ES ___ % · PT ___ % · mix ___ %. Esperado derivado del gold sin usar el motor de política. Faltan en la traza: ____."
+- [X] Subido. Avísale al equipo: "Set de evaluación listo: dev **41** casos, held-out **189** (congelado en `90bccf2`), 11 categorías, ES **47** % · PT **43** % · mix **10** %. Esperado derivado del gold sin usar el motor de política. Faltan en la traza:**`handoff_reason`** / **`suggested_queue`**, **los mensajes y la `ui` mostrados, y el tipo de `ui_action` o de confirmación** (ya pedidos a Alina).
 
 ---
 
