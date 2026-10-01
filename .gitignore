@@ -4,6 +4,8 @@ env/
 
 # Datos y artefactos pesados (se regeneran con make data)
 /data_exploracion/
+/data/runs/
+/data/gold/gold_full.duckdb
 #*.duckdb
 #*.duckdb.wal
 *.parquet
@@ -24,7 +26,6 @@ frontend/dist/
 
 # Sistema
 .DS_Store
-.gitignore
 
 # Caché de embeddings y modelos ONNX (Fase 4.2)
 ml/intent/.cache/
