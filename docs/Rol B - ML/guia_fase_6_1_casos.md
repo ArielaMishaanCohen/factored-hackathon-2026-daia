@@ -367,8 +367,8 @@ Paso 11 de la guía de la 6.1.
    cuando corra make eval.
 ```
 
-- [ ] `eval/cases/README.md` listo
-- [ ] D6.1 en `decisions.md`
+- [X] `eval/cases/README.md` listo
+- [X] D6.1 en `decisions.md`
 
 ---
 
