@@ -41,8 +41,9 @@
 | D4.4 | Gemini en el flujo: extracción, redacción y verificador | 4 | Tomada |
 | D4.5 | Segunda opinión de Gemini sobre la intención, solo bajo τ | 4 | Tomada |
 | D4.6 | Lote de fuera de alcance en el set de intenciones | 4 | Tomada |
+| D4.7 | τ_intención contrastado con un costo de negocio | 4 | Tomada |
 | D6.1 | Set de evaluación end-to-end | 6 | Tomada |
-| D6.2 | Baselines | 6 | Pendiente |
+| D6.2 | Baselines | 6 | Tomada |
 | D7.1 | Destino del deploy | 7 | Pendiente |
 
 ---
@@ -344,6 +345,21 @@ Gemini se llama en el 35 % de las frases de val y el 62 % de las de test. Con el
 **Limitación declarada:** el test de intención se abrió por segunda vez. El cambio no se motivó en el test, pero el test tiene 2 frases de préstamo, así que la mejora en test no es independiente. Runs: `ml/intent/runs/20260930-111809_tfidf_lr_val.json` y `20260930-111820_tfidf_lr_test.json`.
 **Complemento (rol C):** el mensaje de aclaración también dirá qué sí puede hacer el bot, para que una abstención tenga sentido aunque no haya Gemini.
 
+### D4.7 · τ_intención contrastado con un costo de negocio
+**Fecha:** 2-oct-2026 · **Responsable:** rol B · **Estado:** Tomada (análisis; no cambia τ)
+**Contexto:** D4.3 eligió τ por precisión (≥ 95 % en val). Ese criterio no pondera cuánto cuesta abstenerse frente a cuánto cuesta equivocarse. Detalle en `ml/thresholds/costo_umbral.md`.
+**Alternativas:**
+- A. Dejar τ = 0,81 sin más argumento.
+- B. Elegir τ minimizando el costo esperado en val, con costos en minutos de agente anclados al AHT de `Queja` (7,2 min) y factores por tipo de desenlace (aclaración 0,25 AHT, error leve 0,5, rechazo de una disputa 1, posible fraude no atendido 2), y mover τ al óptimo.
+- C. Igual que B, pero usarlo para validar τ sin moverlo, más un análisis de sensibilidad sobre los factores supuestos.
+- D. Un τ que dependa del monto de la disputa.
+**Decisión:** C. τ sigue en 0,81.
+**Por qué:**
+- En la cascada con Gemini (lo desplegado), el τ de costo mínimo es **0,83** y 0,81 queda a menos de 5 % del mínimo (61 frente a 58 min por 100 conversaciones). La conclusión se mantiene en casi todo el barrido de supuestos.
+- Sin Gemini, el óptimo sería ~0,62 (13 % menos costo), pero mover τ ahora cambiaría el sistema después de las corridas finales de la Fase 6. Queda documentado como mejora para el modo sin llave.
+- D se descarta: en la cascada, el τ óptimo no cambia con el costo del error grave, porque los errores graves que quedan vienen de Gemini y no del umbral. La protección por monto ya vive en la política (`amount_usd_max`). Además, val no trae montos para calibrarlo.
+**Cómo validamos:** `.venv/bin/python -m ml.thresholds.costo_umbral` reproduce las cifras y las figuras desde las predicciones guardadas de val (sin red y sin test).
+
 ## Fase 5 · Frontend
 
 *(pendiente)*
@@ -369,6 +385,18 @@ Gemini se llama en el 35 % de las frases de val y el 62 % de las de test. Con el
 - Revisión humana de todos los mensajes (5 retirados, quedan 230 casos) y de una muestra estratificada de 40 esperados del held-out por rol A: 40/40 sin cambios (`revision_esperados.csv`).
 - Prueba de humo con 5 casos de dev de punta a punta sin Gemini (Paso 9). Faltan campos de la traza para comparar parte del esperado (`handoff_reason` / `suggested_queue`, mensajes y `ui` mostrados, tipo de confirmación); pedidos a rol C.
 - En la corrida de la Fase 6: si `esperado.py` y el motor del backend discrepan en un caso, se revisan a mano los dos antes de contar el caso como error del sistema, y la diferencia se anota. Si el set tiene un error, se corrige en el script con un commit nuevo y se reporta cuántos casos cambiaron después de `90bccf2`.
+
+### D6.2 · Baselines
+**Fecha:** 1-oct-2026 (registrada el 2-oct) · **Responsable:** roles A y B · **Estado:** Tomada
+**Contexto:** el reto pide comparar contra alternativas sencillas sobre la misma carga. Detalle y números en `docs/eval_report.md` §1, §2 y §8.
+**Alternativas:**
+- **B0:** línea histórica del gold (`baseline_metrics`: FCR, días de resolución, SLA incumplido).
+- **B1:** bot de reglas: el mismo backend con `NLU_MODE=keywords` (intención por palabras clave, reglas y plantillas, sin ML ni LLM).
+- **B2:** un LLM sin capa de control (Gemini decide y responde directo).
+**Decisión:** B1 sobre el mismo held-out, con 3 corridas, más B0 solo como contexto. B2 no se corrió.
+**Por qué:** B1 aísla lo que aportan el clasificador y Gemini, porque comparte política y orquestador con S: 36,2 % de resolución segura frente a 45,4 % sin Gemini y 48,5 % con Gemini. B0 no es la misma carga y no se compara directamente. B2 quedó fuera por tiempo.
+**Limitaciones declaradas:** B1 no mide lo que aporta el orquestador. Sin B2 no hay número para «qué pasaría con un LLM sin control»: el argumento de seguridad se apoya en los 22 tests de inyección con un Gemini malicioso (D4.4) y en las alertas de seguridad del held-out (1 en S con Gemini, 0 sin Gemini y 2 falsos positivos del grader en B1).
+**Cómo validamos:** `make eval RUNS=3 STAGE=final`, y las nueve corridas recalificadas en otra máquina con resultados idénticos (`eval_report.md` §10).
 
 ## Fase 7 · Operación y deploy
 

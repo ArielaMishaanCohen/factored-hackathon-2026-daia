@@ -104,7 +104,7 @@ Macro-F1 y F1 por idioma: sin `ambiguo` y sin abstención. Cobertura, precisión
 
 ![Curva cobertura-precisión en val](figures/cobertura_precision_val.png)
 
-Otras figuras en `figures/`: `candidatos_f1_latencia_val.png`, `f1_por_idioma_val.png`, `confianza_ambiguo_val.png` y `matriz_confusion_test.png`.
+Otras figuras en `figures/`: `candidatos_f1_latencia_val.png`, `f1_por_idioma_val.png`, `confianza_ambiguo_val.png`, `matriz_confusion_test.png` y `matriz_abstencion_test.png` (con τ aplicado, clasificador solo contra cascada; `python -m ml.intent.matriz_abstencion`). El contraste de τ con un costo de negocio está en `ml/thresholds/costo_umbral.md` (D4.7).
 
 ## 8. Ablaciones
 

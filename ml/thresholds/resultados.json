@@ -1,0 +1,168 @@
+{
+  "aht_queja_min": 7.243431916632747,
+  "n_val": 513,
+  "n_sin_gemini": 6,
+  "costos_aht": {
+    "acierto": 0.0,
+    "abstencion": 0.25,
+    "leve": 0.5,
+    "ambiguo_contestado": 0.5,
+    "rechazo": 1.0,
+    "grave": 2.0
+  },
+  "tau_actual": 0.81,
+  "tau_gemini": 0.8,
+  "solo": {
+    "optimo": {
+      "tau": 0.62,
+      "costo_por_frase": 0.09551656920077972,
+      "cobertura": 0.8245614035087719,
+      "acierto": 379,
+      "abstencion": 90,
+      "leve": 11,
+      "ambiguo_contestado": 28,
+      "rechazo": 3,
+      "grave": 2
+    },
+    "actual": {
+      "tau": 0.81,
+      "costo_por_frase": 0.10721247563352826,
+      "cobertura": 0.6413255360623782,
+      "acierto": 313,
+      "abstencion": 184,
+      "leve": 5,
+      "ambiguo_contestado": 9,
+      "rechazo": 2,
+      "grave": 0
+    },
+    "banda_5pct": [
+      0.57,
+      0.77
+    ],
+    "ahorro_vs_actual_min_por_100": 8.4718501948921
+  },
+  "cascada": {
+    "optimo": {
+      "tau": 0.83,
+      "costo_por_frase": 0.07943469785575048,
+      "cobertura": 0.9278752436647173,
+      "acierto": 433,
+      "abstencion": 37,
+      "leve": 15,
+      "ambiguo_contestado": 14,
+      "rechazo": 11,
+      "grave": 3
+    },
+    "actual": {
+      "tau": 0.81,
+      "costo_por_frase": 0.08382066276803118,
+      "cobertura": 0.9298245614035088,
+      "acierto": 430,
+      "abstencion": 36,
+      "leve": 17,
+      "ambiguo_contestado": 15,
+      "rechazo": 12,
+      "grave": 3
+    },
+    "banda_5pct": [
+      0.82,
+      0.92
+    ],
+    "ahorro_vs_actual_min_por_100": 3.176943823084538
+  },
+  "sensibilidad": {
+    "factores_grave_aht": [
+      0.5,
+      1.0,
+      2.0,
+      3.0,
+      5.0,
+      8.0,
+      12.0,
+      20.0,
+      30.0,
+      50.0
+    ],
+    "factores_abstencion_aht": [
+      0.1,
+      0.25,
+      0.5
+    ],
+    "tau_optimo_solo": [
+      [
+        0.82,
+        0.82,
+        0.82,
+        0.82,
+        0.82,
+        0.82,
+        0.82,
+        0.82,
+        0.82,
+        0.82
+      ],
+      [
+        0.57,
+        0.62,
+        0.62,
+        0.73,
+        0.73,
+        0.73,
+        0.73,
+        0.73,
+        0.73,
+        0.73
+      ],
+      [
+        0.31,
+        0.41,
+        0.41,
+        0.49,
+        0.49,
+        0.59,
+        0.73,
+        0.73,
+        0.73,
+        0.73
+      ]
+    ],
+    "tau_optimo_cascada": [
+      [
+        0.87,
+        0.87,
+        0.87,
+        0.87,
+        0.87,
+        0.87,
+        0.87,
+        0.87,
+        0.87,
+        0.87
+      ],
+      [
+        0.83,
+        0.83,
+        0.83,
+        0.83,
+        0.83,
+        0.83,
+        0.83,
+        0.83,
+        0.83,
+        0.83
+      ],
+      [
+        0.57,
+        0.57,
+        0.83,
+        0.83,
+        0.83,
+        0.83,
+        0.83,
+        0.83,
+        0.83,
+        0.83
+      ]
+    ]
+  }
+}

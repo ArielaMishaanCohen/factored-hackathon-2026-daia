@@ -7,6 +7,8 @@ Este reporte evalúa de punta a punta el asistente de disputas sobre un set held
 - [eval_report_datos.md](eval_report_datos.md): B0, impacto y datos.
 - [eval_analisis_errores.md](eval_analisis_errores.md): análisis de errores con trazas.
 
+Figuras (generadas con `python -m eval.figuras_resultados` a partir de los `grades.jsonl` finales): [Sankey de desenlaces de S](figures/sankey_desenlaces_S.png) y [matriz por tipo de caso de los tres sistemas](figures/matriz_adversarial.png).
+
 ## Resumen
 
 - **Resolución automática segura de S (clasificador + Gemini): 48,5 %** de los casos en alcance (rango 47,7–49,4 % en tres corridas). Solo el 60,9 % de esos casos se puede resolver sin humano, porque el resto debe escalar. Con eso en cuenta, S resuelve solo cerca de 4 de cada 5 casos automatizables.

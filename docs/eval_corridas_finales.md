@@ -106,4 +106,4 @@ Corridas:
 
 Salidas locales: `eval/reports/<run_id>/{manifest.json,results.jsonl,grades.jsonl,metrics.json}`, `final_summary_datos.json` e `impacto_final.json`. Paquete de entrega: `reports/fase6_corridas_finales.zip`. Los reportes están excluidos de Git; compartir el ZIP además del código/documentación.
 
-No hubo commit, push ni cambios de backend/ML durante la tanda. Pendiente de cierre conjunto: integrar el reporte de Ariela y revisar las alertas. Si se modifica el sistema, conservar esta tanda y evaluar la nueva versión por separado.
+No hubo commit, push ni cambios de backend/ML durante la tanda. Cierre conjunto hecho el 2-oct: reporte integrado en `docs/eval_report.md` y alertas revisadas en su §5 (veredictos conservados, sin recalibrar el grader). Si se modifica el sistema, conservar esta tanda y evaluar la nueva versión por separado.
