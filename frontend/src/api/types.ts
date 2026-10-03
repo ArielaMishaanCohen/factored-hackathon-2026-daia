@@ -168,11 +168,72 @@ export interface Span {
   error?: string | null;
 }
 
+export interface ActionRecord {
+  action: "create_dispute_case" | "block_card";
+  status: "verified" | "failed" | "not_attempted";
+  at: string | null;
+}
+
+export interface TraceTurn {
+  turn_id: number;
+  state_from: ConversationState;
+  state_to: ConversationState;
+  spans: Span[];
+  // Resumen del turno (backend/app/schemas.py, Fase 7). Todos opcionales en el contrato.
+  started_at?: string | null;
+  latency_ms?: number | null;
+  input_kind?: "message" | "ui_action" | null;
+  language?: Language | null;
+  intent?: Intent | null;
+  intent_confidence?: number | null;
+  rule_id?: RuleId | null;
+  transaction_id?: string | null;
+  input_action?: "select_transaction" | "confirm" | "cancel" | null;
+  confirmation?: "yes" | "no" | null;
+  assistant_messages?: string[];
+  ui_type?: string | null;
+  ui_transaction_ids?: string[];
+  pending_action?: "create_dispute_case" | "block_card" | null;
+  actions?: ActionRecord[];
+  case_id?: string | null;
+  handoff_id?: string | null;
+  tokens_in?: number;
+  tokens_out?: number;
+  cost_usd?: number;
+  versions?: Record<string, string> | null;
+}
+
 export interface Trace {
   trace_id: string;
   conversation_id: string;
   customer_id: string;
-  turns: { turn_id: number; state_from: ConversationState; state_to: ConversationState; spans: Span[] }[];
+  turns: TraceTurn[];
+}
+
+/** GET /api/ops/metrics (solo agente). docs/operations.md §5. */
+export interface OpsMetrics {
+  conversations: number;
+  turns: number;
+  latency_ms: { p50: number | null; p95: number | null; max: number | null };
+  rules: Record<string, number>;
+  intents: Record<string, number>;
+  languages: Record<string, number>;
+  cases_created: number;
+  actions: Record<string, number>;
+  handoffs: number;
+  handoff_rate: number | null;
+  handoffs_by_reason: Record<string, number>;
+  tool_errors: Record<string, number>;
+  cost_usd: number;
+}
+
+export interface HealthResponse {
+  status: "ok";
+  policy_version: string;
+  intent_model: string;
+  llm_model: string;
+  data_manifest: string | null;
+  nlu_mode: "full" | "keywords";
 }
 
 export interface ApiErrorBody {
