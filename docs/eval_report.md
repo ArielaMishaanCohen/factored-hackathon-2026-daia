@@ -207,10 +207,15 @@ Pero los arreglos se pidieron **después** de la primera corrida del held-out, a
 | FCR global | 76,7 % (526.030 / 686.296) |
 | Días de resolución de disputas, media / mediana | 15,5 / 15 |
 | Disputas con SLA incumplido | 20,2 % (4.938 / 24.491) |
+| Disputas abiertas o en proceso | 69,8 % (17.099 / 24.491) |
 
 El FCR de todos los contactos no se compara con la resolución automática del set estratificado.
 
+`baseline_metrics` contiene agregados del histórico procesado completo, aunque el gold de servicio tenga una muestra de clientes. La media y la mediana de resolución usan solo **5.623 duraciones observadas** de 24.491 disputas; los nulos no se imputan como cero. El FCR global se pondera por contactos, no promediando las tasas de las categorías.
+
 **Impacto: proyección offline, no medición en producción.** Toma la tasa de S con Gemini × 8.148,78 disputas al año (24.491 en 1.097 días) × un AHT proxy de Queja de 434,61 s, y supone que se ahorra un contacto por cada disputa automatizada.
+
+El volumen anual se calcula como **24.491 × 365 / 1.097 días inclusivos** del histórico; no es un conteo observado del último año. El AHT usa **100.727 duraciones no nulas de 117.021 contactos de Queja** y es un proxy, no una medición específica del tiempo de atención de cada disputa. Central es la media de las tres tasas de S con Gemini; mínimo y máximo son sus extremos, no un intervalo de confianza.
 
 | Escenario | Tasa | Disputas/año sin humano | Horas de agente/año |
 |---|---:|---:|---:|
@@ -220,6 +225,7 @@ El FCR de todos los contactos no se compara con la resolución automática del s
 
 - La mezcla del set está estratificada a propósito: sobrerrepresenta escalamientos y ataques, así que la mezcla real puede dar otra tasa.
 - No es un ahorro observado ni una reducción causal del SLA, y siempre va acompañada de la alerta de la §5.
+- Las 17.099 disputas abiertas/en proceso y las 4.938 con SLA incumplido pueden solaparse: no se suman ni se afirma que la automatización evitaría esos casos. La proyección no incorpora adopción, contactos adicionales ni costos de revisión y operación.
 - Detalle en `eval/reports/impacto_final.json` y [eval_report_datos.md](eval_report_datos.md).
 
 ## 9. Limitaciones
@@ -228,15 +234,17 @@ El FCR de todos los contactos no se compara con la resolución automática del s
 - **La defensa contra acceso ajeno se ejercita poco.** En 7 de 10 casos de `acceso_no_autorizado`, S termina antes de que el runner envíe la selección falsificada, así que la defensa R1 solo se prueba en 3. Que no haya divulgaciones en esa categoría no prueba la defensa.
 - **Graders:** hay dos falsos positivos conocidos (§5). El grader de handoff no califica semánticamente el resumen en texto libre.
 - **Esperados discutibles:** `ambiguo-010` (un cobro duplicado puede leerse como cobro incorrecto) y `informativo-017` (S informa el caso abierto sin pasar por la política). El set está congelado y no se cambiaron.
-- **Exposición previa:** los cuatro casos `escalamiento-027` a `030` usan transacciones de la demo. Sus resultados separados están en [eval_corridas_finales.md](eval_corridas_finales.md); excluirlos no cambia la resolución segura (83–86/170).
+- **Exposición previa:** los cuatro casos `escalamiento-027` a `030` usan transacciones de la demo. Sus resultados separados están en [eval_corridas_finales.md](eval_corridas_finales.md). Al excluirlos se conservan los éxitos (83 / 86 / 84), pero el denominador pasa de 174 a 170: el rango cambia de 47,7–49,4 % a 48,8–50,6 %. Los cuatro deben escalar, por lo que 0/4 de automatización es esperado. Esta separación no demuestra independencia absoluta del resto del set.
 - **Corridas:** son 3 por sistema y el rango no es un intervalo de confianza. Sin Gemini, las tres corridas dieron resultados idénticos.
 - **Cambios entre corridas:** la versión final se ajustó después de la primera corrida del held-out (§7).
 - **B1 comparte el orquestador con S**, así que no mide lo que aporta el orquestador. B2 (un LLM sin capa de control) quedó fuera por tiempo.
+- **Hechos del handoff:** los casos operativos se contrastan con `res.cases`, no con gold. Las fuentes o campos no comprobables producen `grader_error`; el estado mutable de una tarjeta requiere evidencia operativa y no se valida contra su estado inicial en gold. Completitud no equivale a calidad semántica del resumen ni sustituye las comprobaciones de seguridad.
 
 **De los datos**
 - Datos sintéticos; la ventana de reclamo, el SLA y la política son sintéticos y no son política legal.
 - No hay clientes de Brasil: «pt» es el idioma del guion.
 - Student tiene n = 6 en alcance.
+- Las transacciones de fraude por score y zona gris son escasas y se reutilizan con distintos mensajes; los casos no son observaciones independientes de clientes o transacciones. El gold de evaluación es una muestra de servicio con transacciones de tarjetas y no cubre todo el universo bancario.
 - Las latencias son locales; el costo es una estimación.
 
 ## 10. Versiones y reproducibilidad

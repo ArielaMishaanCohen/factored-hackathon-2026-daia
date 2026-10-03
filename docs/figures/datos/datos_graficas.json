@@ -1,0 +1,857 @@
+{
+  "palette": {
+    "green": "#15803D",
+    "amber": "#D97706",
+    "red": "#DC2626"
+  },
+  "palette_status": "provisional",
+  "sources": {
+    "summary": "eval\\reports\\final_summary_datos.json",
+    "summary_sha256": "93c27dacdac752c778e65c0292dab63008eb0e9970c1fdbad546b75aa1e4e378",
+    "silver": "C:\\Users\\dfsf2\\Documents\\Hackaton\\factored-hackathon-2026-daia\\data\\runs\\20260929T234658Z-7cf922c1\\silver",
+    "data_run": "20260929T234658Z-7cf922c1"
+  },
+  "run_ids": [
+    "20261001T234945Z-S-with_gemini-r1-heldout",
+    "20261002T000209Z-S-with_gemini-r2-heldout",
+    "20261002T001525Z-S-with_gemini-r3-heldout",
+    "20261002T002724Z-S-without_gemini-r1-heldout",
+    "20261002T002735Z-S-without_gemini-r2-heldout",
+    "20261002T002744Z-S-without_gemini-r3-heldout",
+    "20261002T002752Z-B1-without_gemini-r1-heldout",
+    "20261002T002800Z-B1-without_gemini-r2-heldout",
+    "20261002T002807Z-B1-without_gemini-r3-heldout"
+  ],
+  "parity": [
+    {
+      "metric": "safe_auto_resolution",
+      "language": "es",
+      "system": "S",
+      "llm": "with_gemini",
+      "mean_percent": 46.50205761316872,
+      "minimum_percent": 45.67901234567901,
+      "maximum_percent": 46.913580246913575,
+      "denominators": [
+        81.0,
+        81.0,
+        81.0
+      ],
+      "numerators": [
+        37.0,
+        38.0,
+        38.0
+      ]
+    },
+    {
+      "metric": "safe_auto_resolution",
+      "language": "pt",
+      "system": "S",
+      "llm": "with_gemini",
+      "mean_percent": 46.666666666666664,
+      "minimum_percent": 45.33333333333333,
+      "maximum_percent": 48.0,
+      "denominators": [
+        75.0,
+        75.0,
+        75.0
+      ],
+      "numerators": [
+        35.0,
+        36.0,
+        34.0
+      ]
+    },
+    {
+      "metric": "safe_auto_resolution",
+      "language": "mix",
+      "system": "S",
+      "llm": "with_gemini",
+      "mean_percent": 64.81481481481481,
+      "minimum_percent": 61.111111111111114,
+      "maximum_percent": 66.66666666666666,
+      "denominators": [
+        18.0,
+        18.0,
+        18.0
+      ],
+      "numerators": [
+        11.0,
+        12.0,
+        12.0
+      ]
+    },
+    {
+      "metric": "safe_auto_resolution",
+      "language": "es",
+      "system": "S",
+      "llm": "without_gemini",
+      "mean_percent": 45.67901234567901,
+      "minimum_percent": 45.67901234567901,
+      "maximum_percent": 45.67901234567901,
+      "denominators": [
+        81.0,
+        81.0,
+        81.0
+      ],
+      "numerators": [
+        37.0,
+        37.0,
+        37.0
+      ]
+    },
+    {
+      "metric": "safe_auto_resolution",
+      "language": "pt",
+      "system": "S",
+      "llm": "without_gemini",
+      "mean_percent": 41.333333333333336,
+      "minimum_percent": 41.333333333333336,
+      "maximum_percent": 41.333333333333336,
+      "denominators": [
+        75.0,
+        75.0,
+        75.0
+      ],
+      "numerators": [
+        31.0,
+        31.0,
+        31.0
+      ]
+    },
+    {
+      "metric": "safe_auto_resolution",
+      "language": "mix",
+      "system": "S",
+      "llm": "without_gemini",
+      "mean_percent": 61.111111111111114,
+      "minimum_percent": 61.111111111111114,
+      "maximum_percent": 61.111111111111114,
+      "denominators": [
+        18.0,
+        18.0,
+        18.0
+      ],
+      "numerators": [
+        11.0,
+        11.0,
+        11.0
+      ]
+    },
+    {
+      "metric": "safe_auto_resolution",
+      "language": "es",
+      "system": "B1",
+      "llm": "without_gemini",
+      "mean_percent": 37.03703703703704,
+      "minimum_percent": 37.03703703703704,
+      "maximum_percent": 37.03703703703704,
+      "denominators": [
+        81.0,
+        81.0,
+        81.0
+      ],
+      "numerators": [
+        30.0,
+        30.0,
+        30.0
+      ]
+    },
+    {
+      "metric": "safe_auto_resolution",
+      "language": "pt",
+      "system": "B1",
+      "llm": "without_gemini",
+      "mean_percent": 30.666666666666664,
+      "minimum_percent": 30.666666666666664,
+      "maximum_percent": 30.666666666666664,
+      "denominators": [
+        75.0,
+        75.0,
+        75.0
+      ],
+      "numerators": [
+        23.0,
+        23.0,
+        23.0
+      ]
+    },
+    {
+      "metric": "safe_auto_resolution",
+      "language": "mix",
+      "system": "B1",
+      "llm": "without_gemini",
+      "mean_percent": 55.55555555555556,
+      "minimum_percent": 55.55555555555556,
+      "maximum_percent": 55.55555555555556,
+      "denominators": [
+        18.0,
+        18.0,
+        18.0
+      ],
+      "numerators": [
+        10.0,
+        10.0,
+        10.0
+      ]
+    },
+    {
+      "metric": "case_correct",
+      "language": "es",
+      "system": "S",
+      "llm": "with_gemini",
+      "mean_percent": 83.89513108614233,
+      "minimum_percent": 83.14606741573034,
+      "maximum_percent": 84.26966292134831,
+      "denominators": [
+        89.0,
+        89.0,
+        89.0
+      ],
+      "numerators": [
+        74.0,
+        75.0,
+        75.0
+      ]
+    },
+    {
+      "metric": "case_correct",
+      "language": "pt",
+      "system": "S",
+      "llm": "with_gemini",
+      "mean_percent": 86.58536585365853,
+      "minimum_percent": 85.36585365853658,
+      "maximum_percent": 87.8048780487805,
+      "denominators": [
+        82.0,
+        82.0,
+        82.0
+      ],
+      "numerators": [
+        71.0,
+        72.0,
+        70.0
+      ]
+    },
+    {
+      "metric": "case_correct",
+      "language": "mix",
+      "system": "S",
+      "llm": "with_gemini",
+      "mean_percent": 75.92592592592592,
+      "minimum_percent": 72.22222222222221,
+      "maximum_percent": 77.77777777777779,
+      "denominators": [
+        18.0,
+        18.0,
+        18.0
+      ],
+      "numerators": [
+        13.0,
+        14.0,
+        14.0
+      ]
+    },
+    {
+      "metric": "case_correct",
+      "language": "es",
+      "system": "S",
+      "llm": "without_gemini",
+      "mean_percent": 73.03370786516854,
+      "minimum_percent": 73.03370786516854,
+      "maximum_percent": 73.03370786516854,
+      "denominators": [
+        89.0,
+        89.0,
+        89.0
+      ],
+      "numerators": [
+        65.0,
+        65.0,
+        65.0
+      ]
+    },
+    {
+      "metric": "case_correct",
+      "language": "pt",
+      "system": "S",
+      "llm": "without_gemini",
+      "mean_percent": 71.95121951219512,
+      "minimum_percent": 71.95121951219512,
+      "maximum_percent": 71.95121951219512,
+      "denominators": [
+        82.0,
+        82.0,
+        82.0
+      ],
+      "numerators": [
+        59.0,
+        59.0,
+        59.0
+      ]
+    },
+    {
+      "metric": "case_correct",
+      "language": "mix",
+      "system": "S",
+      "llm": "without_gemini",
+      "mean_percent": 72.22222222222221,
+      "minimum_percent": 72.22222222222221,
+      "maximum_percent": 72.22222222222221,
+      "denominators": [
+        18.0,
+        18.0,
+        18.0
+      ],
+      "numerators": [
+        13.0,
+        13.0,
+        13.0
+      ]
+    },
+    {
+      "metric": "case_correct",
+      "language": "es",
+      "system": "B1",
+      "llm": "without_gemini",
+      "mean_percent": 57.30337078651685,
+      "minimum_percent": 57.30337078651685,
+      "maximum_percent": 57.30337078651685,
+      "denominators": [
+        89.0,
+        89.0,
+        89.0
+      ],
+      "numerators": [
+        51.0,
+        51.0,
+        51.0
+      ]
+    },
+    {
+      "metric": "case_correct",
+      "language": "pt",
+      "system": "B1",
+      "llm": "without_gemini",
+      "mean_percent": 60.97560975609756,
+      "minimum_percent": 60.97560975609756,
+      "maximum_percent": 60.97560975609756,
+      "denominators": [
+        82.0,
+        82.0,
+        82.0
+      ],
+      "numerators": [
+        50.0,
+        50.0,
+        50.0
+      ]
+    },
+    {
+      "metric": "case_correct",
+      "language": "mix",
+      "system": "B1",
+      "llm": "without_gemini",
+      "mean_percent": 61.111111111111114,
+      "minimum_percent": 61.111111111111114,
+      "maximum_percent": 61.111111111111114,
+      "denominators": [
+        18.0,
+        18.0,
+        18.0
+      ],
+      "numerators": [
+        11.0,
+        11.0,
+        11.0
+      ]
+    },
+    {
+      "metric": "missed_escalation",
+      "language": "es",
+      "system": "S",
+      "llm": "with_gemini",
+      "mean_percent": 6.0606060606060606,
+      "minimum_percent": 6.0606060606060606,
+      "maximum_percent": 6.0606060606060606,
+      "denominators": [
+        33.0,
+        33.0,
+        33.0
+      ],
+      "numerators": [
+        2.0,
+        2.0,
+        2.0
+      ]
+    },
+    {
+      "metric": "missed_escalation",
+      "language": "pt",
+      "system": "S",
+      "llm": "with_gemini",
+      "mean_percent": 6.25,
+      "minimum_percent": 6.25,
+      "maximum_percent": 6.25,
+      "denominators": [
+        32.0,
+        32.0,
+        32.0
+      ],
+      "numerators": [
+        2.0,
+        2.0,
+        2.0
+      ]
+    },
+    {
+      "metric": "missed_escalation",
+      "language": "mix",
+      "system": "S",
+      "llm": "with_gemini",
+      "mean_percent": 0.0,
+      "minimum_percent": 0.0,
+      "maximum_percent": 0.0,
+      "denominators": [
+        3.0,
+        3.0,
+        3.0
+      ],
+      "numerators": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "metric": "missed_escalation",
+      "language": "es",
+      "system": "S",
+      "llm": "without_gemini",
+      "mean_percent": 15.151515151515152,
+      "minimum_percent": 15.151515151515152,
+      "maximum_percent": 15.151515151515152,
+      "denominators": [
+        33.0,
+        33.0,
+        33.0
+      ],
+      "numerators": [
+        5.0,
+        5.0,
+        5.0
+      ]
+    },
+    {
+      "metric": "missed_escalation",
+      "language": "pt",
+      "system": "S",
+      "llm": "without_gemini",
+      "mean_percent": 25.0,
+      "minimum_percent": 25.0,
+      "maximum_percent": 25.0,
+      "denominators": [
+        32.0,
+        32.0,
+        32.0
+      ],
+      "numerators": [
+        8.0,
+        8.0,
+        8.0
+      ]
+    },
+    {
+      "metric": "missed_escalation",
+      "language": "mix",
+      "system": "S",
+      "llm": "without_gemini",
+      "mean_percent": 0.0,
+      "minimum_percent": 0.0,
+      "maximum_percent": 0.0,
+      "denominators": [
+        3.0,
+        3.0,
+        3.0
+      ],
+      "numerators": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "metric": "missed_escalation",
+      "language": "es",
+      "system": "B1",
+      "llm": "without_gemini",
+      "mean_percent": 30.303030303030305,
+      "minimum_percent": 30.303030303030305,
+      "maximum_percent": 30.303030303030305,
+      "denominators": [
+        33.0,
+        33.0,
+        33.0
+      ],
+      "numerators": [
+        10.0,
+        10.0,
+        10.0
+      ]
+    },
+    {
+      "metric": "missed_escalation",
+      "language": "pt",
+      "system": "B1",
+      "llm": "without_gemini",
+      "mean_percent": 18.75,
+      "minimum_percent": 18.75,
+      "maximum_percent": 18.75,
+      "denominators": [
+        32.0,
+        32.0,
+        32.0
+      ],
+      "numerators": [
+        6.0,
+        6.0,
+        6.0
+      ]
+    },
+    {
+      "metric": "missed_escalation",
+      "language": "mix",
+      "system": "B1",
+      "llm": "without_gemini",
+      "mean_percent": 33.33333333333333,
+      "minimum_percent": 33.33333333333333,
+      "maximum_percent": 33.33333333333333,
+      "denominators": [
+        3.0,
+        3.0,
+        3.0
+      ],
+      "numerators": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "contact_pareto": [
+    {
+      "reason": "Transaccional",
+      "n": 240056,
+      "cumulative_percent": 34.978493244897244
+    },
+    {
+      "reason": "Producto",
+      "n": 150863,
+      "cumulative_percent": 56.96069917353446
+    },
+    {
+      "reason": "Queja",
+      "n": 117021,
+      "cumulative_percent": 74.01179665916747
+    },
+    {
+      "reason": "Técnico",
+      "n": 102899,
+      "cumulative_percent": 89.00518143774698
+    },
+    {
+      "reason": "Comercial",
+      "n": 54879,
+      "cumulative_percent": 97.00158532178536
+    },
+    {
+      "reason": "Retención",
+      "n": 20578,
+      "cumulative_percent": 100.0
+    }
+  ],
+  "disputes_source": {
+    "table": "complaints",
+    "n": 24491,
+    "total_complaints": 67095,
+    "definition": [
+      "Cargo no reconocido",
+      "Cobro indebido"
+    ]
+  },
+  "demand_heatmap": {
+    "timezone": "UTC",
+    "aggregation": "historical counts",
+    "counts": [
+      [
+        2402,
+        2450,
+        2373,
+        2471,
+        2430,
+        2404,
+        2344,
+        2322,
+        4762,
+        4869,
+        4926,
+        4839,
+        4869,
+        4773,
+        4807,
+        4812,
+        4817,
+        4862,
+        4884,
+        4752,
+        4777,
+        4856,
+        4796,
+        4791
+      ],
+      [
+        4815,
+        4822,
+        4771,
+        4990,
+        4730,
+        4842,
+        4742,
+        4785,
+        4688,
+        4698,
+        4795,
+        4835,
+        4684,
+        4890,
+        4719,
+        4728,
+        4778,
+        4740,
+        4781,
+        4761,
+        4764,
+        4775,
+        4774,
+        4887
+      ],
+      [
+        4799,
+        4656,
+        4887,
+        4856,
+        4887,
+        4725,
+        4770,
+        4755,
+        4808,
+        4782,
+        4755,
+        4693,
+        4700,
+        4739,
+        4791,
+        4712,
+        4822,
+        4966,
+        4787,
+        4842,
+        4846,
+        4669,
+        4690,
+        4799
+      ],
+      [
+        4648,
+        4705,
+        4706,
+        4781,
+        4598,
+        4786,
+        4700,
+        4722,
+        4797,
+        4763,
+        4656,
+        4728,
+        4762,
+        4817,
+        4716,
+        4699,
+        4639,
+        4841,
+        4658,
+        4702,
+        4765,
+        4671,
+        4607,
+        4749
+      ],
+      [
+        4695,
+        4783,
+        4611,
+        4731,
+        4629,
+        4795,
+        4783,
+        4715,
+        4720,
+        4646,
+        4735,
+        4710,
+        4741,
+        4634,
+        4694,
+        4748,
+        4737,
+        4807,
+        4671,
+        4691,
+        4791,
+        4735,
+        4672,
+        4840
+      ],
+      [
+        4766,
+        4684,
+        4637,
+        4662,
+        4795,
+        4752,
+        4784,
+        4732,
+        2422,
+        2401,
+        2386,
+        2395,
+        2426,
+        2392,
+        2440,
+        2295,
+        2423,
+        2434,
+        2395,
+        2472,
+        2439,
+        2383,
+        2335,
+        2327
+      ],
+      [
+        2402,
+        2441,
+        2285,
+        2387,
+        2396,
+        2395,
+        2393,
+        2384,
+        2428,
+        2414,
+        2411,
+        2414,
+        2452,
+        2387,
+        2375,
+        2407,
+        2428,
+        2431,
+        2369,
+        2459,
+        2385,
+        2355,
+        2436,
+        2437
+      ]
+    ],
+    "n": 686296,
+    "null_timestamps": 0
+  },
+  "fraud_distribution": {
+    "bins": [
+      0,
+      5,
+      10,
+      15,
+      20,
+      25,
+      30,
+      35,
+      40,
+      45,
+      50,
+      55,
+      60,
+      65,
+      70,
+      75,
+      80,
+      85,
+      90,
+      95,
+      100
+    ],
+    "counts": {
+      "False": [
+        189760,
+        190604,
+        190116,
+        191020,
+        190076,
+        190403,
+        194,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "True": [
+        67,
+        53,
+        54,
+        43,
+        46,
+        56,
+        45,
+        51,
+        51,
+        63,
+        58,
+        48,
+        57,
+        55,
+        42,
+        46,
+        55,
+        49,
+        53,
+        49
+      ]
+    },
+    "populations": [
+      {
+        "is_fraud": false,
+        "n": 1428154,
+        "observed_score": 1142173
+      },
+      {
+        "is_fraud": true,
+        "n": 1302,
+        "observed_score": 1041
+      }
+    ],
+    "null_score_n": 286242,
+    "label": "is_fraud",
+    "normalization": "within outcome group"
+  }
+}
