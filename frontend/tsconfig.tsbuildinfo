@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/main.tsx","./src/api/client.ts","./src/api/mock.ts","./src/api/types.ts","./vite.config.ts"],"version":"5.6.3"}
+{"root":["./src/app.tsx","./src/format.ts","./src/i18n.ts","./src/main.tsx","./src/api/client.ts","./src/api/mock.ts","./src/api/types.ts","./src/components/agent.tsx","./src/components/audit.tsx","./src/components/chat.tsx","./src/components/login.tsx","./src/components/scenarios.tsx","./vite.config.ts"],"version":"5.6.3"}
