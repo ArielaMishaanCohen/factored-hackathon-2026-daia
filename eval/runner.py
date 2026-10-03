@@ -133,7 +133,7 @@ def worker(a: argparse.Namespace) -> int:
     out.mkdir(parents=True, exist_ok=False)
     manifest = Manifest(
         run_id=run_id, system=a.system, llm=a.llm, run_number=a.run_number, stage=a.stage, split=a.split,
-        cases_file=str(cases_file.relative_to(ROOT)), cases_sha256=cases_sha,
+        cases_file=cases_file.relative_to(ROOT).as_posix(), cases_sha256=cases_sha,
         case_ids=[c.case_id for c in correr], skipped_case_ids=saltados,
         git_commit=git("rev-parse", "HEAD"), git_dirty=bool(git("status", "--porcelain")),
         versions=Versions(
