@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# El runner compara SHA-256 del set congelado: conservar los mismos bytes en Windows/Linux.
+eval/cases/*.jsonl text eol=lf

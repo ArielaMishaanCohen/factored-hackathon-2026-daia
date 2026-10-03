@@ -120,7 +120,7 @@ manifest.json) con excepciones en .gitignore. Muéstrame el cambio a
 
 **Avísale a Ariela** si el `manifest.json` queda fuera: ella cambia `ultima_corrida()` en `construir_casos.py` para que busque `demo_scenarios.json`.
 
-- [ ] `data/runs` resuelto (opción ____)
+- [X] `data/runs` resuelto (opción 1: cinco archivos pequeños; descubrimiento por demo_scenarios.json, sin manifest)
 
 ---
 
@@ -197,7 +197,7 @@ con numerador, denominador y la nota "datos históricos, no es la misma carga
 que el set de evaluación". Muéstrame los números.
 ```
 
-- [ ] `eval/reports/b0.json` listo
+- [X] `eval/reports/b0.json` listo (regenerable con `python -m eval.baselines.status_quo`)
 
 ---
 
@@ -220,7 +220,7 @@ eval/baselines/README.md explicando B0 y B1 y qué comparte B1 con S.
 según eval/FORMATO_RESULTADOS.md.
 ```
 
-- [ ] B1 corre sobre dev y pasa por los graders
+- [X] B1 corre sobre dev y pasa por los graders (41 casos; corrida `20261001T233946Z-B1-without_gemini-r1-dev`; auditoría sin ML/LLM aprobada)
 
 ---
 
@@ -238,7 +238,7 @@ verified_fact si su valor coincide con data/gold/gold.duckdb según su source.
 Pruébalo con los handoffs de la salida de dev del Paso 2. Tests en tests/.
 ```
 
-- [ ] `eval/graders_handoff.py` con tests en verde
+- [X] `eval/graders_handoff.py` con tests en verde (integrado con contexto de casos operativos; 14/14 handoffs de B1 dev)
 
 ---
 
@@ -260,8 +260,8 @@ SLA. Escribe cada supuesto con su fuente. Rotula todo como "proyección
 offline". Pruébalo con tasa 0,30 a 0,40.
 ```
 
-- [ ] Cálculo listo (falta la tasa real)
-- [ ] Con la tasa real del Paso 11
+- [X] Cálculo listo (falta la tasa real; ejemplo 0,30–0,40 rotulado ilustrativo)
+- [X] Con la tasa real del Paso 11 (media S con Gemini 48,47 %, rango 47,70–49,43 %; `eval/reports/impacto_final.json`)
 
 ---
 
@@ -309,6 +309,8 @@ Cada falla del held-out se clasifica: NLU, identificación de transacción, pol�
 ### Paso 11 · [Ambos] 3 corridas finales
 
 S con y sin Gemini, y B1: 3 corridas cada uno, con media y rango. Diego corre el 6.5 con la tasa resultante.
+
+- [X] Tanda de Diego completada el 1-oct: nueve ejecuciones, 189 casos cada una, sin errores del runner. Ver `docs/eval_corridas_finales.md` para resultados, versiones, alertas e impacto. Conservar esta tanda si se realizan correcciones posteriores.
 
 ### Paso 12 · [Ambos] `docs/eval_report.md`
 

@@ -27,7 +27,8 @@ Decisiones que no están en SCHEMA.md:
 
 Grader de handoff (Paso 6, Diego): si existe eval/graders_handoff.py con
 
-    def grade_handoff(handoff: HandoffPackage, case_id: str) -> list[dict]
+    def grade_handoff(handoff: HandoffPackage, case_id: str, *,
+                      cases=None, expected_customer_id=None) -> list[dict]
 
 donde cada dict trae `field`, `expected`, `observed`, `verdict`, `evidence` y opcional `detail`,
 sus veredictos entran como `kind = handoff` y alimentan `handoff_completeness`. Sin el archivo, la
@@ -36,6 +37,7 @@ métrica queda en `null` con una nota.
 from __future__ import annotations
 
 import argparse
+import inspect
 import hashlib
 import json
 import os
@@ -63,7 +65,7 @@ from eval.formato import (  # noqa: E402
     write_json,
 )
 
-GRADER_VERSION = "1.0.0"
+GRADER_VERSION = "1.1.0"
 REPORTS = ROOT / "eval" / "reports"
 SEMBRADO = "sembrado-eval"            # policy_version de los casos que siembra el runner
 MIN_N = 10                            # advertencia en slices chicos
@@ -624,7 +626,10 @@ def calificar_caso(res: CaseResult, case: Case, gold: Gold | None = None,
     if handoff_grader is not None:
         for h in res.handoffs:
             try:
-                for d in handoff_grader(h, case.case_id):
+                context = {"cases": res.cases, "expected_customer_id": case.customer_id}
+                parameters = inspect.signature(handoff_grader).parameters
+                context = {k: v for k, v in context.items() if k in parameters}
+                for d in handoff_grader(h, case.case_id, **context):
                     # la evidencia empieza siempre con handoffs[<id>]: resumir() agrupa por handoff con eso
                     gs.append(G(d["field"], d.get("expected"), d.get("observed"), d["verdict"],
                                 f"handoffs[{h.handoff_id}]" + (f" {d['evidence']}" if d.get("evidence") else ""),

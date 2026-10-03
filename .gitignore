@@ -4,7 +4,14 @@ env/
 
 # Datos y artefactos pesados (se regeneran con make data)
 /data_exploracion/
-/data/runs/
+/data/runs/*
+!/data/runs/20260929T234658Z-7cf922c1/
+/data/runs/20260929T234658Z-7cf922c1/*
+!/data/runs/20260929T234658Z-7cf922c1/demo_scenarios.json
+!/data/runs/20260929T234658Z-7cf922c1/metricas_problema.json
+!/data/runs/20260929T234658Z-7cf922c1/policy_calibration.json
+!/data/runs/20260929T234658Z-7cf922c1/backend_acceptance.json
+!/data/runs/20260929T234658Z-7cf922c1/policy.yaml
 /data/gold/gold_full.duckdb
 #*.duckdb
 #*.duckdb.wal

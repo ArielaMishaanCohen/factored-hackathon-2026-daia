@@ -49,7 +49,10 @@ def _norm(s: str) -> str:
 
 
 def ultima_corrida() -> Path:
-    return max((ROOT / "data" / "runs").glob("*/manifest.json")).parent
+    corridas = list((ROOT / "data" / "runs").glob("*/demo_scenarios.json"))
+    if not corridas:
+        raise FileNotFoundError("Falta data/runs/<run_id>/demo_scenarios.json")
+    return max(corridas).parent
 
 
 def tx_gold(transaction_id: str) -> dict:
