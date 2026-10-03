@@ -306,17 +306,22 @@ la tabla principal sin interpretarla todavía.
 
 Cada falla del held-out se clasifica: NLU, identificación de transacción, política, herramienta o redacción. Se eligen 5–10 ejemplos con su traza para el reporte y una slide. Lo que se arregle en el sistema se anota (regla de oro 2).
 
+- [X] `docs/eval_analisis_errores.md`: taxonomía de las corridas finales (S con Gemini, revisada a mano; S sin Gemini y B1, automática), 8 ejemplos con traza, alertas revisadas (multilingue-010 se mantiene; las dos de B1 son falsos positivos del grader) y cambios de la primera corrida a la final (`be2d9fc`)
+
 ### Paso 11 · [Ambos] 3 corridas finales
 
 S con y sin Gemini, y B1: 3 corridas cada uno, con media y rango. Diego corre el 6.5 con la tasa resultante.
 
 - [X] Tanda de Diego completada el 1-oct: nueve ejecuciones, 189 casos cada una, sin errores del runner. Ver `docs/eval_corridas_finales.md` para resultados, versiones, alertas e impacto. Conservar esta tanda si se realizan correcciones posteriores.
+- [X] Verificación independiente de Ariela (2-oct): las 9 corridas se recalificaron desde `results.jsonl` en una copia aparte con el grader 1.1.0. Los veredictos caso por caso son idénticos y la resolución segura coincide (S con Gemini 83/86/84, media 48,47 %; S sin Gemini 79 ×3; B1 63 ×3). Nota: los manifest de Diego guardan `cases_file` con `\` (Windows); para recalificar en Mac/Linux hubo que normalizarlo en la copia.
 
 ### Paso 12 · [Ambos] `docs/eval_report.md`
 
 - **Ariela:** métricas, desagregación por idioma y segmento, variabilidad, errores y la comparación primera corrida → final.
 - **Diego:** B0, B1, impacto de negocio y limitaciones de datos: los 4 casos con transacciones de la demo (R7 por score y R9), Student con n chica, ningún cliente de Brasil, política sintética.
 - **Los dos:** versiones de modelo, prompts, política y datos (sale del `manifest.json` de cada corrida).
+
+- [X] `docs/eval_report.md` integrado (2-oct). Falta que Diego revise las secciones 8 y 9 (B0, impacto y limitaciones de datos)
 
 ### Paso 13 · [Ariela] Subir y marcar la Fase 6
 
