@@ -31,8 +31,8 @@ RUN_GEMINI = RUNS_DIR / "20260929-192926_gemini_zeroshot_test.json"
 TAU, TAU_GEMINI = 0.81, 0.80  # config/policy.yaml
 ABSTIENE = "aclara"
 
-# Semántica común app + slides (propuesta; cambiar aquí si Ignacio fija otros hex).
-VERDE, AMBAR, ROJO = "#1f9d55", "#e0a100", "#d64545"
+# Semántica común app + slides.
+VERDE, AMBAR, ROJO = "#1e8e5a", "#d99100", "#c5372c"  # --ok, --warn, --bad de frontend/src/styles.css
 
 
 def predicciones() -> tuple[list[dict], list[str], list[str]]:

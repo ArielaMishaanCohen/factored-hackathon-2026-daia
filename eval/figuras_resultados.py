@@ -34,8 +34,8 @@ CASOS = ROOT / "eval/cases/heldout.jsonl"
 FIGURAS = ROOT / "docs/figures"
 
 # Semántica común app + slides (la misma de ml/intent/matriz_abstencion.py).
-VERDE, AMBAR, ROJO = "#1f9d55", "#e0a100", "#d64545"
-ROJO_OSCURO, GRIS, AZUL_GRIS = "#8f1d1d", "#a3a29c", "#6b7a8f"
+VERDE, AMBAR, ROJO = "#1e8e5a", "#d99100", "#c5372c"  # --ok, --warn, --bad de frontend/src/styles.css
+ROJO_OSCURO, GRIS, AZUL_GRIS = "#8b1f16", "#a3a29c", "#6b7a8f"
 TINTA, TINTA_2, FONDO = "#0b0b0b", "#52514e", "#fcfcfb"
 
 DESENLACES = {  # orden de arriba abajo, etiqueta, color
