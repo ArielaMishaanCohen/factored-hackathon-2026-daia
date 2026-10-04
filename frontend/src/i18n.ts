@@ -37,6 +37,9 @@ const D = {
   "login.segment": { es: "Segmento", pt: "Segmento" },
 
   // Chat
+  "chat.new": { es: "Nueva conversación", pt: "Nova conversa" },
+  "chat.resetDemo": { es: "Reiniciar demo", pt: "Reiniciar demo" },
+  "chat.resetWarning": { es: "¿Reiniciar este cliente demo? Se borrarán sus conversaciones, casos, bloqueos simulados y trazas. Los demás clientes se conservan.", pt: "Reiniciar este cliente demo? Suas conversas, contestações, bloqueios simulados e rastros serão apagados. Os demais clientes serão preservados." },
   "chat.placeholder": { es: "Escribe tu mensaje", pt: "Escreva sua mensagem" },
   "chat.send": { es: "Enviar", pt: "Enviar" },
   "chat.confirm": { es: "Confirmar", pt: "Confirmar" },

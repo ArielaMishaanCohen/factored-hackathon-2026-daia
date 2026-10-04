@@ -96,6 +96,14 @@ def transaction(customer_id: str, transaction_id: str) -> dict | None:
 
 # --- Tarjetas -----------------------------------------------------------------------
 
+def customer_cards(customer_id: str) -> list[dict]:
+    """Tarjetas propias, sin depender de que tengan transacciones recientes."""
+    if using_gold():
+        return _query("SELECT product_id, customer_id, card_mask, status FROM cards WHERE customer_id = ?",
+                      [customer_id])
+    return [c for c in stub_data.CARDS if c["customer_id"] == customer_id]
+
+
 def card(customer_id: str, product_id: str) -> dict | None:
     if using_gold():
         rows = _query("SELECT product_id, customer_id, card_mask, status FROM cards "

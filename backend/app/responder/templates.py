@@ -30,6 +30,18 @@ TEMPLATES: dict[str, dict[str, str]] = {
         "es": "Encontré el cargo de {amount} {currency} del {date}. ¿Quieres que registre la disputa?",
         "pt": "Encontrei a cobrança de {amount} {currency} de {date}. Deseja que eu registre a contestação?",
     },
+    "choose_card": {
+        "es": "Primero podemos bloquear la tarjeta para protegerte. ¿Cuáles son sus últimos cuatro dígitos? Tus tarjetas: {cards}.",
+        "pt": "Primeiro podemos bloquear o cartão para sua proteção. Quais são os últimos quatro dígitos? Seus cartões: {cards}.",
+    },
+    "already_blocked": {
+        "es": "La tarjeta {card} ya está bloqueada.",
+        "pt": "O cartão {card} já está bloqueado.",
+    },
+    "optional_charges": {
+        "es": "Si también hay algún cargo que no reconoces, dime su monto, fecha o comercio para revisarlo. Si todos son tuyos, no necesitas abrir una disputa.",
+        "pt": "Se também houver alguma cobrança que não reconhece, informe o valor, a data ou o estabelecimento para revisá-la. Se todas forem suas, não precisa abrir uma contestação.",
+    },
     "confirm_block": {
         "es": "Para protegerte, te recomiendo bloquear la tarjeta {card}. ¿La bloqueo?",
         "pt": "Para sua proteção, recomendo bloquear o cartão {card}. Posso bloquear?",

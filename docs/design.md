@@ -153,7 +153,7 @@ class NLUResult(BaseModel):
 **Notas:**
 
 - R0 y R1 se aplican antes de mirar cualquier dato de la transacción. R1 nunca confirma que un `transaction_id` existe.
-- Intención `tarjeta_comprometida` (ajustado el 30-sep, D3.x): el bloqueo se propone **en cuanto se identifica la transacción**, para la tarjeta de **esa** transacción y **sea cual sea la regla** (también R2–R6). No se propone antes porque 44 de los 108 clientes de gold tienen más de una tarjeta activa: sin la transacción no se sabe cuál bloquear. Después del bloqueo (o si el cliente lo rechaza) se sigue con la decisión de la política; si es informativa (R2–R5), se informa y se hace handoff a la cola `fraude` sin caso. Si la tarjeta ya está bloqueada, no se vuelve a proponer.
+- Intención `tarjeta_comprometida`: si no se identificó un cargo específico, se ofrece primero el bloqueo sin exigir una transacción. Si el cliente tiene varias tarjetas, se identifica la reportada por sus últimos cuatro dígitos (solo tarjetas propias); luego se pide confirmación explícita y se verifica el bloqueo. No se crea una disputa automáticamente: se invita al cliente a reportar cargos solo si no los reconoce. Si ya identificó un cargo concreto, se conserva el flujo de política y confirmaciones existente. Una tarjeta ya bloqueada no se vuelve a bloquear.
 - En R6–R11 **sí** se crea el caso (con la prioridad de la tabla) antes del handoff, con confirmación del cliente. Si el cliente no confirma, se hace handoff sin caso.
 - `fraud_score` y el motivo de riesgo **no** se muestran al cliente ni se envían al LLM de redacción. El cliente solo ve "tu caso requiere revisión de un especialista".
 

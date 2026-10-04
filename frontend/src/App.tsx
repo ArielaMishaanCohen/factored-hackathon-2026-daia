@@ -150,6 +150,19 @@ export default function App() {
     try { await api.expireSession(); setRevoked(true); } catch { /* si ya expiró, el próximo envío lo muestra */ }
   };
 
+  const restartDemo = async () => {
+    if (busyRef.current || !window.confirm(t(lang, "chat.resetWarning"))) return;
+    busyRef.current = true; setBusy(true);
+    try {
+      await api.resetDemo();
+      resetConversation();
+      setCaseRefresh((n) => n + 1); setAgentRefresh((n) => n + 1);
+      setAgentSel(null); setSeenCount(null);
+    } catch (e) {
+      setItems((l) => [...l, { id: nextId.current++, from: "err", text: (e as Error).message }]);
+    } finally { busyRef.current = false; setBusy(false); }
+  };
+
   const shownTurn = turns.length ? turns[selTurn ?? turns.length - 1] : null;
   const unseen = seenCount === null ? 0 : Math.max(0, agent.handoffs.length - seenCount);
 
@@ -167,6 +180,8 @@ export default function App() {
               <span className="chip accent" title={t(lang, "chat.detected")}>{lang.toUpperCase()}</span>
               <span className="sp" />
               <button className="btn small mobile-nav" onClick={() => setView("inspector")}>{t(uiLang, "ins.audit")}</button>
+              <button className="btn small" disabled={busy} onClick={resetConversation}>{t(lang, "chat.new")}</button>
+              <button className="btn small" disabled={busy || revoked} onClick={restartDemo}>{t(lang, "chat.resetDemo")}</button>
               <button className="btn small" onClick={expire} disabled={revoked}>{t(lang, "chat.endSession")}</button>
               <button className="btn small ghost" onClick={leave}>{t(lang, "chat.leave")}</button>
             </header>

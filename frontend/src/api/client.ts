@@ -43,6 +43,7 @@ export const api = {
   login: (customer_id: string, otp: string): Promise<LoginResponse> =>
     USE_MOCK ? Promise.resolve(mockLogin()) : call("POST", "/auth/login", { customer_id, otp }),
   agentLogin: (agent_id: string, otp: string): Promise<LoginResponse> => call("POST", "/auth/agent-login", { agent_id, otp }, "agent"),
+  resetDemo: (): Promise<void> => call("POST", "/auth/demo/reset"),
   expireSession: (): Promise<void> => call("POST", "/auth/demo/expire"),
   chat: (req: ChatRequest): Promise<ChatResponse> => (USE_MOCK ? Promise.resolve(mockChat(req)) : call("POST", "/chat", req)),
   cases: (): Promise<CasesResponse> => (USE_MOCK ? Promise.resolve({ cases: [] }) : call("GET", "/cases")),

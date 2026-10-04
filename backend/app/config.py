@@ -19,7 +19,7 @@ def _bool(name: str, default: bool) -> bool:
 
 @dataclass(frozen=True)
 class Settings:
-    jwt_secret: str = field(default_factory=lambda: os.environ.get("JWT_SECRET", "dev-secret-solo-local-cambiar-en-env-0000"))
+    jwt_secret: str = field(default_factory=lambda: (os.environ.get("JWT_SECRET") or "dev-secret-solo-local-cambiar-en-env-0000"))
     jwt_ttl_minutes: int = field(default_factory=lambda: int(os.environ.get("JWT_TTL_MINUTES", "15")))
     demo_mode: bool = field(default_factory=lambda: _bool("DEMO_MODE", True))
     demo_otp: str = field(default_factory=lambda: os.environ.get("DEMO_OTP", "123456"))

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections import Counter
+from threading import Lock
 
 from fastapi import APIRouter, Depends, FastAPI, Header
 from fastapi.responses import FileResponse
@@ -16,11 +17,12 @@ from .orchestrator import handle_chat
 from .schemas import (AgentLoginRequest, CasesResponse, ChatRequest, ChatResponse, DemoCustomer,
                       DemoCustomersResponse, HandoffPackage, HandoffsResponse, HandoffSummary,
                       HealthResponse, LoginCustomer, LoginRequest, LoginResponse, Session, Trace)
-from .store import flush, store
+from .store import flush, reset_demo_customer, store
 from .tools import data_source
 
 app = FastAPI(title="LATAM Bank · Disputas", version="0.1.0")
 register_error_handlers(app)
+_chat_reset_lock = Lock()
 
 
 @app.middleware("http")
@@ -78,6 +80,17 @@ def expire_session(session: Session = Depends(require_role("customer"))):
     store.revoked_sessions.add(session.session_id)
 
 
+@api.post("/auth/demo/reset", status_code=204)
+def reset_demo(session: Session = Depends(require_role("customer"))):
+    if not get_settings().demo_mode:
+        raise APIError("NOT_FOUND", "No disponible.")
+    if not any(c["customer_id"] == session.customer_id for c in data_source.demo_customers()):
+        raise APIError("NOT_FOUND", "Cliente demo no encontrado.")
+    products = {c["product_id"] for c in data_source.customer_cards(session.customer_id)}
+    with _chat_reset_lock:
+        reset_demo_customer(session.customer_id, products, session.session_id)
+
+
 # --- Chat y consultas -----------------------------------------------------------
 
 @api.post("/chat", response_model=ChatResponse)
@@ -87,7 +100,8 @@ def chat(req: ChatRequest, session: Session = Depends(require_role("customer")),
     forced = {t.strip() for t in (x_fault_inject or "").split(",") if t.strip()}
     token = faults.set_forced(forced if get_settings().fault_injection else set())
     try:
-        return handle_chat(session, req)
+        with _chat_reset_lock:
+            return handle_chat(session, req)
     finally:
         faults.reset_forced(token)
 

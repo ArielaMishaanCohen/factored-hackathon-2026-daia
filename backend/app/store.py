@@ -133,6 +133,27 @@ def simulate_restart() -> None:
         _load()
 
 
+def reset_demo_customer(customer_id: str, product_ids: set[str], session_id: str) -> None:
+    """Reinicia solo este cliente en memoria y SQLite; conserva secuencias y revocaciones."""
+    with _lock:
+        sessions = {c.session_id for c in store.conversations.values() if c.customer_id == customer_id}
+        sessions.add(session_id)
+        targets = {
+            "conversations": [k for k, v in store.conversations.items() if v.customer_id == customer_id],
+            "cases": [k for k, v in store.cases.items() if v.customer_id == customer_id],
+            "card_blocks": [k for k in store.card_blocks if k in product_ids],
+            "pending_actions": [k for k, v in store.pending_actions.items() if v.session_id in sessions],
+            "handoffs": [k for k, v in store.handoffs.items() if v.customer.customer_id == customer_id],
+            "traces": [k for k, v in store.traces.items() if v.customer_id == customer_id],
+        }
+        with _db:
+            for table, ids in targets.items():
+                _db.executemany(f"DELETE FROM {table} WHERE id = ?", [(k,) for k in ids])
+        for table, ids in targets.items():
+            for k in ids:
+                getattr(store, table).pop(k, None)
+
+
 def reset_store() -> None:
     """Borra TODO (memoria y SQLite). Lo usan los tests y la evaluación entre casos."""
     with _lock:
