@@ -199,8 +199,7 @@ export default function App() {
         </div>
         {inspector === "audit"
           ? <AuditPanel rec={shownTurn} lang={uiLang} />
-          : <AgentConsole agent={agent} lang={uiLang} selected={agentSel} setSelected={setAgentSel}
-              onTrace={() => { /* la traza completa del agente se ve en /api/traces/{id}; aquí basta el resumen */ }} />}
+          : <AgentConsole agent={agent} lang={uiLang} selected={agentSel} setSelected={setAgentSel} />}
       </aside>
     </div>
   );

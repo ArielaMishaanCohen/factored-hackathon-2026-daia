@@ -270,7 +270,6 @@ const D = {
   "ag.m.p95": { es: "Turno p95", pt: "Turno p95" },
   "ag.m.cost": { es: "Costo total", pt: "Custo total" },
   "ag.m.rules": { es: "Reglas aplicadas", pt: "Regras aplicadas" },
-  "ag.trace": { es: "Ver traza", pt: "Ver rastro" },
 } satisfies Record<string, Entry>;
 
 export type Key = keyof typeof D;
@@ -331,7 +330,6 @@ const EN: Partial<Record<Key, string>> & Record<string, string> = {
   "ag.fact.transaction_id": "Transaction", "ag.fact.amount": "Amount", "ag.fact.business_date": "Date", "ag.fact.fraud_score": "Fraud score",
   "ag.fact.case_id": "Case", "ag.null": "null", "ag.metrics": "Operations", "ag.m.conversations": "Conversations", "ag.m.cases": "Cases created",
   "ag.m.handoffRate": "Go to a human", "ag.m.p50": "Turn p50", "ag.m.p95": "Turn p95", "ag.m.cost": "Total cost", "ag.m.rules": "Rules applied",
-  "ag.trace": "View trace",
 };
 
 export function t(lang: UiLang, key: Key): string {

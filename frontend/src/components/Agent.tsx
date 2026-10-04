@@ -79,7 +79,7 @@ function Metrics({ m, lang }: { m: OpsMetrics; lang: UiLang }) {
   );
 }
 
-function Detail({ id, lang, onTrace }: { id: string; lang: UiLang; onTrace: (traceId: string) => void }) {
+function Detail({ id, lang }: { id: string; lang: UiLang }) {
   const [pkg, setPkg] = useState<HandoffPackage | null>(null);
   const now = useNow(30_000);
   useEffect(() => { setPkg(null); api.handoff(id).then(setPkg).catch(() => setPkg(null)); }, [id]);
@@ -154,7 +154,6 @@ function Detail({ id, lang, onTrace }: { id: string; lang: UiLang; onTrace: (tra
 
       <footer style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
         <span className="mono-small">{pkg.handoff_id} · {tDyn(lang, `ag.reason.${pkg.handoff_reason}`)} · {fmtDateTime(pkg.created_at, lang)}</span>
-        <button className="btn small" onClick={() => onTrace(pkg.trace_id)}>{t(lang, "ag.trace")}</button>
       </footer>
     </article>
   );
@@ -164,8 +163,8 @@ function FactRow({ lang, fact, value }: { lang: UiLang; fact: string; value: str
   return (<><dt>{tDyn(lang, `ag.fact.${fact}`, fact)}</dt><dd>{value === "nulo" ? t(lang, "ag.null") : String(value)}</dd></>);
 }
 
-export function AgentConsole({ agent, lang, selected, setSelected, onTrace }: {
-  agent: AgentState; lang: UiLang; selected: string | null; setSelected: (id: string) => void; onTrace: (traceId: string) => void;
+export function AgentConsole({ agent, lang, selected, setSelected }: {
+  agent: AgentState; lang: UiLang; selected: string | null; setSelected: (id: string) => void;
 }) {
   const { status, handoffs, metrics, fresh } = agent;
   const current = selected ?? handoffs[0]?.handoff_id ?? null;
@@ -196,7 +195,7 @@ export function AgentConsole({ agent, lang, selected, setSelected, onTrace }: {
           })}
         </div>
       </section>
-      {current ? <Detail id={current} lang={lang} onTrace={onTrace} /> : status === "ok" && handoffs.length > 0 ? <p className="panel-empty">{t(lang, "ag.pick")}</p> : null}
+      {current ? <Detail id={current} lang={lang} /> : status === "ok" && handoffs.length > 0 ? <p className="panel-empty">{t(lang, "ag.pick")}</p> : null}
     </div>
   );
 }
