@@ -1,6 +1,6 @@
 # Operación · LATAM Bank · Intake de disputas
 
-**Dueño:** rol C (backend) · **Fase:** 7 · **Estado:** vigente para la demo del hackathon
+**Estado:** configuración operativa de la demo del hackathon
 **Cubre:** pilar 6 del reto, "ruta creíble a operación" (tracing, reintentos acotados, fallback seguro, setup reproducible).
 
 Este documento explica cómo se corre, se vigila y se recupera el sistema, y qué falta para producción real. Todo lo que se afirma aquí está implementado y probado (`tests/`), salvo lo marcado explícitamente como **pendiente**.
@@ -27,7 +27,7 @@ Este documento explica cómo se corre, se vigila y se recupera el sistema, y qu�
 | `DEMO_OTP` | `123456` | OTP **de prueba**, documentado como tal |
 | `DEMO_AGENT_ID` | `AGT-DEMO` | Login de la consola del agente humano |
 | `FAULT_INJECTION` | `false` | En `true`, el header `X-Fault-Inject: <herramienta>` simula un timeout. **Siempre `false` en el link público** |
-| `GEMINI_API_KEY` / `GEMINI_MODEL` | Rol B | Sin llave, el sistema funciona con reglas y plantillas (fallback) |
+| `GEMINI_API_KEY` / `GEMINI_MODEL` | Configurados en el entorno del servicio | Sin llave, el sistema funciona con reglas y plantillas (fallback) |
 | `GOLD_DB_PATH` / `OPS_DB_PATH` | Por defecto `data/gold/gold.duckdb` y `data/ops.sqlite` | Rutas de datos |
 
 ---
@@ -85,7 +85,7 @@ Cada conversación tiene un `trace_id`, y cada turno guarda:
  "latency_ms": 4, "tool_errors": [], "cost_usd": 0.0}
 ```
 
-La evaluación (Fase 6) califica los casos leyendo estos campos. **Su forma no cambia sin avisar al equipo.**
+La evaluación (Fase 6) califica los casos leyendo estos campos. Los campos y versiones permiten vincular cada resultado con su ejecución.
 
 ---
 
@@ -97,7 +97,7 @@ La evaluación (Fase 6) califica los casos leyendo estos campos. **Su forma no c
 | Sigue fallando tras los reintentos | **Nunca** dice "listo". Registra la acción como `failed` y hace handoff con `TOOL_FAILURE` y una pregunta abierta para el humano | `test_timeout_al_crear_caso_hace_handoff_y_no_miente` |
 | La acción "se hizo" pero no se ve al releer | Igual que arriba: la verificación posterior manda sobre la respuesta de la herramienta | `_execute_case`, `_execute_block` |
 | Falla hasta el handoff | Mensaje seguro al cliente, sin inventar números de caso | `_handoff` |
-| Gemini no responde (rol B) | Extracción por reglas y respuestas por plantilla (`source: "template"`) | Contrato de B |
+| Gemini no responde | Extracción por reglas y respuestas por plantilla (`source: "template"`) | Contrato de B |
 | Sesión expirada o token inválido | `401` sin revelar nada | `test_expired_session` |
 | Reinicio del servidor | Todo el estado se recarga desde SQLite; una confirmación pendiente sigue siendo válida | `test_persistencia.py` |
 | Doble clic en "Confirmar" | Token de un solo uso + creación idempotente: un solo caso | `test_happy_path_creates_verified_case` |
@@ -130,7 +130,7 @@ En la demo las alertas se revisan a mano. En producción se exportarían a una h
 - **El `customer_id` sale siempre del token.** Toda consulta de datos del cliente lleva `WHERE customer_id = ?` dentro del SQL (`tools/data_source.py`).
 - **Transacción de otro cliente = "no encontrada"**, el mismo mensaje que si no existiera (R1).
 - **Minimización:** gold no tiene documento, dirección, teléfono ni correo. `fraud_score` nunca llega al cliente ni al LLM de redacción.
-- **Secretos:** solo en variables de entorno (`.env` local, panel de Render). `.env` está en `.gitignore`, y el historial se revisó sin llaves (`git log -S "AKIA"` vacío).
+- **Secretos:** solo en variables de entorno (`.env` local, panel de Render). `.env` está excluido de Git. Una búsqueda por un prefijo de llaves no sustituye una auditoría completa de secretos.
 - **Acciones con efecto** (crear caso, bloquear tarjeta): exigen un token de confirmación firmado (HMAC), ligado a acción + objeto + sesión, de un solo uso y con vencimiento a los 5 minutos. El LLM nunca lo ve.
 
 ---
@@ -142,8 +142,8 @@ En la demo las alertas se revisan a mano. En producción se exportarían a una h
 | Render Free se duerme tras 15 min sin uso | El primer request tarda ~1 min | Aviso en el README; opción de plan pago durante la evaluación |
 | Disco efímero en Render Free | Al dormir o redesplegar, `ops.sqlite` vuelve a vacío | Aceptable: cada demo empieza limpia. En producción, Postgres o disco persistente |
 | SQLite + un proceso | Un solo worker de uvicorn; el estado se guarda al final de cada request | Suficiente para la demo. Para escalar: Postgres y varios workers |
-| 512 MB de RAM, 0.1 CPU | Gold debe ser un subconjunto (clientes de demo), no los 4,4 M de transacciones | Rol A genera gold reducido para el deploy |
-| Capa gratuita de Gemini (rol B) | Límite de requests por minuto | Fallback a plantillas; caché y control de ritmo en la evaluación |
+| 512 MB de RAM, 0.1 CPU | Gold debe ser un subconjunto (clientes de demo), no el histórico completo | Gold reducido incluido en la imagen |
+| Cuota y disponibilidad de Gemini | Depende del modelo y de la cuenta configurada | Fallback a plantillas; caché y control de ritmo en la evaluación |
 
 ---
 

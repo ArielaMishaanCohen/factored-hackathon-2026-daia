@@ -1,5 +1,7 @@
 # Notas de Datos — Factored Hackathon 2026
 
+> Anexo de exploración inicial. Los hallazgos describen esa muestra; el tratamiento implementado y las poblaciones de entrega están en [contratos de datos](data_contracts.md) y [reporte final](eval_report.md). Las tareas exploratorias no son requisitos pendientes para ejecutar la demo.
+
 > Hallazgos del análisis exploratorio (EDA) del dataset **LATAM Bank v1.0.0**.
 > Fecha: 27 de septiembre de 2026.
 > Scripts: `explorar.py`, `probar.py`, `eda_1.py`, `eda_2.py`, `eda3.py`.

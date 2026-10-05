@@ -2,7 +2,7 @@
 
 **Dueño:** B · **Fecha:** 29-sep-2026 · **Decisión:** D4.3 en `docs/decisions.md`
 **Modelo servido:** `tfidf_lr-C10-20260930-18569ee2` (desde el 30-sep, con el lote de fuera de alcance de D4.6; antes `tfidf_lr-C10-20260929-17b293b7`) (`ml/intent/model/`, se regenera con `make train`)
-**Umbral:** `tau_intencion: 0.81` en `config/policy.yaml` (política 1.2.0)
+**Umbral:** `tau_intencion: 0.81` en `config/policy.yaml` (introducido en política 1.2.0; vigente en 1.3.0)
 
 ## 1. Resumen
 
@@ -19,7 +19,7 @@ TF-IDF (palabras + n-gramas de caracteres) + regresión logística, C = 10. Gana
 ## 2. Uso previsto
 
 - **Qué hace:** recibe el mensaje del cliente (ES, PT o mezcla) y devuelve una de 5 intenciones (`cargo_no_reconocido`, `cobro_incorrecto`, `tarjeta_comprometida`, `estado_disputa`, `fuera_de_alcance`) con una confianza entre 0 y 1: la probabilidad de la clase más probable.
-- **Dónde:** `backend/app/nlu/classifier.py`, detrás de `understand()`. Si la confianza es menor que τ, el bot no actúa y le pide al cliente que aclare (`abstain`). Si el modelo no carga, el NLU cae al stub de palabras clave y lo registra.
+- **Dónde:** `backend/app/nlu/classifier.py`, detrás de `understand()`. Si la confianza es menor que τ, el sistema consulta una segunda opinión de Gemini cuando está habilitado (D4.5), antes de aplicar la ruta determinista de aclaración o búsqueda. La comparación del clasificador solo usa abstención bajo τ. Si el modelo no carga, el NLU cae al stub de palabras clave y lo registra.
 - **Qué no hace:** no extrae monto, fecha ni comercio (Fase 4.3, Gemini). No decide acciones: la intención solo elige el camino del flujo determinista (D1.1), y las acciones pasan por las reglas de política y una confirmación explícita del cliente.
 - **Fuera de uso:** mensajes en otros idiomas, conversaciones de varios turnos como una sola entrada y cualquier decisión que no pase por la política.
 

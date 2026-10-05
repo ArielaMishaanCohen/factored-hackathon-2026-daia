@@ -3,7 +3,9 @@
 Estado al 1-oct-2026: implementación, validación dev y nueve ejecuciones finales
 completadas. Resultados finales e impacto actualizado en [eval_corridas_finales.md](eval_corridas_finales.md).
 Las secciones siguientes conservan la evidencia de desarrollo y el ejemplo
-ilustrativo inicial. Pendiente integrar el reporte conjunto y revisar las alertas.
+ilustrativo inicial. El [reporte conjunto final](eval_report.md) integra los resultados,
+las alertas revisadas y las limitaciones. Los ejemplos de desarrollo de este anexo
+no sustituyen los números finales.
 
 ## B0: contexto histórico, no es la misma carga
 
@@ -68,9 +70,9 @@ Recalcular con media y rango de las corridas finales y registrar sus IDs.
 - Grader actualizado a 1.1.0: al integrar, recalificar las salidas guardadas con
   esa versión, preservando la identificación de primera corrida y corridas finales.
 
-## Entrega y aclaración del CSV
+## Proveniencia de la muestra revisada
 
-No se abrió ni guardó el CSV en Excel. El archivo recibido en Downloads conserva
+La muestra original revisada conserva
 SHA-256 `965e2eba67c21032b2120318cf82a49d6a1ca37001d270b9f4d966a495630740`.
 La copia actual de Git tiene SHA-256
 `e4bca31710d2d356b94e89f16082a342e003bd7342e13516c7d05440e5c1d8f8`.
@@ -92,5 +94,5 @@ correcto para el archivo que se revisó. No se alteró ninguna de las dos copias
   Tras restituir LF, heldout coincide con el hash congelado del runner:
   `4560d282690ae4923bb4e627005c354dd45b74a25482a64758c92cb3366b7cd3`.
 - Durante la implementación no se ejecutó una nueva corrida held-out ni se modificó backend/ML.
-  Las dos integraciones autorizadas son descubrimiento de corrida en el generador
-  y paso de contexto operativo al grader de handoff. No hay commit ni push de esta entrega.
+  El generador descubre la corrida por sus semillas y el grader de handoff recibe
+  el contexto de los casos operativos.

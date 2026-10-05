@@ -1,5 +1,7 @@
 # Decisiones · Fase 0
 
+> Registro de la elección inicial del problema. Las propuestas reflejan esa fecha; el estado implementado está en el [README](../README.md) y el [reporte final](eval_report.md).
+
 **Fecha:** 27 de septiembre de 2026
 **Evidencia:** `analysis/01_exploracion.ipynb` (las secciones citadas entre paréntesis son de ese notebook)
 
@@ -134,7 +136,7 @@ Lo que está bien: 0 duplicados, 0 huérfanos en las 9 relaciones con datos, ran
 
 ---
 
-## 8. Siguientes pasos (roadmap 2)
+## 8. Propuestas iniciales y seguimiento
 
 1. Definir la política de disputas: umbrales de monto por tipo de transacción (p. ej., p90 de compras = USD 450; transferencias hasta USD 10k), ventana de reclamo, qué se revierte, qué se escala.
 2. Diseñar las herramientas sobre `transactions` (buscar candidatas, ver detalle, crear caso con el esquema de `complaints`, escalar con handoff).

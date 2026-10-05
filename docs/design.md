@@ -1,29 +1,14 @@
 # Diseño · Intake de disputas de transacciones
 
 **Versión:** 1.0 · 28 de septiembre de 2026
-**Estado:** congelado. Cambios solo por PR (ver sección 0). Decisiones asociadas: D1.5–D1.10 en `decisions.md`.
-**Complementa:** `decisions_fase_0.md` (por qué este flujo), `decisions.md` (qué se decidió y por qué), `roadmap_fases_1_a_8.md` (plan).
+**Estado:** contratos de referencia de la implementación. Decisiones asociadas: D1.5–D1.10 en `decisions.md`. Los ejemplos de política son históricos; la configuración vigente es `config/policy.yaml` v1.3.0.
+**Complementa:** `decisions_fase_0.md` (por qué este flujo), `decisions.md` (qué se decidió y por qué).
 
 ---
 
-## 0. Cómo usar este documento
+## 0. Referencias de implementación
 
-- Todo lo que está aquí es un **contrato**: los cuatro roles construyen en paralelo contra estas definiciones. Si tu parte cumple el contrato, se integra sin sorpresas el miércoles.
-- **Cambiar un contrato** después del 1.0: PR que toque este archivo + aviso en el grupo + subir la versión menor (1.1, 1.2…). Nadie cambia una firma, un campo o un código de error "en silencio".
-- **Fuente única en código:** los modelos Pydantic de las secciones 2 a 6 viven en `backend/app/schemas.py`; los tests de `tests/test_api_contract.py` fijan el comportamiento de la API. El frontend los refleja en `frontend/src/api/types.ts`. Si este documento y `schemas.py` difieren, se corrige uno de los dos el mismo día.
-- Los valores marcados con **τ** son umbrales: se calibran con datos (Fase 2/4) y viven en `config/policy.yaml`. Aquí va el valor inicial propuesto, no el definitivo.
-
-### Dueños de cada sección
-
-| Sección | Dueño | Consumidores |
-| :-- | :-- | :-- |
-| 1. Alcance | Todos | Todos |
-| 2. Taxonomía de intenciones | B (ML) | C (orquestador), A y B (evaluación) |
-| 3. Política de disputas | C (motor) + A (umbrales) | Evaluación, handoff |
-| 4. Contratos de herramientas | C (backend) | A (gold), orquestador |
-| 5. Paquete de handoff | C | D (consola del agente), evaluación |
-| 6. Contrato de la API | C | D (frontend) |
-| 7. Autenticación de prueba | C | D |
+Los contratos Pydantic viven en `backend/app/schemas.py`; `tests/test_api_contract.py` verifica la API y `frontend/src/api/types.ts` refleja los tipos. La política efectiva y sus umbrales están en `config/policy.yaml`, no en los ejemplos iniciales de este documento. La calibración y el desempeño final se documentan en [contratos de datos](data_contracts.md), [model card](../ml/intent/model_card.md) y [reporte final](eval_report.md).
 
 ---
 
@@ -650,8 +635,6 @@ Proveedor de identidad real (OAuth2/OIDC del banco), OTP real por SMS o app, ref
 | `amount_usd` | USD: 100 % nulo → `= amount`. ARS/COP: ~5 % nulo → completar con `daily_exchange_rates` en silver (D2.x) | Conteo por moneda en `transactions_12m` |
 | Nombres de columnas de gold | Los de la sección 4.5, que salen de las columnas reales (`transaction_status` → `status`, `process_date` → `business_date`, `product_number` → `card_mask`) | `data_pipeline/contracts.py` |
 
-## 9. Abierto (no bloquea a nadie)
+## 9. Estado de la implementación
 
-1. Valores finales de τ_intención, τ_alto/τ_bajo y τ_monto: se calibran en las Fases 2 y 4 y solo cambian `policy.yaml`.
-2. Clientes de demo reales (uno por escenario obligatorio): los elige A al construir `demo_customers` en gold. Mientras tanto, los stubs usan `CUS-DEMO-01..03`.
-3. Normalizar `transaction_country` ("México" y "Mexico" conviven): A en silver.
+Los umbrales quedaron versionados en la política 1.3.0. Los clientes y mensajes de demo están en gold y en `data/runs/20260929T234658Z-7cf922c1/demo_scenarios.json`. Silver normaliza `Mexico` a `México`. Los contratos de datos y el reporte final describen las validaciones y limitaciones; estos puntos ya no son pendientes de implementación.

@@ -1,6 +1,7 @@
 # Decisiones · Fases 1 a 8
 
-**Complementa:** `docs/decisions_fase_0.md` (elección del flujo) y `docs/roadmap_fases_1_a_8.md` (plan).
+**Complementa:** [elección del flujo](decisions_fase_0.md), [contratos](design.md) y [reporte final](eval_report.md).
+**Lectura:** registro histórico. Los responsables y planes describen cada decisión en su fecha; los documentos finales son la referencia del estado entregado.
 **Regla:** una entrada por decisión. Si una decisión cambia, no se borra: se marca como *Reemplazada por Dx.y* y se agrega la nueva.
 
 ## Formato de cada entrada
@@ -34,7 +35,7 @@
 | D1.11 | Modelo de Gemini fijado: `gemini-3.5-flash` | 1 | Reemplazada por D1.12 |
 | D1.12 | Modelo de Gemini: `gemini-3.8-flash` | 1 | Tomada |
 | D1.13 | Capa pagada de la API de Gemini | 1 | Tomada |
-| D2.x | Pipeline: duplicados, `amount_usd`, zona horaria, reproceso, umbrales | 2 | Pendiente |
+| D2.1–D2.6 | Pipeline, calidad, publicación y calibración | 2 | Implementadas |
 | D4.1 | Set de intenciones generado por el equipo | 4 | Reemplazada por D4.2 |
 | D4.2 | Set de intenciones híbrido: Banking77 + suplemento + test aparte | 4 | Tomada |
 | D4.3 | Clasificador de intención: TF-IDF + regresión logística, τ = 0,81 | 4 | Tomada |
@@ -44,7 +45,7 @@
 | D4.7 | τ_intención contrastado con un costo de negocio | 4 | Tomada |
 | D6.1 | Set de evaluación end-to-end | 6 | Tomada |
 | D6.2 | Baselines | 6 | Tomada |
-| D7.1 | Destino del deploy | 7 | Pendiente |
+| D7.1 | Imagen Docker y configuración Render | 7 | Configuración implementada |
 
 ---
 
@@ -193,8 +194,7 @@ Gold completo mantiene todos los tipos de producto; no se fabrican tarjetas para
 reclamo 60 días y precedencia de reglas comprobados contra backend.
 **Validación:** login y mensajes reales, selección, confirmación, caso, bloqueo/handoff,
 rechazo y portugués, usando SQLite en memoria. Sin is_fraud ni PII de contacto en gold.
-**Coordinación pendiente externa a fase 2:** backend decide incorporación del archivo al
-Docker/deploy y comportamiento de bloqueo si se sirve una transacción de cuenta del gold completo.
+**Estado de entrega:** el Dockerfile incorpora gold reducido de tarjetas. El bloqueo de cuentas del gold completo queda fuera del alcance de la demo.
 
 ### D2.5 · Calibración temporal y política 1.1.0
 **Decisión:** calibración julio-2025–marzo-2026; prueba abril–17-junio-2026.
@@ -220,7 +220,7 @@ Resultados del score no equivalen a evaluación end-to-end de fase 6.
 
 ## Fase 3 · Núcleo determinista
 
-*(pendiente)*
+Implementación en `backend/app/orchestrator.py`, `backend/app/policy/engine.py` y herramientas. Contratos en [design.md](design.md); pruebas de política, confirmación, persistencia y robustez en `tests/`.
 
 ## Fase 4 · Capa de IA y ML
 
@@ -362,7 +362,7 @@ Gemini se llama en el 35 % de las frases de val y el 62 % de las de test. Con el
 
 ## Fase 5 · Frontend
 
-*(pendiente)*
+Interfaz React implementada en `frontend/src/`: escenarios, chat, selección de transacciones, confirmaciones, auditoría y consola de agente. El [README](../README.md) describe cómo probarla.
 
 ## Fase 6 · Evaluación
 
@@ -383,7 +383,7 @@ Gemini se llama en el 35 % de las frases de val y el 62 % de las de test. Con el
 **Cómo validamos:**
 - `python -m eval.cases.validar_casos` con 0 errores (esquema, IDs únicos, sin cruce de splits, transacción del cliente correcto, regla igual a `esperado.py`, mínimos anotados, similitud ≤ 0,9) y `tests/test_validar_casos.py` en verde (16/16). Estado al congelar: los dos en verde.
 - Revisión humana de todos los mensajes (5 retirados, quedan 230 casos) y de una muestra estratificada de 40 esperados del held-out por rol A: 40/40 sin cambios (`revision_esperados.csv`).
-- Prueba de humo con 5 casos de dev de punta a punta sin Gemini (Paso 9). Faltan campos de la traza para comparar parte del esperado (`handoff_reason` / `suggested_queue`, mensajes y `ui` mostrados, tipo de confirmación); pedidos a rol C.
+- Prueba de humo inicial con 5 casos de dev sin Gemini. Los campos faltantes de aquel estado se integraron para la evaluación final; los graders y sus límites se describen en `eval_report.md`.
 - En la corrida de la Fase 6: si `esperado.py` y el motor del backend discrepan en un caso, se revisan a mano los dos antes de contar el caso como error del sistema, y la diferencia se anota. Si el set tiene un error, se corrige en el script con un commit nuevo y se reporta cuántos casos cambiaron después de `90bccf2`.
 
 ### D6.2 · Baselines
@@ -400,8 +400,10 @@ Gemini se llama en el 35 % de las frases de val y el 62 % de las de test. Con el
 
 ## Fase 7 · Operación y deploy
 
-*(pendiente)*
+### D7.1 · Imagen única y configuración Render
+
+**Estado:** configuración implementada. `Dockerfile` construye React y sirve la interfaz con FastAPI; incorpora gold reducido y modelo de intención. `render.yaml` define el servicio y `docker-compose.yml` permite ejecución local. El alojamiento, la persistencia y los límites están en [operations.md](operations.md). La configuración versionada no acredita por sí sola la disponibilidad de un servicio público.
 
 ## Fase 8 · Entrega
 
-*(pendiente)*
+El [README](../README.md) reúne presentación, video y resultados. El [índice de documentación](README.md) organiza evidencia y anexos; se incluyen los artefactos compactos de las corridas finales. Las limitaciones se conservan junto a los resultados.

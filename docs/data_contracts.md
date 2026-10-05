@@ -2,7 +2,8 @@
 
 La fuente oficial es el prefijo `data/` del bucket del hackathon. No se usa el backup.
 El pipeline corre fuera del servidor de chat; el backend recibe un DuckDB de solo lectura.
-Los archivos generados no se versionan en Git. Credenciales exclusivamente en el entorno o
+Se versionan el gold reducido de servicio y cinco artefactos pequeños de la corrida de entrega.
+El gold completo, las capas Parquet y las bases de trabajo no se versionan en Git. Credenciales exclusivamente en el entorno o
 `.env` local: no se incluyen en SQL, logs, reportes ni manifiestos.
 
 ## Ejecutar en Windows
@@ -183,17 +184,13 @@ Un lock evita dos pipelines sobre el mismo `data-dir`. Si se interrumpe violenta
 comprobar que no quede otro pipeline activo antes de retirar `data/.pipeline.lock` manualmente.
 Los errores externos se reportan por tipo y etapa, sin filas originales ni credenciales.
 
-Entregar a backend `data/gold/gold.duckdb`, `reports/demo_scenarios.json` y
-`reports/backend_acceptance.json`, junto con la versión de política. La imagen actual excluye
-los datos: **backend debe decidir cómo incorporar el archivo al despliegue**. Este trabajo
-no cambia Docker ni publica nada en Render. Gold completo no se incluye en el deploy.
+La imagen de servicio incluye `data/gold/gold.duckdb` mediante el Dockerfile.
+El gold completo queda fuera del despliegue. Las semillas, métricas históricas,
+calibración, aceptación del backend y copia de política de la corrida
+`20260929T234658Z-7cf922c1` se conservan en `data/runs/`.
+La copia de política de esa corrida es 1.1.0; la política vigente del sistema
+es 1.3.0. No deben sustituirse entre sí.
 
-### Ajuste de prueba a cargo de backend
-
-La política calibrada subió correctamente a `1.1.0`. La prueba
-`tests/test_trazas.py::test_la_traza_lleva_versiones` fija `"1.0.0"` en su línea 46.
-Por acuerdo con Diego, **no se modificó** ese archivo. Rol C debe importar
-`get_policy` desde `app.config` y reemplazar únicamente el literal de esa comparación
-por `get_policy()["policy_version"]`, conservando las demás comprobaciones.
-Resultado de la suite al entregar: 72 pruebas pasan y esa única prueba falla por el literal.
-Los ocho escenarios contra gold pasan independientemente mediante `verify_backend`.
+La prueba de versiones de trazas consulta la política activa; el desajuste con el
+literal 1.0.0 del estado inicial ya fue corregido. Los ocho recorridos de aceptación
+de datos y la suite posterior se documentan en la evidencia de evaluación.

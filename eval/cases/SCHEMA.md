@@ -1,6 +1,6 @@
 # Formato de un caso end-to-end · Fase 6.1
 
-**Versión del formato:** 1.0.0 · **Modelo:** `eval/cases/schema.py` (`Case`) · **Política:** `config/policy.yaml` v1.3.0 · **Referencias:** `docs/roadmap_fases_1_a_8.md` §6.1, `docs/design.md` §1.3, §3 y §5
+**Versión del formato:** 1.0.0 · **Modelo:** `eval/cases/schema.py` (`Case`) · **Política:** `config/policy.yaml` v1.3.0 · **Referencias:** `docs/design.md` §1.3, §3 y §5
 
 Cada línea de `dev.jsonl` y `heldout.jsonl` es un `Case` serializado. Los graders de la 6.3 leen estos campos, así que cambiar uno pide subir `schema_version` y avisar.
 

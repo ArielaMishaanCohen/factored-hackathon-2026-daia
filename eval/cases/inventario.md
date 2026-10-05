@@ -158,7 +158,9 @@ Consumo del pool R12 de 1 candidata: normal 40 + inyección 15 + sesión 5 + fal
 - **R9:** 1 transacción, 2 casos (ES y PT).
 - **Ambiguo por monto:** las 6 compartidas, 10 casos (4 de ellas dos veces).
 
-### Decisión pendiente: R7 y R9 en dev o en held-out
+### Decisión inicial y resultado: R7 y R9 en held-out
+
+**Decisión adoptada:** los cuatro casos están en held-out y se reportan como exposición previa en el reporte final. Las alternativas siguientes son el registro previo a congelar el set.
 
 Las dos transacciones son escenarios de la demo, que la guía manda a dev. Como ninguna transacción puede estar en los dos splits, hay que elegir:
 

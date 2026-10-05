@@ -1,6 +1,6 @@
 # Formato de salida de la evaluación · Fase 6.2-6.5
 
-**Acordado por:** Ariela y Diego (Paso 0 de `docs/Rol B - ML/guia_fase_6_2_a_6_5.md`) · **Versión:** `1.0.0` · **Modelo en código:** `eval/formato.py`
+**Contrato de resultados de evaluación** · **Versión:** `1.0.0` · **Modelo en código:** `eval/formato.py`
 
 Es lo único que conecta el runner, los graders, B1, el reporte y el impacto. El runner escribe lo mismo para S y para B1, y los graders no saben qué sistema están calificando. Si algo de aquí cambia, se sube `FORMAT_VERSION` en `eval/formato.py` y se actualiza este archivo en el mismo commit.
 

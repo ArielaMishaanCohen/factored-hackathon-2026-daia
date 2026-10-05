@@ -1,8 +1,8 @@
 # Gráficas de Datos para las slides
 
-Entrega de Diego: gráfica 3 (paridad por idioma) y gráfica 4 (tres vistas de evidencia histórica). Cada figura tiene PNG de 2880 × 1440 y SVG editable. `graficas_datos_slides.zip` reúne las figuras, sus agregados y estas notas. El Sankey y la matriz adversarial corresponden a Ariela.
+Figuras de paridad por idioma y tres vistas de evidencia histórica. Cada figura tiene PNG de 2880 × 1440 y SVG editable. `graficas_datos_slides.zip` reúne las figuras, sus agregados y estas notas. El Sankey y la matriz adversarial están en la carpeta superior.
 
-Colores provisionales, hasta recibir los hex de Ignacio: verde `#15803D`, ámbar `#D97706`, rojo `#DC2626`.
+Colores provisionales, configurables al regenerar las figuras: verde `#15803D`, ámbar `#D97706`, rojo `#DC2626`.
 
 ## 3. Paridad por idioma
 

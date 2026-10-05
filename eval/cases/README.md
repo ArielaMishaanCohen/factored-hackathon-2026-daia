@@ -1,8 +1,8 @@
 # Set de casos end-to-end · Fase 6.1
 
-**Held-out congelado en el commit `90bccf2`** (1-oct-2026), antes de correr el sistema sobre él. Desde ese commit, `heldout.jsonl` no se mira ni se cambia hasta la corrida de la Fase 6; cualquier cambio posterior se anota aquí con su motivo y su commit.
+**Held-out congelado en el commit `90bccf2`** (1-oct-2026), antes de correr el sistema sobre él. El set se preserva como evidencia; los cambios del sistema posteriores a la primera corrida se declaran en [el reporte final](../../docs/eval_report.md). No regenerarlo para depurar el sistema.
 
-**Política:** `config/policy.yaml` v1.3.0 · **Gold:** corrida `20260929T234658Z-7cf922c1` · **Formato:** `SCHEMA.md` v1.0.0 · **Decisión:** D6.1 en `docs/decisions.md` · **Plan:** `docs/roadmap_fases_1_a_8.md` §6.1
+**Política:** `config/policy.yaml` v1.3.0 · **Gold:** corrida `20260929T234658Z-7cf922c1` · **Formato:** `SCHEMA.md` v1.0.0 · **Decisión:** D6.1 en `docs/decisions.md`
 
 Cada caso es una conversación con guion determinista (mensajes fijos y reglas de respuesta fijas, sin LLM que simule al cliente) y con el resultado esperado derivado de los datos y de la política, no de lo que opine alguien. El runner, los baselines y las métricas son de la 6.2 y la 6.3.
 
@@ -11,7 +11,7 @@ Cada caso es una conversación con guion determinista (mensajes fijos y reglas d
 | Archivo | Qué es | Se edita a mano |
 | :-- | :-- | :-: |
 | `dev.jsonl` | 41 casos para depurar. Se pueden mirar y correr todas las veces que haga falta | No (lo genera `construir_casos.py`) |
-| `heldout.jsonl` | 189 casos para la medición final. No se mira hasta la corrida | No (lo genera `construir_casos.py`) |
+| `heldout.jsonl` | 189 casos para la medición final. Conservado tras la evaluación final | No (lo genera `construir_casos.py`) |
 | `SCHEMA.md` | Formato de un caso: campos, reglas de respuesta del runner, contra qué se compara cada esperado, un ejemplo por categoría | Sí |
 | `schema.py` | Modelo Pydantic `Case` con las validaciones del formato. No importa nada de `backend/` | Sí |
 | `inventario.md` | Inventario del gold por regla (cuántas transacciones caen en R2…R12, por segmento), el reparto propuesto y las categorías que quedan por debajo del mínimo | Sí |
@@ -70,7 +70,7 @@ Además del validador:
 
 - **Paso 5:** cada mensaje lo revisó una persona (`provenance.message_reviewed_by`). Se retiraron 5 (`mensajes_retirados.csv`) y no se reemplazaron.
 - **Paso 8:** A revisó 40 esperados del held-out contra el gold (`revision_esperados.csv`): 40/40 sin cambios.
-- **Paso 9:** 5 casos de dev (normal, ambiguo, escalamiento, inyección y falla de herramienta) corrieron de punta a punta sin Gemini. Faltan campos en la traza para comparar parte del esperado (`handoff_reason` / `suggested_queue`, los mensajes y la `ui` mostrados, el tipo de `ui_action` o de confirmación); se pidieron a Alina.
+- **Prueba de humo inicial:** 5 casos de dev corrieron sin Gemini. La integración de trazas se completó para las corridas finales; el reporte final documenta los graders y sus limitaciones.
 
 ## Conteos finales
 
@@ -124,4 +124,4 @@ Todos los casos de los dos splits tienen `setup.llm = both`: se corren con Gemin
 - **Los mensajes los escribió Claude, no hay mensajes reales.** Los revisó una persona del equipo, sin hablantes nativos de portugués. Tienen el estilo limpio de un LLM y pueden sobrestimar el desempeño con clientes reales. Ninguno sale de Gemini ni de los sets de `ml/intent/` y `ml/llm/` (similitud máxima 0,719).
 - **El esperado se deriva de una política sintética.** `policy.yaml` y sus reglas las definió el equipo: los cortes de score 30/40 son acordados, los límites de monto salen del p95 de los datos del reto y la ventana de 60 días no viene de ninguna norma bancaria (D2.5). El set mide si el sistema cumple esa política, no si la política es la correcta para un banco.
 - **Otras n chicas** (detalle en `inventario.md` §5): R10 usa las 6 transacciones que hay, R4 las 4 (ninguna Premium ni Student), el ambiguo por monto sale de 6 transacciones de 4 clientes, y R5 y R11 no existen en el gold: los crea la preparación del caso (`setup.open_cases`).
-- **Parte del esperado todavía no se puede comparar con la traza** (Paso 9): falta lo que se pidió a Alina. Hasta que esté, esos campos no se califican.
+- **Graders:** la integración final compara trazas y hechos; no califica semánticamente el resumen libre del handoff y tiene falsos positivos documentados en el reporte final.
