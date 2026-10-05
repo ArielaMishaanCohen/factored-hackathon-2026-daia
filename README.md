@@ -13,7 +13,6 @@ Asistente que recibe reclamos por cargos en español y portugués, identifica la
 | [docs/design.md](docs/design.md) | **Contratos congelados (v1.0):** alcance, intenciones, política, herramientas, handoff, API, auth |
 | [docs/decisions.md](docs/decisions.md) | Cada decisión con alternativas y evidencia |
 | [docs/decisions_fase_0.md](docs/decisions_fase_0.md) | Por qué este flujo (matriz de decisión) |
-| [docs/roadmap_fases_1_a_8.md](docs/roadmap_fases_1_a_8.md) | Plan por fases y roles |
 | [docs/NOTAS_DATOS.md](docs/NOTAS_DATOS.md) | Hallazgos del EDA |
 
 ## Cómo correrlo
